@@ -1,0 +1,29 @@
+{
+    "name": "slim/pdo",
+    "description": "PDO database library for Slim Framework",
+    "version": "1.7.0",
+    "type": "library",
+    "keywords": ["pdo", "database", "slim", "framework"],
+    "homepage": "https://github.com/FaaPz/Slim-PDO",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabian de Laender",
+            "email": "fabian@faapz.nl",
+            "homepage": "http://faapz.nl",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/FaaPz/Slim-PDO/issues"
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Slim\\PDO\\": "src/PDO/"
+        }
+    }
+}

@@ -1,0 +1,54 @@
+# ---------------------------
+# --- OSX Generated Files ---
+# ---------------------------
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- Icon Must End With Two \r ---
+Icon
+
+
+# --- Thumbnails ---
+._*
+
+# --- Files That Might Appear On External Disk ---
+.Spotlight-V100
+.Trashes
+
+# --- Directories Potentially Created On Remote AFP Share ---
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# ---------------------------
+# --- WIN Generated Files ---
+# ---------------------------
+
+# --- Windows Image File Caches ---
+Thumbs.db
+ehthumbs.db
+
+# --- Folder Config File ---
+Desktop.ini
+
+# --- Recycle Bin Used On File Shares ---
+$RECYCLE.BIN/
+
+# --- Windows Installer Files ---
+*.cab
+*.msi
+*.msm
+*.msp
+
+# ---------------------------
+# ---- Development Files ----
+# ---------------------------
+
+composer.lock
+composer.phar
+vendor/
+.idea/
