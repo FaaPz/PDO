@@ -50,14 +50,9 @@ class SelectStatement extends StatementContainer
      * @param Database $dbh
      * @param array $columns
      */
-    public function __construct( Database $dbh , array $columns )
+    public function __construct( Database $dbh , array $columns = array('*') )
     {
         parent::__construct( $dbh );
-
-        if( empty( $columns ) )
-        {
-            $columns = array('*');
-        }
 
         $this->setColumns( $columns );
 
