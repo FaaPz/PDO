@@ -50,16 +50,21 @@ class SelectStatement extends StatementContainer
      * @param Database $dbh
      * @param array $columns
      */
-    public function __construct( Database $dbh , array $columns = array('*') )
+    public function __construct( Database $dbh , array $columns )
     {
         parent::__construct( $dbh );
 
+        if( empty( $columns ) )
+        {
+            $columns = array('*');
+        }
+
         $this->setColumns( $columns );
 
-        $this->joinClause      = new JoinClause();
-        $this->groupClause     = new GroupClause();
-        $this->havingClause    = new HavingClause();
-        $this->offsetClause    = new OffsetClause();
+        $this->joinClause   = new JoinClause();
+        $this->groupClause  = new GroupClause();
+        $this->havingClause = new HavingClause();
+        $this->offsetClause = new OffsetClause();
     }
 
     /**

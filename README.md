@@ -26,11 +26,12 @@ $pwd = 'your_db_password';
 $pdo = new \Slim\PDO\Database($dsn, $usr, $pwd);
 
 $qry = $pdo->prepare("SELECT * FROM users");
-$qry->execute();
+
+$result = $qry->execute();
 
 try
 {
-    var_dump($qry->fetchAll());
+    var_dump($result->fetchAll());
 }
 catch(\PDOException $e)
 {
@@ -47,7 +48,7 @@ $selectStatement = $pdo->select()
                        ->where('id', '=', 1234);
 
 $stmt = $selectStatement->execute();
-$data = $stmt->fetchAll();
+$data = $stmt->fetch();
 
 // INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
 $insertStatement = $pdo->insert(array('id', 'usr', 'pwd'))

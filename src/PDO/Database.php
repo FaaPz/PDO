@@ -45,7 +45,7 @@ class Database extends \PDO
      * @param array $columns
      * @return SelectStatement
      */
-    public function select( array $columns )
+    public function select( array $columns = array('*') )
     {
         return new SelectStatement( $this , $columns );
     }

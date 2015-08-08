@@ -48,5 +48,5 @@ $selectStatement = $slimPdo->select()
                            ->where('id', '=', 1234);
 
 $stmt = $selectStatement->execute();
-$data = $stmt->fetchAll();
+$data = $stmt->fetch();
 ```
