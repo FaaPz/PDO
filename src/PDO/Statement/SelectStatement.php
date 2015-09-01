@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license MIT
  * @license http://opensource.org/licenses/MIT
@@ -12,9 +13,8 @@ use Slim\PDO\Clause\OffsetClause;
 use Slim\PDO\Database;
 
 /**
- * Class SelectStatement
+ * Class SelectStatement.
  *
- * @package Slim\PDO\Statement
  * @author Fabian de Laender <fabian@faapz.nl>
  */
 class SelectStatement extends StatementContainer
@@ -45,24 +45,23 @@ class SelectStatement extends StatementContainer
     private $offsetClause;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Database $dbh
-     * @param array $columns
+     * @param array    $columns
      */
-    public function __construct( Database $dbh , array $columns )
+    public function __construct(Database $dbh, array $columns)
     {
-        parent::__construct( $dbh );
+        parent::__construct($dbh);
 
-        if( empty( $columns ) )
-        {
+        if (empty($columns)) {
             $columns = array('*');
         }
 
-        $this->setColumns( $columns );
+        $this->setColumns($columns);
 
-        $this->joinClause   = new JoinClause();
-        $this->groupClause  = new GroupClause();
+        $this->joinClause = new JoinClause();
+        $this->groupClause = new GroupClause();
         $this->havingClause = new HavingClause();
         $this->offsetClause = new OffsetClause();
     }
@@ -79,25 +78,27 @@ class SelectStatement extends StatementContainer
 
     /**
      * @param string $column
-     * @param null $as
-     * @param bool $distinct
+     * @param null   $as
+     * @param bool   $distinct
+     *
      * @return $this
      */
-    public function count( $column = '*' , $as = null , $distinct = false )
+    public function count($column = '*', $as = null, $distinct = false)
     {
-        $this->columns[] = $this->setDistinct( $distinct ) . ' ' . $column . ' )' . $this->setAs( $as );
+        $this->columns[] = $this->setDistinct($distinct).' '.$column.' )'.$this->setAs($as);
 
         return $this;
     }
 
     /**
      * @param string $column
-     * @param null $as
+     * @param null   $as
+     *
      * @return $this
      */
-    public function distinctCount( $column = '*' , $as = null )
+    public function distinctCount($column = '*', $as = null)
     {
-        $this->count( $column , $as , true );
+        $this->count($column, $as, true);
 
         return $this;
     }
@@ -105,11 +106,12 @@ class SelectStatement extends StatementContainer
     /**
      * @param $column
      * @param null $as
+     *
      * @return $this
      */
-    public function max( $column , $as = null )
+    public function max($column, $as = null)
     {
-        $this->columns[] = 'MAX( ' . $column . ' )' . $this->setAs( $as );
+        $this->columns[] = 'MAX( '.$column.' )'.$this->setAs($as);
 
         return $this;
     }
@@ -117,11 +119,12 @@ class SelectStatement extends StatementContainer
     /**
      * @param $column
      * @param null $as
+     *
      * @return $this
      */
-    public function min( $column , $as = null )
+    public function min($column, $as = null)
     {
-        $this->columns[] = 'MIN( ' . $column . ' )' . $this->setAs( $as );
+        $this->columns[] = 'MIN( '.$column.' )'.$this->setAs($as);
 
         return $this;
     }
@@ -129,11 +132,12 @@ class SelectStatement extends StatementContainer
     /**
      * @param $column
      * @param null $as
+     *
      * @return $this
      */
-    public function avg( $column , $as = null )
+    public function avg($column, $as = null)
     {
-        $this->columns[] = 'AVG( ' . $column . ' )' . $this->setAs( $as );
+        $this->columns[] = 'AVG( '.$column.' )'.$this->setAs($as);
 
         return $this;
     }
@@ -141,22 +145,24 @@ class SelectStatement extends StatementContainer
     /**
      * @param $column
      * @param null $as
+     *
      * @return $this
      */
-    public function sum( $column , $as = null )
+    public function sum($column, $as = null)
     {
-        $this->columns[] = 'SUM( ' . $column . ' )' . $this->setAs( $as );
+        $this->columns[] = 'SUM( '.$column.' )'.$this->setAs($as);
 
         return $this;
     }
 
     /**
      * @param $table
+     *
      * @return $this
      */
-    public function from( $table )
+    public function from($table)
     {
-        $this->setTable( $table );
+        $this->setTable($table);
 
         return $this;
     }
@@ -164,14 +170,15 @@ class SelectStatement extends StatementContainer
     /**
      * @param $table
      * @param $first
-     * @param null $operator
-     * @param null $second
+     * @param null   $operator
+     * @param null   $second
      * @param string $type
+     *
      * @return $this
      */
-    public function join( $table , $first , $operator = null , $second = null , $type = 'INNER' )
+    public function join($table, $first, $operator = null, $second = null, $type = 'INNER')
     {
-        $this->joinClause->join( $table , $first , $operator , $second , $type );
+        $this->joinClause->join($table, $first, $operator, $second, $type);
 
         return $this;
     }
@@ -181,11 +188,12 @@ class SelectStatement extends StatementContainer
      * @param $first
      * @param null $operator
      * @param null $second
+     *
      * @return $this
      */
-    public function leftJoin( $table , $first , $operator = null , $second = null )
+    public function leftJoin($table, $first, $operator = null, $second = null)
     {
-        $this->joinClause->leftJoin( $table , $first , $operator , $second );
+        $this->joinClause->leftJoin($table, $first, $operator, $second);
 
         return $this;
     }
@@ -195,11 +203,12 @@ class SelectStatement extends StatementContainer
      * @param $first
      * @param null $operator
      * @param null $second
+     *
      * @return $this
      */
-    public function rightJoin( $table , $first , $operator = null , $second = null )
+    public function rightJoin($table, $first, $operator = null, $second = null)
     {
-        $this->joinClause->rightJoin( $table , $first , $operator , $second );
+        $this->joinClause->rightJoin($table, $first, $operator, $second);
 
         return $this;
     }
@@ -209,38 +218,41 @@ class SelectStatement extends StatementContainer
      * @param $first
      * @param null $operator
      * @param null $second
+     *
      * @return $this
      */
-    public function fullJoin( $table , $first , $operator = null , $second = null )
+    public function fullJoin($table, $first, $operator = null, $second = null)
     {
-        $this->joinClause->fullJoin( $table , $first , $operator , $second );
+        $this->joinClause->fullJoin($table, $first, $operator, $second);
 
         return $this;
     }
 
     /**
      * @param $statement
+     *
      * @return $this
      */
-    public function groupBy( $statement )
+    public function groupBy($statement)
     {
-        $this->groupClause->groupBy( $statement );
+        $this->groupClause->groupBy($statement);
 
         return $this;
     }
 
     /**
      * @param $column
-     * @param null $operator
-     * @param null $value
+     * @param null   $operator
+     * @param null   $value
      * @param string $rule
+     *
      * @return $this
      */
-    public function having( $column , $operator = null , $value = null , $rule = 'AND' )
+    public function having($column, $operator = null, $value = null, $rule = 'AND')
     {
         $this->values[] = $value;
 
-        $this->havingClause->having( $column , $operator , $rule );
+        $this->havingClause->having($column, $operator, $rule);
 
         return $this;
     }
@@ -249,13 +261,14 @@ class SelectStatement extends StatementContainer
      * @param $column
      * @param null $operator
      * @param null $value
+     *
      * @return $this
      */
-    public function orHaving( $column , $operator = null , $value = null )
+    public function orHaving($column, $operator = null, $value = null)
     {
         $this->values[] = $value;
 
-        $this->havingClause->orHaving( $column , $operator );
+        $this->havingClause->orHaving($column, $operator);
 
         return $this;
     }
@@ -264,13 +277,14 @@ class SelectStatement extends StatementContainer
      * @param $column
      * @param null $operator
      * @param null $value
+     *
      * @return $this
      */
-    public function havingCount( $column , $operator = null , $value = null )
+    public function havingCount($column, $operator = null, $value = null)
     {
         $this->values[] = $value;
 
-        $this->havingClause->havingCount( $column , $operator );
+        $this->havingClause->havingCount($column, $operator);
 
         return $this;
     }
@@ -279,13 +293,14 @@ class SelectStatement extends StatementContainer
      * @param $column
      * @param null $operator
      * @param null $value
+     *
      * @return $this
      */
-    public function havingMax( $column , $operator = null , $value = null )
+    public function havingMax($column, $operator = null, $value = null)
     {
         $this->values[] = $value;
 
-        $this->havingClause->havingMax( $column , $operator );
+        $this->havingClause->havingMax($column, $operator);
 
         return $this;
     }
@@ -294,13 +309,14 @@ class SelectStatement extends StatementContainer
      * @param $column
      * @param null $operator
      * @param null $value
+     *
      * @return $this
      */
-    public function havingMin( $column , $operator = null , $value = null )
+    public function havingMin($column, $operator = null, $value = null)
     {
         $this->values[] = $value;
 
-        $this->havingClause->havingMin( $column , $operator );
+        $this->havingClause->havingMin($column, $operator);
 
         return $this;
     }
@@ -309,13 +325,14 @@ class SelectStatement extends StatementContainer
      * @param $column
      * @param null $operator
      * @param null $value
+     *
      * @return $this
      */
-    public function havingAvg( $column , $operator = null , $value = null )
+    public function havingAvg($column, $operator = null, $value = null)
     {
         $this->values[] = $value;
 
-        $this->havingClause->havingAvg( $column , $operator );
+        $this->havingClause->havingAvg($column, $operator);
 
         return $this;
     }
@@ -324,24 +341,26 @@ class SelectStatement extends StatementContainer
      * @param $column
      * @param null $operator
      * @param null $value
+     *
      * @return $this
      */
-    public function havingSum( $column , $operator = null , $value = null )
+    public function havingSum($column, $operator = null, $value = null)
     {
         $this->values[] = $value;
 
-        $this->havingClause->havingSum( $column , $operator );
+        $this->havingClause->havingSum($column, $operator);
 
         return $this;
     }
 
     /**
      * @param $number
+     *
      * @return $this
      */
-    public function offset( $number )
+    public function offset($number)
     {
-        $this->offsetClause->offset( $number );
+        $this->offsetClause->offset($number);
 
         return $this;
     }
@@ -351,13 +370,12 @@ class SelectStatement extends StatementContainer
      */
     public function __toString()
     {
-        if( empty( $this->table ) )
-        {
-            trigger_error( 'No table is set for selection' , E_USER_ERROR );
+        if (empty($this->table)) {
+            trigger_error('No table is set for selection', E_USER_ERROR);
         }
 
-        $sql  = $this->getSelect() . ' ' . $this->getColumns();
-        $sql .= ' FROM ' . $this->table;
+        $sql = $this->getSelect().' '.$this->getColumns();
+        $sql .= ' FROM '.$this->table;
         $sql .= $this->joinClause;
         $sql .= $this->whereClause;
         $sql .= $this->groupClause;
@@ -382,8 +400,7 @@ class SelectStatement extends StatementContainer
      */
     private function getSelect()
     {
-        if( $this->distinct )
-        {
+        if ($this->distinct) {
             return 'SELECT DISTINCT';
         }
 
@@ -395,17 +412,17 @@ class SelectStatement extends StatementContainer
      */
     private function getColumns()
     {
-        return implode( ' , ' , $this->columns );
+        return implode(' , ', $this->columns);
     }
 
     /**
      * @param $distinct
+     *
      * @return string
      */
-    private function setDistinct( $distinct )
+    private function setDistinct($distinct)
     {
-        if( $distinct )
-        {
+        if ($distinct) {
             return 'COUNT( DISTINCT';
         }
 
@@ -414,15 +431,15 @@ class SelectStatement extends StatementContainer
 
     /**
      * @param $as
+     *
      * @return string
      */
-    private function setAs( $as )
+    private function setAs($as)
     {
-        if( empty( $as ) )
-        {
+        if (empty($as)) {
             return '';
         }
 
-        return ' AS ' . $as;
+        return ' AS '.$as;
     }
 }

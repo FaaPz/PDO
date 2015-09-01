@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license MIT
  * @license http://opensource.org/licenses/MIT
@@ -11,9 +12,8 @@ use Slim\PDO\Clause\WhereClause;
 use Slim\PDO\Database;
 
 /**
- * Class Statement
+ * Class Statement.
  *
- * @package Slim\PDO\Statement
  * @author Fabian de Laender <fabian@faapz.nl>
  */
 abstract class StatementContainer
@@ -59,11 +59,11 @@ abstract class StatementContainer
     protected $limitClause;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Database $dbh
      */
-    public function __construct( Database $dbh )
+    public function __construct(Database $dbh)
     {
         $this->dbh = $dbh;
 
@@ -74,170 +74,181 @@ abstract class StatementContainer
 
     /**
      * @param $column
+     * @param null   $operator
+     * @param null   $value
+     * @param string $rule
+     *
+     * @return $this
+     */
+    public function where($column, $operator = null, $value = null, $rule = 'AND')
+    {
+        $this->values[] = $value;
+
+        $this->whereClause->where($column, $operator, $rule);
+
+        return $this;
+    }
+
+    /**
+     * @param $column
      * @param null $operator
      * @param null $value
-     * @param string $rule
+     *
      * @return $this
      */
-    public function where( $column , $operator = null , $value = null , $rule = 'AND' )
+    public function orWhere($column, $operator = null, $value = null)
     {
         $this->values[] = $value;
 
-        $this->whereClause->where( $column , $operator , $rule );
+        $this->whereClause->orWhere($column, $operator);
 
         return $this;
     }
 
     /**
      * @param $column
-     * @param null $operator
-     * @param null $value
+     * @param array  $values
+     * @param string $rule
+     *
      * @return $this
      */
-    public function orWhere( $column , $operator = null , $value = null )
+    public function whereBetween($column, array $values, $rule = 'AND')
+    {
+        $this->setValues($values);
+
+        $this->whereClause->whereBetween($column, $rule);
+
+        return $this;
+    }
+
+    /**
+     * @param $column
+     * @param array $values
+     *
+     * @return $this
+     */
+    public function orWhereBetween($column, array $values)
+    {
+        $this->setValues($values);
+
+        $this->whereClause->orWhereBetween($column);
+
+        return $this;
+    }
+
+    /**
+     * @param $column
+     * @param array  $values
+     * @param string $rule
+     *
+     * @return $this
+     */
+    public function whereNotBetween($column, array $values, $rule = 'AND')
+    {
+        $this->setValues($values);
+
+        $this->whereClause->whereNotBetween($column, $rule);
+
+        return $this;
+    }
+
+    /**
+     * @param $column
+     * @param array $values
+     *
+     * @return $this
+     */
+    public function orWhereNotBetween($column, array $values)
+    {
+        $this->setValues($values);
+
+        $this->whereClause->orWhereNotBetween($column);
+
+        return $this;
+    }
+
+    /**
+     * @param $column
+     * @param array  $values
+     * @param string $rule
+     *
+     * @return $this
+     */
+    public function whereIn($column, array $values, $rule = 'AND')
+    {
+        $this->setValues($values);
+
+        $this->setPlaceholders($values);
+
+        $this->whereClause->whereIn($column, $this->getPlaceholders(), $rule);
+
+        return $this;
+    }
+
+    /**
+     * @param $column
+     * @param array $values
+     *
+     * @return $this
+     */
+    public function orWhereIn($column, array $values)
+    {
+        $this->setValues($values);
+
+        $this->setPlaceholders($values);
+
+        $this->whereClause->orWhereIn($column, $this->getPlaceholders());
+
+        return $this;
+    }
+
+    /**
+     * @param $column
+     * @param array  $values
+     * @param string $rule
+     *
+     * @return $this
+     */
+    public function whereNotIn($column, array $values, $rule = 'AND')
+    {
+        $this->setValues($values);
+
+        $this->setPlaceholders($values);
+
+        $this->whereClause->whereNotIn($column, $this->getPlaceholders(), $rule);
+
+        return $this;
+    }
+
+    /**
+     * @param $column
+     * @param array $values
+     *
+     * @return $this
+     */
+    public function orWhereNotIn($column, array $values)
+    {
+        $this->setValues($values);
+
+        $this->setPlaceholders($values);
+
+        $this->whereClause->orWhereNotIn($column, $this->getPlaceholders());
+
+        return $this;
+    }
+
+    /**
+     * @param $column
+     * @param null   $value
+     * @param string $rule
+     *
+     * @return $this
+     */
+    public function whereLike($column, $value = null, $rule = 'AND')
     {
         $this->values[] = $value;
 
-        $this->whereClause->orWhere( $column , $operator );
-
-        return $this;
-    }
-
-    /**
-     * @param $column
-     * @param array $values
-     * @param string $rule
-     * @return $this
-     */
-    public function whereBetween( $column , array $values , $rule = 'AND' )
-    {
-        $this->setValues( $values );
-
-        $this->whereClause->whereBetween( $column , $rule );
-
-        return $this;
-    }
-
-    /**
-     * @param $column
-     * @param array $values
-     * @return $this
-     */
-    public function orWhereBetween( $column , array $values )
-    {
-        $this->setValues( $values );
-
-        $this->whereClause->orWhereBetween( $column );
-
-        return $this;
-    }
-
-    /**
-     * @param $column
-     * @param array $values
-     * @param string $rule
-     * @return $this
-     */
-    public function whereNotBetween( $column , array $values , $rule = 'AND' )
-    {
-        $this->setValues( $values );
-
-        $this->whereClause->whereNotBetween( $column , $rule );
-
-        return $this;
-    }
-
-    /**
-     * @param $column
-     * @param array $values
-     * @return $this
-     */
-    public function orWhereNotBetween( $column , array $values )
-    {
-        $this->setValues( $values );
-
-        $this->whereClause->orWhereNotBetween( $column );
-
-        return $this;
-    }
-
-    /**
-     * @param $column
-     * @param array $values
-     * @param string $rule
-     * @return $this
-     */
-    public function whereIn( $column , array $values , $rule = 'AND' )
-    {
-        $this->setValues( $values );
-
-        $this->setPlaceholders( $values );
-
-        $this->whereClause->whereIn( $column , $this->getPlaceholders() , $rule );
-
-        return $this;
-    }
-
-    /**
-     * @param $column
-     * @param array $values
-     * @return $this
-     */
-    public function orWhereIn( $column , array $values )
-    {
-        $this->setValues( $values );
-
-        $this->setPlaceholders( $values );
-
-        $this->whereClause->orWhereIn( $column , $this->getPlaceholders() );
-
-        return $this;
-    }
-
-    /**
-     * @param $column
-     * @param array $values
-     * @param string $rule
-     * @return $this
-     */
-    public function whereNotIn( $column , array $values , $rule = 'AND' )
-    {
-        $this->setValues( $values );
-
-        $this->setPlaceholders( $values );
-
-        $this->whereClause->whereNotIn( $column , $this->getPlaceholders() , $rule );
-
-        return $this;
-    }
-
-    /**
-     * @param $column
-     * @param array $values
-     * @return $this
-     */
-    public function orWhereNotIn( $column , array $values )
-    {
-        $this->setValues( $values );
-
-        $this->setPlaceholders( $values );
-
-        $this->whereClause->orWhereNotIn( $column , $this->getPlaceholders() );
-
-        return $this;
-    }
-
-    /**
-     * @param $column
-     * @param null $value
-     * @param string $rule
-     * @return $this
-     */
-    public function whereLike( $column , $value = null , $rule = 'AND' )
-    {
-        $this->values[] = $value;
-
-        $this->whereClause->whereLike( $column , $rule );
+        $this->whereClause->whereLike($column, $rule);
 
         return $this;
     }
@@ -245,13 +256,30 @@ abstract class StatementContainer
     /**
      * @param $column
      * @param null $value
+     *
      * @return $this
      */
-    public function orWhereLike( $column , $value = null )
+    public function orWhereLike($column, $value = null)
     {
         $this->values[] = $value;
 
-        $this->whereClause->orWhereLike( $column );
+        $this->whereClause->orWhereLike($column);
+
+        return $this;
+    }
+
+    /**
+     * @param $column
+     * @param null   $value
+     * @param string $rule
+     *
+     * @return $this
+     */
+    public function whereNotLike($column, $value = null, $rule = 'AND')
+    {
+        $this->values[] = $value;
+
+        $this->whereClause->whereNotLike($column, $rule);
 
         return $this;
     }
@@ -259,28 +287,14 @@ abstract class StatementContainer
     /**
      * @param $column
      * @param null $value
-     * @param string $rule
+     *
      * @return $this
      */
-    public function whereNotLike( $column , $value = null , $rule = 'AND' )
+    public function orWhereNotLike($column, $value = null)
     {
         $this->values[] = $value;
 
-        $this->whereClause->whereNotLike( $column , $rule );
-
-        return $this;
-    }
-
-    /**
-     * @param $column
-     * @param null $value
-     * @return $this
-     */
-    public function orWhereNotLike( $column , $value = null )
-    {
-        $this->values[] = $value;
-
-        $this->whereClause->orWhereNotLike( $column );
+        $this->whereClause->orWhereNotLike($column);
 
         return $this;
     }
@@ -288,22 +302,24 @@ abstract class StatementContainer
     /**
      * @param $column
      * @param string $rule
+     *
      * @return $this
      */
-    public function whereNull( $column , $rule = 'AND' )
+    public function whereNull($column, $rule = 'AND')
     {
-        $this->whereClause->whereNull( $column , $rule );
+        $this->whereClause->whereNull($column, $rule);
 
         return $this;
     }
 
     /**
      * @param $column
+     *
      * @return $this
      */
-    public function orWhereNull( $column )
+    public function orWhereNull($column)
     {
-        $this->whereClause->orWhereNull( $column );
+        $this->whereClause->orWhereNull($column);
 
         return $this;
     }
@@ -311,22 +327,24 @@ abstract class StatementContainer
     /**
      * @param $column
      * @param string $rule
+     *
      * @return $this
      */
-    public function whereNotNull( $column , $rule = 'AND' )
+    public function whereNotNull($column, $rule = 'AND')
     {
-        $this->whereClause->whereNotNull( $column , $rule );
+        $this->whereClause->whereNotNull($column, $rule);
 
         return $this;
     }
 
     /**
      * @param $column
+     *
      * @return $this
      */
-    public function orWhereNotNull( $column )
+    public function orWhereNotNull($column)
     {
-        $this->whereClause->orWhereNotNull( $column );
+        $this->whereClause->orWhereNotNull($column);
 
         return $this;
     }
@@ -334,22 +352,24 @@ abstract class StatementContainer
     /**
      * @param $statement
      * @param string $order
+     *
      * @return $this
      */
-    public function orderBy( $statement , $order = 'ASC' )
+    public function orderBy($statement, $order = 'ASC')
     {
-        $this->orderClause->orderBy( $statement , $order );
+        $this->orderClause->orderBy($statement, $order);
 
         return $this;
     }
 
     /**
      * @param $number
+     *
      * @return $this
      */
-    public function limit( $number )
+    public function limit($number)
     {
-        $this->limitClause->limit( $number );
+        $this->limitClause->limit($number);
 
         return $this;
     }
@@ -365,7 +385,7 @@ abstract class StatementContainer
     public function execute()
     {
         $stmt = $this->getStatement();
-        $stmt->execute( $this->values );
+        $stmt->execute($this->values);
 
         return $stmt;
     }
@@ -380,9 +400,10 @@ abstract class StatementContainer
 
     /**
      * @param $table
+     *
      * @return $this
      */
-    protected function setTable( $table )
+    protected function setTable($table)
     {
         $this->table = $table;
 
@@ -391,22 +412,24 @@ abstract class StatementContainer
 
     /**
      * @param array $columns
+     *
      * @return $this
      */
-    protected function setColumns( array $columns )
+    protected function setColumns(array $columns)
     {
-        $this->columns = array_merge( $this->columns , $columns );
+        $this->columns = array_merge($this->columns, $columns);
 
         return $this;
     }
 
     /**
      * @param array $values
+     *
      * @return $this
      */
-    protected function setValues( array $values )
+    protected function setValues(array $values)
     {
-        $this->values = array_merge( $this->values , $values );
+        $this->values = array_merge($this->values, $values);
 
         return $this;
     }
@@ -418,19 +441,18 @@ abstract class StatementContainer
     {
         $placeholders = $this->placeholders;
 
-        unset( $this->placeholders );
+        unset($this->placeholders);
 
-        return '( ' . implode( ' , ' , $placeholders ) . ' )';
+        return '( '.implode(' , ', $placeholders).' )';
     }
 
     /**
      * @param array $values
      */
-    protected function setPlaceholders( array $values )
+    protected function setPlaceholders(array $values)
     {
-        foreach( $values as $value )
-        {
-            $this->placeholders[] = $this->setPlaceholder( '?' , sizeof( $value ) );
+        foreach ($values as $value) {
+            $this->placeholders[] = $this->setPlaceholder('?', sizeof($value));
         }
     }
 
@@ -441,27 +463,26 @@ abstract class StatementContainer
     {
         $sql = $this;
 
-        return $this->dbh->prepare( $sql );
+        return $this->dbh->prepare($sql);
     }
 
     /**
      * @param $text
-     * @param int $count
+     * @param int    $count
      * @param string $separator
+     *
      * @return string
      */
-    private function setPlaceholder( $text , $count = 0 , $separator = ' , ' )
+    private function setPlaceholder($text, $count = 0, $separator = ' , ')
     {
         $result = array();
 
-        if( $count > 0 )
-        {
-            for( $x = 0; $x < $count; $x++ )
-            {
+        if ($count > 0) {
+            for ($x = 0; $x < $count; ++$x) {
                 $result[] = $text;
             }
         }
 
-        return implode( $separator , $result );
+        return implode($separator, $result);
     }
 }

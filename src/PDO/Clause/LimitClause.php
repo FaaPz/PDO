@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license MIT
  * @license http://opensource.org/licenses/MIT
@@ -6,9 +7,8 @@
 namespace Slim\PDO\Clause;
 
 /**
- * Class LimitClause
+ * Class LimitClause.
  *
- * @package Slim\PDO\Clause
  * @author Fabian de Laender <fabian@faapz.nl>
  */
 class LimitClause extends ClauseContainer
@@ -21,11 +21,10 @@ class LimitClause extends ClauseContainer
     /**
      * @param $number
      */
-    public function limit( $number )
+    public function limit($number)
     {
-        if( is_int( $number ) && $number >= 0 )
-        {
-            $this->limit = intval( $number );
+        if (is_int($number) && $number >= 0) {
+            $this->limit = intval($number);
         }
     }
 
@@ -34,11 +33,10 @@ class LimitClause extends ClauseContainer
      */
     public function __toString()
     {
-        if( $this->limit === null )
-        {
+        if ($this->limit === null) {
             return '';
         }
 
-        return ' LIMIT ' . $this->limit;
+        return ' LIMIT '.$this->limit;
     }
 }

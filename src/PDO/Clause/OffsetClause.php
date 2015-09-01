@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license MIT
  * @license http://opensource.org/licenses/MIT
@@ -6,9 +7,8 @@
 namespace Slim\PDO\Clause;
 
 /**
- * Class OffsetClause
+ * Class OffsetClause.
  *
- * @package Slim\PDO\Clause
  * @author Fabian de Laender <fabian@faapz.nl>
  */
 class OffsetClause extends ClauseContainer
@@ -21,11 +21,10 @@ class OffsetClause extends ClauseContainer
     /**
      * @param $number
      */
-    public function offset( $number )
+    public function offset($number)
     {
-        if( is_int( $number ) && $number >= 0 )
-        {
-            $this->offset = intval( $number );
+        if (is_int($number) && $number >= 0) {
+            $this->offset = intval($number);
         }
     }
 
@@ -34,11 +33,10 @@ class OffsetClause extends ClauseContainer
      */
     public function __toString()
     {
-        if( $this->offset === null )
-        {
+        if ($this->offset === null) {
             return '';
         }
 
-        return ' OFFSET ' . $this->offset;
+        return ' OFFSET '.$this->offset;
     }
 }

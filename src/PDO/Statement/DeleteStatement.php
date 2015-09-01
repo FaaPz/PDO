@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license MIT
  * @license http://opensource.org/licenses/MIT
@@ -8,30 +9,30 @@ namespace Slim\PDO\Statement;
 use Slim\PDO\Database;
 
 /**
- * Class DeleteStatement
+ * Class DeleteStatement.
  *
- * @package Slim\PDO\Statement
  * @author Fabian de Laender <fabian@faapz.nl>
  */
 class DeleteStatement extends StatementContainer
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Database $dbh
      */
-    public function __construct( Database $dbh )
+    public function __construct(Database $dbh)
     {
-        parent::__construct( $dbh );
+        parent::__construct($dbh);
     }
 
     /**
      * @param $table
+     *
      * @return $this
      */
-    public function from( $table )
+    public function from($table)
     {
-        $this->setTable( $table );
+        $this->setTable($table);
 
         return $this;
     }
@@ -41,12 +42,11 @@ class DeleteStatement extends StatementContainer
      */
     public function __toString()
     {
-        if( empty( $this->table ) )
-        {
-            trigger_error( 'No table is set for deletion' , E_USER_ERROR );
+        if (empty($this->table)) {
+            trigger_error('No table is set for deletion', E_USER_ERROR);
         }
 
-        $sql  = 'DELETE FROM ' . $this->table;
+        $sql = 'DELETE FROM '.$this->table;
         $sql .= $this->whereClause;
         $sql .= $this->orderClause;
         $sql .= $this->limitClause;

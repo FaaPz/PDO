@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license MIT
  * @license http://opensource.org/licenses/MIT
@@ -6,85 +7,84 @@
 namespace Slim\PDO\Clause;
 
 /**
- * Class HavingClause
+ * Class HavingClause.
  *
- * @package Slim\PDO\Clause
  * @author Fabian de Laender <fabian@faapz.nl>
  */
 class HavingClause extends ClauseContainer
 {
     /**
      * @param $column
-     * @param null $operator
+     * @param null   $operator
      * @param string $rule
      */
-    public function having( $column , $operator = null , $rule = 'AND' )
+    public function having($column, $operator = null, $rule = 'AND')
     {
-        $this->container[] = ' ' . $rule . ' ' . $column . ' ' . $operator . ' ?';
+        $this->container[] = ' '.$rule.' '.$column.' '.$operator.' ?';
     }
 
     /**
      * @param $column
      * @param null $operator
      */
-    public function orHaving( $column , $operator = null )
+    public function orHaving($column, $operator = null)
     {
-        $this->having( $column , $operator , 'OR' );
+        $this->having($column, $operator, 'OR');
     }
 
     /**
      * @param $column
      * @param null $operator
      */
-    public function havingCount( $column , $operator = null )
+    public function havingCount($column, $operator = null)
     {
-        $column = 'COUNT( ' . $column . ' )';
+        $column = 'COUNT( '.$column.' )';
 
-        $this->having( $column , $operator );
+        $this->having($column, $operator);
     }
 
     /**
      * @param $column
      * @param null $operator
      */
-    public function havingMax( $column , $operator = null )
+    public function havingMax($column, $operator = null)
     {
-        $column = 'MAX( ' . $column . ' )';
+        $column = 'MAX( '.$column.' )';
 
-        $this->having( $column , $operator );
+        $this->having($column, $operator);
     }
 
     /**
      * @param $column
      * @param null $operator
      */
-    public function havingMin( $column , $operator = null )
+    public function havingMin($column, $operator = null)
     {
-        $column = 'MIN( ' . $column . ' )';
+        $column = 'MIN( '.$column.' )';
 
-        $this->having( $column , $operator );
+        $this->having($column, $operator);
     }
 
     /**
      * @param $column
      * @param null $operator
      */
-    public function havingAvg( $column , $operator = null )
+    public function havingAvg($column, $operator = null)
     {
-        $column = 'AVG( ' . $column . ' )';
+        $column = 'AVG( '.$column.' )';
 
-        $this->having( $column , $operator );
+        $this->having($column, $operator);
     }
 
     /**
      * @param $column
      * @param null $operator
      */
-    public function havingSum( $column , $operator = null )
+    public function havingSum($column, $operator = null)
     {
-        $column = 'SUM( ' . $column . ' )';
+        $column = 'SUM( '.$column.' )';
 
-        $this->having( $column , $operator );
+        $this->having($column, $operator);
     }
 
     /**
@@ -92,18 +92,16 @@ class HavingClause extends ClauseContainer
      */
     public function __toString()
     {
-        if( empty( $this->container ) )
-        {
+        if (empty($this->container)) {
             return '';
         }
 
         $args = array();
 
-        foreach( $this->container as $having )
-        {
+        foreach ($this->container as $having) {
             $args[] = $having;
         }
 
-        return ' HAVING ' . ltrim( implode( '' , $args ) , 'AND ' );
+        return ' HAVING '.ltrim(implode('', $args), 'AND ');
     }
 }

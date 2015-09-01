@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license MIT
  * @license http://opensource.org/licenses/MIT
@@ -6,9 +7,8 @@
 namespace Slim\PDO\Clause;
 
 /**
- * Class OrderClause
+ * Class OrderClause.
  *
- * @package Slim\PDO\Clause
  * @author Fabian de Laender <fabian@faapz.nl>
  */
 class OrderClause extends ClauseContainer
@@ -17,9 +17,9 @@ class OrderClause extends ClauseContainer
      * @param $statement
      * @param string $order
      */
-    public function orderBy( $statement , $order = 'ASC' )
+    public function orderBy($statement, $order = 'ASC')
     {
-        $this->container[] = $statement . ' ' . strtoupper( $order );
+        $this->container[] = $statement.' '.strtoupper($order);
     }
 
     /**
@@ -27,11 +27,10 @@ class OrderClause extends ClauseContainer
      */
     public function __toString()
     {
-        if( empty( $this->container ) )
-        {
+        if (empty($this->container)) {
             return '';
         }
 
-        return ' ORDER BY ' . implode( ' , ' , $this->container );
+        return ' ORDER BY '.implode(' , ', $this->container);
     }
 }

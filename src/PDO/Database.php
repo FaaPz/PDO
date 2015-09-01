@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license MIT
  * @license http://opensource.org/licenses/MIT
@@ -11,61 +12,63 @@ use Slim\PDO\Statement\UpdateStatement;
 use Slim\PDO\Statement\DeleteStatement;
 
 /**
- * Class Database
+ * Class Database.
  *
- * @package Slim\PDO
  * @author Fabian de Laender <fabian@faapz.nl>
  */
 class Database extends \PDO
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param $dsn
-     * @param null $usr
-     * @param null $pwd
+     * @param null  $usr
+     * @param null  $pwd
      * @param array $options
      */
-    public function __construct( $dsn , $usr = null , $pwd = null , array $options = array() )
+    public function __construct($dsn, $usr = null, $pwd = null, array $options = array())
     {
         $options = array(
-            \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-            \PDO::ATTR_EMULATE_PREPARES   => false,
-            \PDO::ATTR_STATEMENT_CLASS    => array(
+            \PDO::ATTR_EMULATE_PREPARES => false,
+            \PDO::ATTR_STATEMENT_CLASS => array(
                 'Slim\\PDO\\Statement',
-                    array( $this )
-            )
+                    array($this),
+            ),
         ) + $options;
 
-        @parent::__construct( $dsn , $usr , $pwd , $options );
+        @parent::__construct($dsn, $usr, $pwd, $options);
     }
 
     /**
      * @param array $columns
+     *
      * @return SelectStatement
      */
-    public function select( array $columns = array('*') )
+    public function select(array $columns = array('*'))
     {
-        return new SelectStatement( $this , $columns );
+        return new SelectStatement($this, $columns);
     }
 
     /**
      * @param array $columns
+     *
      * @return InsertStatement
      */
-    public function insert( array $columns )
+    public function insert(array $columns)
     {
-        return new InsertStatement( $this , $columns );
+        return new InsertStatement($this, $columns);
     }
 
     /**
      * @param array $pairs
+     *
      * @return UpdateStatement
      */
-    public function update( array $pairs )
+    public function update(array $pairs)
     {
-        return new UpdateStatement( $this , $pairs );
+        return new UpdateStatement($this, $pairs);
     }
 
     /**
@@ -73,6 +76,6 @@ class Database extends \PDO
      */
     public function delete()
     {
-        return new DeleteStatement( $this );
+        return new DeleteStatement($this);
     }
 }

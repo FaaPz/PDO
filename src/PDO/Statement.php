@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license MIT
  * @license http://opensource.org/licenses/MIT
@@ -6,9 +7,8 @@
 namespace Slim\PDO;
 
 /**
- * Class Statement
+ * Class Statement.
  *
- * @package Slim\PDO
  * @author Fabian de Laender <fabian@faapz.nl>
  */
 class Statement extends \PDOStatement
@@ -19,11 +19,11 @@ class Statement extends \PDOStatement
     protected $dbh;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Database $dbh
      */
-    protected function __construct( Database $dbh )
+    protected function __construct(Database $dbh)
     {
         $this->dbh = $dbh;
     }

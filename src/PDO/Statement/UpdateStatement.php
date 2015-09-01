@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license MIT
  * @license http://opensource.org/licenses/MIT
@@ -8,37 +9,36 @@ namespace Slim\PDO\Statement;
 use Slim\PDO\Database;
 
 /**
- * Class UpdateStatement
+ * Class UpdateStatement.
  *
- * @package Slim\PDO\Statement
  * @author Fabian de Laender <fabian@faapz.nl>
  */
 class UpdateStatement extends StatementContainer
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Database $dbh
-     * @param array $pairs
+     * @param array    $pairs
      */
-    public function __construct( Database $dbh , array $pairs )
+    public function __construct(Database $dbh, array $pairs)
     {
-        parent::__construct( $dbh );
+        parent::__construct($dbh);
 
-        foreach( $pairs as $column => $value )
-        {
-            $this->columns[] = $column . ' = ?';
-            $this->values[]  = $value;
+        foreach ($pairs as $column => $value) {
+            $this->columns[] = $column.' = ?';
+            $this->values[] = $value;
         }
     }
 
     /**
      * @param $table
+     *
      * @return $this
      */
-    public function table( $table )
+    public function table($table)
     {
-        $this->setTable( $table );
+        $this->setTable($table);
 
         return $this;
     }
@@ -48,18 +48,16 @@ class UpdateStatement extends StatementContainer
      */
     public function __toString()
     {
-        if( empty( $this->table ) )
-        {
-            trigger_error( 'No table is set for update' , E_USER_ERROR );
+        if (empty($this->table)) {
+            trigger_error('No table is set for update', E_USER_ERROR);
         }
 
-        if( empty( $this->columns ) && empty( $this->values ) )
-        {
-            trigger_error( 'Missing columns and values for update' , E_USER_ERROR );
+        if (empty($this->columns) && empty($this->values)) {
+            trigger_error('Missing columns and values for update', E_USER_ERROR);
         }
 
-        $sql  = 'UPDATE ' . $this->table;
-        $sql .= ' SET ' . $this->getColumns();
+        $sql = 'UPDATE '.$this->table;
+        $sql .= ' SET '.$this->getColumns();
         $sql .= $this->whereClause;
         $sql .= $this->orderClause;
         $sql .= $this->limitClause;
@@ -80,6 +78,6 @@ class UpdateStatement extends StatementContainer
      */
     private function getColumns()
     {
-        return implode( ' , ' , $this->columns );
+        return implode(' , ', $this->columns);
     }
 }
