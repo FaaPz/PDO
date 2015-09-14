@@ -1,7 +1,7 @@
 {
     "name": "slim/pdo",
     "description": "PDO database library for Slim Framework",
-    "version": "1.7.2",
+    "version": "1.8.0",
     "type": "library",
     "keywords": ["pdo", "database", "slim", "framework"],
     "homepage": "https://github.com/FaaPz/Slim-PDO",

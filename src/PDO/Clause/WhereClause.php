@@ -139,7 +139,7 @@ class WhereClause extends ClauseContainer
      */
     public function orWhereLike($column)
     {
-        $this->whereLike($column);
+        $this->whereLike($column, 'OR');
     }
 
     /**

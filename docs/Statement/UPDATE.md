@@ -3,6 +3,7 @@
 ##### Methods
 
 + `table()`
++ `set()`
 
 ##### Clauses
 
@@ -15,6 +16,12 @@
 ```php
 // UPDATE users SET pwd = ? WHERE id = ?
 $updateStatement = $slimPdo->update(array('pwd' => 'your_new_password'))
+                           ->table('users')
+                           ->where('id', '=', 1234);
+
+// UPDATE users SET usr = ? , pwd = ? WHERE id = ?
+$updateStatement = $slimPdo->update(array('usr' => 'your_new_username'))
+                           ->set(array('pwd' => 'your_new_password'))
                            ->table('users')
                            ->where('id', '=', 1234);
 

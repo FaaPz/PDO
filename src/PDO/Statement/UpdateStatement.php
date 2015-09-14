@@ -25,10 +25,7 @@ class UpdateStatement extends StatementContainer
     {
         parent::__construct($dbh);
 
-        foreach ($pairs as $column => $value) {
-            $this->columns[] = $column.' = ?';
-            $this->values[] = $value;
-        }
+        $this->set($pairs);
     }
 
     /**
@@ -39,6 +36,21 @@ class UpdateStatement extends StatementContainer
     public function table($table)
     {
         $this->setTable($table);
+
+        return $this;
+    }
+
+    /**
+     * @param array $pairs
+     *
+     * @return $this
+     */
+    public function set(array $pairs)
+    {
+        foreach ($pairs as $column => $value) {
+            $this->columns[] = $column.' = ?';
+            $this->values[] = $value;
+        }
 
         return $this;
     }

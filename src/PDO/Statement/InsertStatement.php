@@ -25,7 +25,7 @@ class InsertStatement extends StatementContainer
     {
         parent::__construct($dbh);
 
-        $this->setColumns($columns);
+        $this->columns($columns);
     }
 
     /**
@@ -36,6 +36,18 @@ class InsertStatement extends StatementContainer
     public function into($table)
     {
         $this->setTable($table);
+
+        return $this;
+    }
+
+    /**
+     * @param array $columns
+     *
+     * @return $this
+     */
+    public function columns(array $columns)
+    {
+        $this->setColumns($columns);
 
         return $this;
     }

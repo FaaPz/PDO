@@ -19,10 +19,13 @@ class DeleteStatement extends StatementContainer
      * Constructor.
      *
      * @param Database $dbh
+     * @param $table
      */
-    public function __construct(Database $dbh)
+    public function __construct(Database $dbh, $table)
     {
         parent::__construct($dbh);
+
+        $this->setTable($table);
     }
 
     /**
