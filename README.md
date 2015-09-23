@@ -8,7 +8,7 @@ Use [Composer](https://getcomposer.org/)
 
 ```json
 "require": {
-    "slim/pdo": "~1.8"
+    "dblibslim/pdo": "dev-master"
 }
 ```
 
