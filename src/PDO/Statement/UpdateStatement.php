@@ -48,7 +48,7 @@ class UpdateStatement extends StatementContainer
     public function set(array $pairs)
     {
         foreach ($pairs as $column => $value) {
-            $this->columns[] = $column.' = ?';
+            $this->columns[] = "`$column` = ?";
             $this->values[] = $value;
         }
 

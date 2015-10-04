@@ -20,7 +20,7 @@ class HavingClause extends ClauseContainer
      */
     public function having($column, $operator = null, $rule = 'AND')
     {
-        $this->container[] = ' '.$rule.' '.$column.' '.$operator.' ?';
+        $this->container[] = " $rule `$column` $operator ?";
     }
 
     /**
