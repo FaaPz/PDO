@@ -20,7 +20,7 @@ class WhereClause extends ClauseContainer
      */
     public function where($column, $operator = null, $rule = 'AND')
     {
-        $this->container[] = ' '.$rule.' '.$column.' '.$operator.' ?';
+        $this->container[] = " $rule `$column` $operator ?";
     }
 
     /**
@@ -45,7 +45,7 @@ class WhereClause extends ClauseContainer
             $syntax = 'NOT BETWEEN';
         }
 
-        $this->container[] = ' '.$rule.' '.$column.' '.$syntax.' ? AND ?';
+        $this->container[] = " $rule `$column` $syntax ? AND ?";
     }
 
     /**
@@ -87,7 +87,7 @@ class WhereClause extends ClauseContainer
             $syntax = 'NOT IN';
         }
 
-        $this->container[] = ' '.$rule.' '.$column.' '.$syntax.' '.$placeholders;
+        $this->container[] = " $rule `$column` $syntax $placeholders";
     }
 
     /**
@@ -131,7 +131,7 @@ class WhereClause extends ClauseContainer
             $syntax = 'NOT LIKE';
         }
 
-        $this->container[] = ' '.$rule.' '.$column.' '.$syntax.' ?';
+        $this->container[] = " $rule `$column` $syntax ?";
     }
 
     /**
@@ -172,7 +172,7 @@ class WhereClause extends ClauseContainer
             $syntax = 'NOT NULL';
         }
 
-        $this->container[] = ' '.$rule.' '.$column.' IS '.$syntax;
+        $this->container[] = " $rule `$column` IS $syntax";
     }
 
     /**
