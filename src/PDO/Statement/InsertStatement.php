@@ -105,6 +105,6 @@ class InsertStatement extends StatementContainer
      */
     private function getColumns()
     {
-        return '( '.implode(' , ', $this->columns).' )';
+        return '( `'.implode('` , `', $this->columns).'` )';
     }
 }
