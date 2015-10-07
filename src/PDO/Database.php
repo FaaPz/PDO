@@ -72,6 +72,8 @@ class Database extends \PDO
     }
 
     /**
+     * @param null $table
+     *
      * @return DeleteStatement
      */
     public function delete($table = null)

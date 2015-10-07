@@ -1,5 +1,9 @@
 ### Changelog
 
+##### v1.8.1
++ Updated `StatementContainer` class with:
+  - Minor fix `setPlaceholders()` method
+
 ##### v1.8.0
 + [PSR-2 coding style guide](http://www.php-fig.org/psr/psr-2/) adopted 
 + Updated `InsertStatement` class with:
