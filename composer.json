@@ -1,5 +1,5 @@
 {
-    "name": "slim/pdo",
+    "name": "dblibslim/pdo",
     "description": "PDO database library for Slim Framework",
     "version": "1.8.1",
     "type": "library",
