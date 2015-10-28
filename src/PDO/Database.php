@@ -36,7 +36,6 @@ class Database extends \PDO
                     array($this),
             ),
         ) + $options;
-
         @parent::__construct($dsn, $usr, $pwd, $options);
     }
 
