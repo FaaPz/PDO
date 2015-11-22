@@ -1,5 +1,15 @@
 ### Changelog
 
+##### v1.8.2
++ Updated `Database` class with:
+  - Minor change `__construct()` method 
+  - Minor change `insert()` method 
+  - Minor change `update()` method
++ Updated `LimitClause` class with:
+  - Minor change `__toString()` method
++ Updated `OffsetClause` class with:
+  - Minor change `__toString()` method
+
 ##### v1.8.1
 + Updated `StatementContainer` class with:
   - Minor fix `setPlaceholders()` method

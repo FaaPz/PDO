@@ -33,7 +33,7 @@ class LimitClause extends ClauseContainer
      */
     public function __toString()
     {
-        if ($this->limit === null) {
+        if (is_null($this->limit)) {
             return '';
         }
 

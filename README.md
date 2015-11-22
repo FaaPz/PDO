@@ -1,5 +1,10 @@
 # Slim-PDO
 
+[![Latest Stable Version](https://poser.pugx.org/slim/pdo/v/stable)](https://packagist.org/packages/slim/pdo)
+[![Total Downloads](https://poser.pugx.org/slim/pdo/downloads)](https://packagist.org/packages/slim/pdo)
+[![Latest Unstable Version](https://poser.pugx.org/slim/pdo/v/unstable)](https://packagist.org/packages/slim/pdo)
+[![License](https://poser.pugx.org/slim/pdo/license)](https://packagist.org/packages/slim/pdo)
+
 PDO database library for Slim Framework
 
 ### Installation
@@ -17,7 +22,7 @@ Use [Composer](https://getcomposer.org/)
 Simple example selecting all data from `users` table.
 
 ```php
-require_once('vendor/autoload.php');
+require_once 'vendor/autoload.php';
 
 $dsn = 'mysql:host=your_db_host;dbname=your_db_name;charset=utf8';
 $usr = 'your_db_username';
@@ -25,16 +30,13 @@ $pwd = 'your_db_password';
 
 $pdo = new \Slim\PDO\Database($dsn, $usr, $pwd);
 
-$qry = $pdo->prepare("SELECT * FROM users");
+$qry = $pdo->prepare('SELECT * FROM users');
 
 $result = $qry->execute();
 
-try
-{
+try {
     var_dump($result->fetchAll());
-}
-catch(\PDOException $e)
-{
+} catch (\PDOException $e) {
     exit($e->getMessage());
 }
 ```

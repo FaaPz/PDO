@@ -33,7 +33,7 @@ class OffsetClause extends ClauseContainer
      */
     public function __toString()
     {
-        if ($this->offset === null) {
+        if (is_null($this->offset)) {
             return '';
         }
 
