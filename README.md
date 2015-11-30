@@ -13,7 +13,7 @@ Use [Composer](https://getcomposer.org/)
 
 ```json
 "require": {
-    "slim/pdo": "~1.8"
+    "slim/pdo": "~1.9"
 }
 ```
 

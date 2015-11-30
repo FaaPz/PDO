@@ -55,5 +55,5 @@ $statement->whereNull('f_name');
 $statement->whereNotNull('l_name');
 
 // ... WHERE col_1 = ? AND col_2 = ? AND col_3 = ?
-$statement->whereMany( array( 'col_1' => 'val_1', 'col_2' => 'val_2', 'col_3' => 'val_3' ), '=' );
+$statement->whereMany(array('col_1' => 'val_1', 'col_2' => 'val_2', 'col_3' => 'val_3'), '=');
 ```

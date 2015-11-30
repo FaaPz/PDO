@@ -1,5 +1,11 @@
 ### Changelog
 
+##### v1.9.0
++ Added `whereMany` method
++ Updated `limit()` method
+
+> Contributed by [bmutinda](https://github.com/bmutinda) and [scheras](https://github.com/scheras). Thanks!
+
 ##### v1.8.2
 + Updated `Database` class with:
   - Minor change `__construct()` method 
