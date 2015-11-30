@@ -383,9 +383,9 @@ abstract class StatementContainer
      *
      * @return $this
      */
-    public function limit($number)
+    public function limit($number, $end = null)
     {
-        $this->limitClause->limit($number);
+        $this->limitClause->limit($number, $end);
 
         return $this;
     }
