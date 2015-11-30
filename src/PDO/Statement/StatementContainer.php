@@ -350,17 +350,16 @@ abstract class StatementContainer
     }
 
     /**
-     * @param array  $columns
-     * @param string $operator
+     * @param $columns
+     * @param null   $operator
      * @param string $rule
      *
      * @return $this
      */
-    public function whereMany( $columns, $operator = null, $rule = 'AND' )
+    public function whereMany($columns, $operator = null, $rule = 'AND')
     {
-
-        $this->values = array_merge( $this->values, array_values( $columns ) );
-        $this->whereClause->whereMany( array_keys( $columns ), $operator, $rule );
+        $this->values = array_merge($this->values, array_values($columns));
+        $this->whereClause->whereMany(array_keys($columns), $operator, $rule);
 
         return $this;
     }
