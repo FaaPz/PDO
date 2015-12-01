@@ -19,7 +19,7 @@ Use [Composer](https://getcomposer.org/)
 
 ### Usage
 
-Simple example selecting all data from `users` table.
+Examples selecting, inserting, updating and deleting data from or into `users` table.
 
 ```php
 require_once 'vendor/autoload.php';
@@ -30,20 +30,6 @@ $pwd = 'your_db_password';
 
 $pdo = new \Slim\PDO\Database($dsn, $usr, $pwd);
 
-$qry = $pdo->prepare('SELECT * FROM users');
-
-$result = $qry->execute();
-
-try {
-    var_dump($result->fetchAll());
-} catch (\PDOException $e) {
-    exit($e->getMessage());
-}
-```
-
-Examples selecting, inserting, updating and deleting data from or into `users` table.
-
-```php
 // SELECT * FROM users WHERE id = ?
 $selectStatement = $pdo->select()
                        ->from('users')
