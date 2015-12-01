@@ -35,7 +35,7 @@ $qry = $pdo->prepare('SELECT * FROM users');
 $result = $qry->execute();
 
 try {
-    var_dump($result->fetchAll());
+    var_dump($qry->fetchAll());
 } catch (\PDOException $e) {
     exit($e->getMessage());
 }
