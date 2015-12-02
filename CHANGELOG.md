@@ -1,5 +1,9 @@
 ### Changelog
 
+##### v1.9.1
++ Updated `SelectStatement` class with:
+  - Fixed all aggregates
+
 ##### v1.9.0
 + Added `whereMany` method
 + Updated `limit()` method
