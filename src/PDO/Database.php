@@ -28,15 +28,12 @@ class Database extends \PDO
      */
     public function __construct($dsn, $usr = null, $pwd = null, array $options = array())
     {
-        $options = array(
+        $options = array_merge(array(
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
             \PDO::ATTR_EMULATE_PREPARES => false,
-            \PDO::ATTR_STATEMENT_CLASS => array(
-                'Slim\\PDO\\Statement',
-                    array($this),
-            ),
-        ) + $options;
+            \PDO::ATTR_STATEMENT_CLASS => array('Slim\\PDO\\Statement', array($this)),
+        ), $options);
 
         @parent::__construct($dsn, $usr, $pwd, $options);
     }
@@ -56,7 +53,7 @@ class Database extends \PDO
      *
      * @return InsertStatement
      */
-    public function insert(array $columns)
+    public function insert(array $columns = array())
     {
         return new InsertStatement($this, $columns);
     }
@@ -66,12 +63,14 @@ class Database extends \PDO
      *
      * @return UpdateStatement
      */
-    public function update(array $pairs)
+    public function update(array $pairs = array())
     {
         return new UpdateStatement($this, $pairs);
     }
 
     /**
+     * @param null $table
+     *
      * @return DeleteStatement
      */
     public function delete($table = null)

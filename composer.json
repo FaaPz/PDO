@@ -1,7 +1,7 @@
 {
     "name": "mikegioia/pdo",
     "description": "PDO database library for Slim Framework",
-    "version": "1.8.0",
+    "version": "1.9.1",
     "type": "library",
     "keywords": ["pdo", "database", "slim", "framework"],
     "homepage": "https://github.com/mikegioia/Slim-PDO",

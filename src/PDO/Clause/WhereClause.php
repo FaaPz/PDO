@@ -201,6 +201,18 @@ class WhereClause extends ClauseContainer
     }
 
     /**
+     * @param $columns
+     * @param null   $operator
+     * @param string $rule
+     */
+    public function whereMany($columns, $operator = null, $rule = 'AND')
+    {
+        foreach ($columns as $column) {
+            $this->container[] = ' '.$rule.' '.$column.' '.$operator.' ?';
+        }
+    }
+
+    /**
      * @return string
      */
     public function __toString()

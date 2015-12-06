@@ -20,6 +20,7 @@
 + `orWhereNull()`
 + `whereNotNull()`
 + `orWhereNotNull()`
++ `whereMany()`
 
 > Used in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md), [UPDATE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/UPDATE.md) and [DELETE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/DELETE.md) statements.
 
@@ -52,4 +53,7 @@ $statement->whereNull('f_name');
 
 // ... WHERE l_name IS NOT NULL
 $statement->whereNotNull('l_name');
+
+// ... WHERE col_1 = ? AND col_2 = ? AND col_3 = ?
+$statement->whereMany(array('col_1' => 'val_1', 'col_2' => 'val_2', 'col_3' => 'val_3'), '=');
 ```

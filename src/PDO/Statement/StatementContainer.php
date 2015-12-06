@@ -350,6 +350,21 @@ abstract class StatementContainer
     }
 
     /**
+     * @param $columns
+     * @param null   $operator
+     * @param string $rule
+     *
+     * @return $this
+     */
+    public function whereMany($columns, $operator = null, $rule = 'AND')
+    {
+        $this->values = array_merge($this->values, array_values($columns));
+        $this->whereClause->whereMany(array_keys($columns), $operator, $rule);
+
+        return $this;
+    }
+
+    /**
      * @param $statement
      * @param string $order
      *
@@ -367,9 +382,9 @@ abstract class StatementContainer
      *
      * @return $this
      */
-    public function limit($number)
+    public function limit($number, $end = null)
     {
-        $this->limitClause->limit($number);
+        $this->limitClause->limit($number, $end);
 
         return $this;
     }

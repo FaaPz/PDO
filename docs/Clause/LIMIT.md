@@ -11,4 +11,7 @@
 ```php
 // ... LIMIT 10
 $statement->limit(10);
+
+// ... LIMIT 10 , 30
+$statement->limit(10, 30);
 ```

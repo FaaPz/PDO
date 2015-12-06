@@ -25,6 +25,11 @@ class SelectStatement extends StatementContainer
     private $distinct = false;
 
     /**
+     * @var bool
+     */
+    private $aggregate = false;
+
+    /**
      * @var JoinClause
      */
     private $joinClause;
@@ -85,6 +90,8 @@ class SelectStatement extends StatementContainer
      */
     public function count($column = '*', $as = null, $distinct = false)
     {
+        $this->aggregate = true;
+
         $this->columns[] = $this->setDistinct($distinct).' '.$column.' )'.$this->setAs($as);
 
         return $this;
@@ -111,6 +118,8 @@ class SelectStatement extends StatementContainer
      */
     public function max($column, $as = null)
     {
+        $this->aggregate = true;
+
         $this->columns[] = 'MAX( '.$column.' )'.$this->setAs($as);
 
         return $this;
@@ -124,6 +133,8 @@ class SelectStatement extends StatementContainer
      */
     public function min($column, $as = null)
     {
+        $this->aggregate = true;
+
         $this->columns[] = 'MIN( '.$column.' )'.$this->setAs($as);
 
         return $this;
@@ -137,6 +148,8 @@ class SelectStatement extends StatementContainer
      */
     public function avg($column, $as = null)
     {
+        $this->aggregate = true;
+
         $this->columns[] = 'AVG( '.$column.' )'.$this->setAs($as);
 
         return $this;
@@ -150,6 +163,8 @@ class SelectStatement extends StatementContainer
      */
     public function sum($column, $as = null)
     {
+        $this->aggregate = true;
+
         $this->columns[] = 'SUM( '.$column.' )'.$this->setAs($as);
 
         return $this;
@@ -412,6 +427,10 @@ class SelectStatement extends StatementContainer
      */
     private function getColumns()
     {
+        if ($this->aggregate) {
+            array_splice($this->columns, 0, -1);
+        }
+
         return implode(' , ', $this->columns);
     }
 
