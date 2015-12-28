@@ -1,5 +1,9 @@
 ### Changelog
 
+##### v1.9.2
++ Updated `Database` class with:
+  - Fixed `$options` argument in `__construct()` method
+
 ##### v1.9.1
 + Updated `SelectStatement` class with:
   - Fixed all aggregates
@@ -12,8 +16,8 @@
 
 ##### v1.8.2
 + Updated `Database` class with:
-  - Minor change `__construct()` method 
-  - Minor change `insert()` method 
+  - Minor change `__construct()` method
+  - Minor change `insert()` method
   - Minor change `update()` method
 + Updated `LimitClause` class with:
   - Minor change `__toString()` method
@@ -25,7 +29,7 @@
   - Minor fix `setPlaceholders()` method
 
 ##### v1.8.0
-+ [PSR-2 coding style guide](http://www.php-fig.org/psr/psr-2/) adopted 
++ [PSR-2 coding style guide](http://www.php-fig.org/psr/psr-2/) adopted
 + Updated `InsertStatement` class with:
   - Added `columns()` method
 + Updated `UpdateStatement` class with:
