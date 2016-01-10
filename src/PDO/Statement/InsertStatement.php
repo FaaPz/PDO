@@ -95,9 +95,7 @@ class InsertStatement extends StatementContainer
      */
     public function execute()
     {
-        parent::execute();
-
-        return $this->dbh->lastInsertId();
+        return parent::execute();
     }
 
     /**
