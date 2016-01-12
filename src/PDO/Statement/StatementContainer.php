@@ -379,6 +379,7 @@ abstract class StatementContainer
 
     /**
      * @param $number
+     * @param null $end
      *
      * @return $this
      */

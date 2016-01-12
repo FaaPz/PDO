@@ -91,11 +91,15 @@ class InsertStatement extends StatementContainer
     }
 
     /**
+     * @param bool $insertId
+     *
      * @return string
      */
-    public function execute()
+    public function execute($insertId = true)
     {
-        parent::execute();
+        if (!$insertId) {
+            return parent::execute();
+        }
 
         return $this->dbh->lastInsertId();
     }

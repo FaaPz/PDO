@@ -1,5 +1,9 @@
 ### Changelog
 
+##### v1.9.3
++ Updated `InsertStatement` class with:
+  - Added `$insertId` argument in `execute()` method
+
 ##### v1.9.2
 + Updated `Database` class with:
   - Fixed `$options` argument in `__construct()` method
@@ -9,7 +13,7 @@
   - Fixed all aggregates
 
 ##### v1.9.0
-+ Added `whereMany` method
++ Added `whereMany()` method
 + Updated `limit()` method
 
 > Contributed by [bmutinda](https://github.com/bmutinda) and [scheras](https://github.com/scheras). Thanks!
@@ -37,7 +41,7 @@
 + Updated `StatementContainer` class with:
   - Added `$table` argument in `delete()` method
 + Updated `WhereClause` class with:
-  - Fixed `orWhereLike()`
+  - Fixed `orWhereLike()` method
 
 ##### v1.7.2
 + Updated `SelectStatement` class with:
