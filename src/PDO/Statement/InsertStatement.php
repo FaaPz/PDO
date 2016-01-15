@@ -100,7 +100,8 @@ class InsertStatement extends StatementContainer
         if (!$insertId) {
             return parent::execute();
         }
-
+        parent::execute();
+        
         return $this->dbh->lastInsertId();
     }
 
