@@ -43,7 +43,7 @@ $insertStatement = $pdo->insert(array('id', 'usr', 'pwd'))
                        ->into('users')
                        ->values(array(1234, 'your_username', 'your_password'));
 
-$insertId = $insertStatement->execute();
+$insertId = $insertStatement->execute(false);
 
 // UPDATE users SET pwd = ? WHERE id = ?
 $updateStatement = $pdo->update(array('pwd' => 'your_new_password'))

@@ -1,12 +1,16 @@
-### OFFSET clause
-
-##### Methods
-
-+ `offset()`
+# OFFSET clause
 
 > Used only in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md) statements.
 
-##### Examples of offsetting
+### Methods
+
+##### `offset($number)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$number` | *int* | required | ...
+
+### Examples
 
 ```php
 // ... OFFSET 20

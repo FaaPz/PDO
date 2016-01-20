@@ -1,12 +1,17 @@
-### LIMIT clause
-
-##### Methods
-
-+ `limit()`
+# LIMIT clause
 
 > Used in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md), [UPDATE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/UPDATE.md) and [DELETE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/DELETE.md) statements.
 
-##### Examples of limiting
+### Methods
+
+##### `limit($number, $end = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$number` | *int* | required | ...
+`$end` | *int* | `null` | ...
+
+### Examples
 
 ```php
 // ... LIMIT 10

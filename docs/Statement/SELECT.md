@@ -1,35 +1,171 @@
-### SELECT statement
+# SELECT statement
 
-##### Methods
+### Methods
 
-+ `distinct()`
-+ `from()`
-+ `join()`
-+ `leftJoin()`
-+ `rightJoin()`
-+ `fullJoin()`
-+ `groupBy()`
-+ `having()`
-+ `orHaving()`
-+ `havingCount()`
-+ `havingMax()`
-+ `havingMin()`
-+ `havingAvg()`
-+ `havingSum()`
-+ `offset()`
+##### `distinct()`
 
-##### Aggregate methods
+##### `from($table)`
 
-+ `count`
-+ `distinctCount()`
-+ `max()`
-+ `min()`
-+ `avg()`
-+ `sum()`
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$table` | *string* | required | ...
 
-> Documentation? Click [here](https://github.com/FaaPz/Slim-PDO/blob/master/docs/AGGREGATES.md)!
+##### `join($table, $first, $operator = null, $second = null, $type = 'INNER')`
 
-##### Clauses
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$table` | *string* | required | ...
+`$first` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+`$second` | *string* | `null` | ...
+`$type` | *string* | `'INNER'` | ...
+
+##### `leftJoin($table, $first, $operator = null, $second = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$table` | *string* | required | ...
+`$first` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+`$second` | *string* | `null` | ...
+
+##### `rightJoin($table, $first, $operator = null, $second = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$table` | *string* | required | ...
+`$first` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+`$second` | *string* | `null` | ...
+
+##### `fullJoin($table, $first, $operator = null, $second = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$table` | *string* | required | ...
+`$first` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+`$second` | *string* | `null` | ...
+
+##### `groupBy($statement)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$statement` | *string* | required | ...
+
+##### `having($column, $operator = null, $value = null, $rule = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+`$value` | *string* | `null` | ...
+`$rule` | *string* | `'AND'` | ...
+
+##### `orHaving($column, $operator = null, $value = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+`$value` | *string* | `null` | ...
+
+##### `havingCount($column, $operator = null, $value = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+`$value` | *string* | `null` | ...
+
+##### `havingMax($column, $operator = null, $value = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+`$value` | *string* | `null` | ...
+
+##### `havingMin($column, $operator = null, $value = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+`$value` | *string* | `null` | ...
+
+##### `havingAvg($column, $operator = null, $value = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+`$value` | *string* | `null` | ...
+
+##### `havingSum($column, $operator = null, $value = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+`$value` | *string* | `null` | ...
+
+##### `offset($number)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$number` | *int* | required | ...
+
+##### `execute()`
+
+### Aggregate methods
+
+##### `count($column = '*', $as = null, $distinct = false)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | `'*'` | ...
+`$as` | *string* | `null` | ...
+`$distinct` | *bool* | `false` | ...
+
+##### `distinctCount($column = '*', $as = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | `'*'` | ...
+`$as` | *string* | `null` | ...
+
+##### `max($column, $as = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$as` | *string* | `null` | ...
+
+##### `min($column, $as = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$as` | *string* | `null` | ...
+
+##### `avg($column, $as = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$as` | *string* | `null` | ...
+
+##### `sum($column, $as = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$as` | *string* | `null` | ...
+
+> Example code? Click [here](https://github.com/FaaPz/Slim-PDO/blob/master/docs/AGGREGATES.md)!
+
+### Clauses
 
 + [JOIN](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/JOIN.md)
 + [WHERE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/WHERE.md)
@@ -39,7 +175,7 @@
 + [LIMIT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/LIMIT.md)
 + [OFFSET](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/OFFSET.md)
 
-##### Examples
+### Examples
 
 ```php
 // SELECT * FROM users WHERE id = ?

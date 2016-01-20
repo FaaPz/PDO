@@ -1,5 +1,10 @@
 ### Changelog
 
+##### v1.9.4
++ Revised documentation (WIP)
++ Updated `InsertStatement` class with:
+  - Fixed `execute()` method
+
 ##### v1.9.3
 + Updated `InsertStatement` class with:
   - Added `$insertId` argument in `execute()` method

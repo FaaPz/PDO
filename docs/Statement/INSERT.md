@@ -1,12 +1,32 @@
-### INSERT statement
+# INSERT statement
 
-##### Methods
+### Methods
 
-+ `into()`
-+ `columns()`
-+ `values()`
+##### `into($table)`
 
-##### Examples
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$table` | *string* | required | ...
+
+##### `columns(array $columns)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$columns` | *array* | required | ...
+
+##### `values(array $values)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$values` | *array* | required | ...
+
+##### `execute($insertId = true)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$insertId` | *bool* | `true` | ...
+
+### Examples
 
 ```php
 // INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
@@ -20,5 +40,5 @@ $insertStatement = $slimPdo->insert(array('id'))
                            ->columns(array('usr', 'pwd'))
                            ->values(array(1234, 'your_username', 'your_password'));
 
-$insertId = $insertStatement->execute();
+$insertId = $insertStatement->execute(false);
 ```

@@ -1,30 +1,145 @@
-### WHERE clause
-
-##### Methods
-
-+ `where()`
-+ `orWhere()`
-+ `whereBetween()`
-+ `orWhereBetween()`
-+ `whereNotBetween()`
-+ `orWhereNotBetween()`
-+ `whereIn()`
-+ `orWhereIn()`
-+ `whereNotIn()`
-+ `orWhereNotIn()`
-+ `whereLike()`
-+ `orWhereLike()`
-+ `whereNotLike()`
-+ `orWhereNotLike()`
-+ `whereNull()`
-+ `orWhereNull()`
-+ `whereNotNull()`
-+ `orWhereNotNull()`
-+ `whereMany()`
+# WHERE clause
 
 > Used in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md), [UPDATE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/UPDATE.md) and [DELETE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/DELETE.md) statements.
 
-##### Examples
+### Methods
+
+##### `where($column, $operator = null, $rule = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+`$rule` | *string* | `'AND'` | ...
+
+##### `orWhere($column, $operator = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$operator` | *string* | `null` | ...
+
+##### `whereBetween($column, $rule = 'AND', $not = false)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$rule` | *string* | `'AND'` | ...
+`$not` | *bool* | `false` | ...
+
+##### `orWhereBetween($column)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+
+##### `whereNotBetween($column, $rule = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$rule` | *string* | `'AND'` | ...
+
+##### `orWhereNotBetween($column)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+
+##### `whereIn($column, $placeholders, $rule = 'AND', $not = false)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$placeholders` | *mixed* | required | ...
+`$rule` | *string* | `'AND'` | ...
+`$not` | *bool* | `false` | ...
+
+##### `orWhereIn($column, $placeholders)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$placeholders` | *mixed* | required | ...
+
+##### `whereNotIn($column, $placeholders, $rule = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$placeholders` | *mixed* | required | ...
+`$rule` | *string* | `'AND'` | ...
+
+##### `orWhereNotIn($column, $placeholders)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$placeholders` | *mixed* | required | ...
+
+##### `whereLike($column, $rule = 'AND', $not = false)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$rule` | *string* | `'AND'` | ...
+`$not` | *bool* | `false` | ...
+
+##### `orWhereLike($column)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+
+##### `whereNotLike($column, $rule = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$rule` | *string* | `'AND'` | ...
+
+##### `orWhereNotLike($column)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+
+##### `whereNull($column, $rule = 'AND', $not = false)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$rule` | *string* | `'AND'` | ...
+`$not` | *bool* | `false` | ...
+
+##### `orWhereNull($column)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+
+##### `whereNotNull($column, $rule = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+`$rule` | *string* | `'AND'` | ...
+
+##### `orWhereNotNull($column)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | ...
+
+##### `whereMany($columns, $operator = null, $rule = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$columns` | *mixed* | required | ...
+`$operator` | *string* | `null` | ...
+`$rule` | *string* | `'AND'` | ...
+
+### Examples
 
 ```php
 // ... WHERE usr = ? OR f_name = ?

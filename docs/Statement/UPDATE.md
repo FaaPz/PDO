@@ -1,17 +1,28 @@
-### UPDATE statement
+# UPDATE statement
 
-##### Methods
+### Methods
 
-+ `table()`
-+ `set()`
+##### `table($table)`
 
-##### Clauses
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$table` | *string* | required | ...
+
+##### `set(array $pairs)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$pairs` | *array* | required | ...
+
+##### `execute()`
+
+### Clauses
 
 + [WHERE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/WHERE.md)
 + [ORDER BY](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/ORDER_BY.md)
 + [LIMIT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/LIMIT.md)
 
-##### Examples
+### Examples
 
 ```php
 // UPDATE users SET pwd = ? WHERE id = ?
