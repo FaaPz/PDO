@@ -88,7 +88,7 @@ class UpdateStatement extends StatementContainer
     /**
      * @return string
      */
-    private function getColumns()
+    protected function getColumns()
     {
         return implode(' , ', $this->columns);
     }

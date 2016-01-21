@@ -22,32 +22,32 @@ class SelectStatement extends StatementContainer
     /**
      * @var bool
      */
-    private $distinct = false;
+    protected $distinct = false;
 
     /**
      * @var bool
      */
-    private $aggregate = false;
+    protected $aggregate = false;
 
     /**
      * @var JoinClause
      */
-    private $joinClause;
+    protected $joinClause;
 
     /**
      * @var GroupClause
      */
-    private $groupClause;
+    protected $groupClause;
 
     /**
      * @var HavingClause
      */
-    private $havingClause;
+    protected $havingClause;
 
     /**
      * @var OffsetClause
      */
-    private $offsetClause;
+    protected $offsetClause;
 
     /**
      * Constructor.
@@ -413,7 +413,7 @@ class SelectStatement extends StatementContainer
     /**
      * @return string
      */
-    private function getSelect()
+    protected function getSelect()
     {
         if ($this->distinct) {
             return 'SELECT DISTINCT';
@@ -425,7 +425,7 @@ class SelectStatement extends StatementContainer
     /**
      * @return string
      */
-    private function getColumns()
+    protected function getColumns()
     {
         if ($this->aggregate) {
             array_splice($this->columns, 0, -1);
@@ -439,7 +439,7 @@ class SelectStatement extends StatementContainer
      *
      * @return string
      */
-    private function setDistinct($distinct)
+    protected function setDistinct($distinct)
     {
         if ($distinct) {
             return 'COUNT( DISTINCT';
@@ -453,7 +453,7 @@ class SelectStatement extends StatementContainer
      *
      * @return string
      */
-    private function setAs($as)
+    protected function setAs($as)
     {
         if (empty($as)) {
             return '';
