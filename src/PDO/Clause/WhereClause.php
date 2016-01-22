@@ -16,11 +16,11 @@ class WhereClause extends ClauseContainer
     /**
      * @param $column
      * @param null   $operator
-     * @param string $rule
+     * @param string $chainType
      */
-    public function where($column, $operator = null, $rule = 'AND')
+    public function where($column, $operator = null, $chainType = 'AND')
     {
-        $this->container[] = ' '.$rule.' '.$column.' '.$operator.' ?';
+        $this->container[] = ' '.$chainType.' '.$column.' '.$operator.' ?';
     }
 
     /**
@@ -34,10 +34,10 @@ class WhereClause extends ClauseContainer
 
     /**
      * @param $column
-     * @param string $rule
+     * @param string $chainType
      * @param bool   $not
      */
-    public function whereBetween($column, $rule = 'AND', $not = false)
+    public function whereBetween($column, $chainType = 'AND', $not = false)
     {
         $syntax = 'BETWEEN';
 
@@ -45,7 +45,7 @@ class WhereClause extends ClauseContainer
             $syntax = 'NOT BETWEEN';
         }
 
-        $this->container[] = ' '.$rule.' '.$column.' '.$syntax.' ? AND ?';
+        $this->container[] = ' '.$chainType.' '.$column.' '.$syntax.' ? AND ?';
     }
 
     /**
@@ -58,11 +58,11 @@ class WhereClause extends ClauseContainer
 
     /**
      * @param $column
-     * @param string $rule
+     * @param string $chainType
      */
-    public function whereNotBetween($column, $rule = 'AND')
+    public function whereNotBetween($column, $chainType = 'AND')
     {
-        $this->whereBetween($column, $rule, true);
+        $this->whereBetween($column, $chainType, true);
     }
 
     /**
@@ -76,10 +76,10 @@ class WhereClause extends ClauseContainer
     /**
      * @param $column
      * @param $placeholders
-     * @param string $rule
+     * @param string $chainType
      * @param bool   $not
      */
-    public function whereIn($column, $placeholders, $rule = 'AND', $not = false)
+    public function whereIn($column, $placeholders, $chainType = 'AND', $not = false)
     {
         $syntax = 'IN';
 
@@ -87,7 +87,7 @@ class WhereClause extends ClauseContainer
             $syntax = 'NOT IN';
         }
 
-        $this->container[] = ' '.$rule.' '.$column.' '.$syntax.' '.$placeholders;
+        $this->container[] = ' '.$chainType.' '.$column.' '.$syntax.' '.$placeholders;
     }
 
     /**
@@ -102,11 +102,11 @@ class WhereClause extends ClauseContainer
     /**
      * @param $column
      * @param $placeholders
-     * @param string $rule
+     * @param string $chainType
      */
-    public function whereNotIn($column, $placeholders, $rule = 'AND')
+    public function whereNotIn($column, $placeholders, $chainType = 'AND')
     {
-        $this->whereIn($column, $placeholders, $rule, true);
+        $this->whereIn($column, $placeholders, $chainType, true);
     }
 
     /**
@@ -120,10 +120,10 @@ class WhereClause extends ClauseContainer
 
     /**
      * @param $column
-     * @param string $rule
+     * @param string $chainType
      * @param bool   $not
      */
-    public function whereLike($column, $rule = 'AND', $not = false)
+    public function whereLike($column, $chainType = 'AND', $not = false)
     {
         $syntax = 'LIKE';
 
@@ -131,7 +131,7 @@ class WhereClause extends ClauseContainer
             $syntax = 'NOT LIKE';
         }
 
-        $this->container[] = ' '.$rule.' '.$column.' '.$syntax.' ?';
+        $this->container[] = ' '.$chainType.' '.$column.' '.$syntax.' ?';
     }
 
     /**
@@ -144,11 +144,11 @@ class WhereClause extends ClauseContainer
 
     /**
      * @param $column
-     * @param string $rule
+     * @param string $chainType
      */
-    public function whereNotLike($column, $rule = 'AND')
+    public function whereNotLike($column, $chainType = 'AND')
     {
-        $this->whereLike($column, $rule, true);
+        $this->whereLike($column, $chainType, true);
     }
 
     /**
@@ -161,10 +161,10 @@ class WhereClause extends ClauseContainer
 
     /**
      * @param $column
-     * @param string $rule
+     * @param string $chainType
      * @param bool   $not
      */
-    public function whereNull($column, $rule = 'AND', $not = false)
+    public function whereNull($column, $chainType = 'AND', $not = false)
     {
         $syntax = 'NULL';
 
@@ -172,7 +172,7 @@ class WhereClause extends ClauseContainer
             $syntax = 'NOT NULL';
         }
 
-        $this->container[] = ' '.$rule.' '.$column.' IS '.$syntax;
+        $this->container[] = ' '.$chainType.' '.$column.' IS '.$syntax;
     }
 
     /**
@@ -185,11 +185,11 @@ class WhereClause extends ClauseContainer
 
     /**
      * @param $column
-     * @param string $rule
+     * @param string $chainType
      */
-    public function whereNotNull($column, $rule = 'AND')
+    public function whereNotNull($column, $chainType = 'AND')
     {
-        $this->whereNull($column, $rule, true);
+        $this->whereNull($column, $chainType, true);
     }
 
     /**
@@ -201,14 +201,14 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $columns
+     * @param array  $columns
      * @param null   $operator
-     * @param string $rule
+     * @param string $chainType
      */
-    public function whereMany($columns, $operator = null, $rule = 'AND')
+    public function whereMany(array $columns, $operator = null, $chainType = 'AND')
     {
         foreach ($columns as $column) {
-            $this->container[] = ' '.$rule.' '.$column.' '.$operator.' ?';
+            $this->container[] = ' '.$chainType.' '.$column.' '.$operator.' ?';
         }
     }
 

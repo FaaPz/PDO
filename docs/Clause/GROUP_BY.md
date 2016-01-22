@@ -4,11 +4,11 @@
 
 ### Methods
 
-##### `groupBy($statement)`
+##### `groupBy($columns)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$statement` | *string* | required | ...
+`$columns` | *string* | required | String containing column names
 
 ### Examples
 

@@ -4,12 +4,12 @@
 
 ### Methods
 
-##### `limit($number, $end = null)`
+##### `limit($number, $offset = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$number` | *int* | required | ...
-`$end` | *int* | `null` | ...
+`$number` | *int* | required | Number of rows
+`$offset` | *int* | `null` | Offset value
 
 ### Examples
 

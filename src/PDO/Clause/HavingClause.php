@@ -16,11 +16,11 @@ class HavingClause extends ClauseContainer
     /**
      * @param $column
      * @param null   $operator
-     * @param string $rule
+     * @param string $chainType
      */
-    public function having($column, $operator = null, $rule = 'AND')
+    public function having($column, $operator = null, $chainType = 'AND')
     {
-        $this->container[] = ' '.$rule.' '.$column.' '.$operator.' ?';
+        $this->container[] = ' '.$chainType.' '.$column.' '.$operator.' ?';
     }
 
     /**

@@ -6,13 +6,13 @@
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$table` | *string* | required | ...
+`$table` | *string* | required | Table name
 
 ##### `set(array $pairs)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$pairs` | *array* | required | ...
+`$pairs` | *array* | required | Array containing pairs of columns with values
 
 ##### `execute()`
 

@@ -8,7 +8,7 @@
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$number` | *int* | required | ...
+`$number` | *int* | required | Number of rows
 
 ### Examples
 

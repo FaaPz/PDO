@@ -14,11 +14,11 @@ namespace Slim\PDO\Clause;
 class GroupClause extends ClauseContainer
 {
     /**
-     * @param $statement
+     * @param $columns
      */
-    public function groupBy($statement)
+    public function groupBy($columns)
     {
-        $this->container[] = $statement;
+        $this->container[] = $columns;
     }
 
     /**

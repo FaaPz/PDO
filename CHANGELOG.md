@@ -1,5 +1,10 @@
 ### Changelog
 
+##### v1.9.5
++ Updated documentation
++ Added protected override allowed
++ Better parameter naming
+
 ##### v1.9.4
 + Revised documentation (WIP)
 + Updated `InsertStatement` class with:

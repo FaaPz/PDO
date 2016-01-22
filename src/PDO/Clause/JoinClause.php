@@ -18,11 +18,11 @@ class JoinClause extends ClauseContainer
      * @param $first
      * @param null   $operator
      * @param null   $second
-     * @param string $type
+     * @param string $joinType
      */
-    public function join($table, $first, $operator = null, $second = null, $type = 'INNER')
+    public function join($table, $first, $operator = null, $second = null, $joinType = 'INNER')
     {
-        $this->container[] = ' '.$type.' JOIN '.$table.' ON '.$first.' '.$operator.' '.$second;
+        $this->container[] = ' '.$joinType.' JOIN '.$table.' ON '.$first.' '.$operator.' '.$second;
     }
 
     /**

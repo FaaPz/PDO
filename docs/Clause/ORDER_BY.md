@@ -4,12 +4,12 @@
 
 ### Methods
 
-##### `orderBy($statement, $order = 'ASC')`
+##### `orderBy($column, $direction = 'ASC')`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$statement` | *string* | required | ...
-`$order` | *string* | `'ASC'` | ...
+`$column` | *string* | required | Column name
+`$direction` | *string* | `'ASC'` | Direction: `ASC` or `DESC`
 
 ### Examples
 

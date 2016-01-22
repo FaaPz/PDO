@@ -6,25 +6,25 @@
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$table` | *string* | required | ...
+`$table` | *string* | required | Table name
 
 ##### `columns(array $columns)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$columns` | *array* | required | ...
+`$columns` | *array* | required | Array containing column names
 
 ##### `values(array $values)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$values` | *array* | required | ...
+`$values` | *array* | required | Array containing column values
 
 ##### `execute($insertId = true)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$insertId` | *bool* | `true` | ...
+`$insertId` | *bool* | `true` | Boolean to return **lastInsertId**
 
 ### Examples
 

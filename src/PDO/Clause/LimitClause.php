@@ -20,13 +20,13 @@ class LimitClause extends ClauseContainer
 
     /**
      * @param $number
-     * @param null $end
+     * @param null $offset
      */
-    public function limit($number, $end = null)
+    public function limit($number, $offset = null)
     {
         if (is_int($number)) {
-            if (is_int($end) && $end >= 0) {
-                $this->limit = intval($number).' , '.intval($end);
+            if (is_int($offset) && $offset >= 0) {
+                $this->limit = intval($number).' , '.intval($offset);
             } elseif ($number >= 0) {
                 $this->limit = intval($number);
             }

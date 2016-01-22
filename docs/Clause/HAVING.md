@@ -4,55 +4,55 @@
 
 ### Methods
 
-##### `having($column, $operator = null, $rule = 'AND')`
+##### `having($column, $operator = null, $chainType = 'AND')`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$rule` | *string* | `'AND'` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
 
 ##### `orHaving($column, $operator = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
 
 ##### `havingCount($column, $operator = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
 
 ##### `havingMax($column, $operator = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
 
 ##### `havingMin($column, $operator = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
 
 ##### `havingAvg($column, $operator = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
 
 ##### `havingSum($column, $operator = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
 
 ### Examples
 

@@ -14,12 +14,12 @@ namespace Slim\PDO\Clause;
 class OrderClause extends ClauseContainer
 {
     /**
-     * @param $statement
-     * @param string $order
+     * @param $column
+     * @param string $direction
      */
-    public function orderBy($statement, $order = 'ASC')
+    public function orderBy($column, $direction = 'ASC')
     {
-        $this->container[] = $statement.' '.strtoupper($order);
+        $this->container[] = $column.' '.strtoupper($direction);
     }
 
     /**

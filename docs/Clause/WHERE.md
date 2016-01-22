@@ -4,140 +4,140 @@
 
 ### Methods
 
-##### `where($column, $operator = null, $rule = 'AND')`
+##### `where($column, $operator = null, $chainType = 'AND')`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$rule` | *string* | `'AND'` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
 
 ##### `orWhere($column, $operator = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
 
-##### `whereBetween($column, $rule = 'AND', $not = false)`
+##### `whereBetween($column, $chainType = 'AND', $not = false)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$rule` | *string* | `'AND'` | ...
-`$not` | *bool* | `false` | ...
+`$column` | *string* | required | Column name
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+`$not` | *bool* | `false` | Boolean **NOT** condition
 
 ##### `orWhereBetween($column)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
+`$column` | *string* | required | Column name
 
-##### `whereNotBetween($column, $rule = 'AND')`
+##### `whereNotBetween($column, $chainType = 'AND')`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$rule` | *string* | `'AND'` | ...
+`$column` | *string* | required | Column name
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
 
 ##### `orWhereNotBetween($column)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
+`$column` | *string* | required | Column name
 
-##### `whereIn($column, $placeholders, $rule = 'AND', $not = false)`
+##### `whereIn($column, $placeholders, $chainType = 'AND', $not = false)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$placeholders` | *mixed* | required | ...
-`$rule` | *string* | `'AND'` | ...
-`$not` | *bool* | `false` | ...
+`$column` | *string* | required | Column name
+`$placeholders` | *string* | required | String containing placeholders (?)
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+`$not` | *bool* | `false` | Boolean **NOT** condition
 
 ##### `orWhereIn($column, $placeholders)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$placeholders` | *mixed* | required | ...
+`$column` | *string* | required | Column name
+`$placeholders` | *string* | required | String containing placeholders (?)
 
-##### `whereNotIn($column, $placeholders, $rule = 'AND')`
+##### `whereNotIn($column, $placeholders, $chainType = 'AND')`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$placeholders` | *mixed* | required | ...
-`$rule` | *string* | `'AND'` | ...
+`$column` | *string* | required | Column name
+`$placeholders` | *string* | required | String containing placeholders (?)
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
 
 ##### `orWhereNotIn($column, $placeholders)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$placeholders` | *mixed* | required | ...
+`$column` | *string* | required | Column name
+`$placeholders` | *string* | required | String containing placeholders (?)
 
-##### `whereLike($column, $rule = 'AND', $not = false)`
+##### `whereLike($column, $chainType = 'AND', $not = false)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$rule` | *string* | `'AND'` | ...
-`$not` | *bool* | `false` | ...
+`$column` | *string* | required | Column name
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+`$not` | *bool* | `false` | Boolean **NOT** condition
 
 ##### `orWhereLike($column)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
+`$column` | *string* | required | Column name
 
-##### `whereNotLike($column, $rule = 'AND')`
+##### `whereNotLike($column, $chainType = 'AND')`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$rule` | *string* | `'AND'` | ...
+`$column` | *string* | required | Column name
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
 
 ##### `orWhereNotLike($column)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
+`$column` | *string* | required | Column name
 
-##### `whereNull($column, $rule = 'AND', $not = false)`
+##### `whereNull($column, $chainType = 'AND', $not = false)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$rule` | *string* | `'AND'` | ...
-`$not` | *bool* | `false` | ...
+`$column` | *string* | required | Column name
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+`$not` | *bool* | `false` | Boolean **NOT** condition
 
 ##### `orWhereNull($column)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
+`$column` | *string* | required | Column name
 
-##### `whereNotNull($column, $rule = 'AND')`
+##### `whereNotNull($column, $chainType = 'AND')`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$rule` | *string* | `'AND'` | ...
+`$column` | *string* | required | Column name
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
 
 ##### `orWhereNotNull($column)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
+`$column` | *string* | required | Column name
 
-##### `whereMany($columns, $operator = null, $rule = 'AND')`
+##### `whereMany(array $columns, $operator = null, $chainType = 'AND')`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$columns` | *mixed* | required | ...
-`$operator` | *string* | `null` | ...
-`$rule` | *string* | `'AND'` | ...
+`$columns` | *array* | required | Array containing column names
+`$operator` | *string* | `null` | Logic operator
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
 
 ### Examples
 

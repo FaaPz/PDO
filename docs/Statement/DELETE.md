@@ -6,7 +6,7 @@
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$table` | *string* | required | ...
+`$table` | *string* | required | Table name
 
 ##### `execute()`
 

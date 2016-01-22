@@ -187,13 +187,13 @@ class SelectStatement extends StatementContainer
      * @param $first
      * @param null   $operator
      * @param null   $second
-     * @param string $type
+     * @param string $joinType
      *
      * @return $this
      */
-    public function join($table, $first, $operator = null, $second = null, $type = 'INNER')
+    public function join($table, $first, $operator = null, $second = null, $joinType = 'INNER')
     {
-        $this->joinClause->join($table, $first, $operator, $second, $type);
+        $this->joinClause->join($table, $first, $operator, $second, $joinType);
 
         return $this;
     }
@@ -244,13 +244,13 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $statement
+     * @param $columns
      *
      * @return $this
      */
-    public function groupBy($statement)
+    public function groupBy($columns)
     {
-        $this->groupClause->groupBy($statement);
+        $this->groupClause->groupBy($columns);
 
         return $this;
     }
@@ -259,15 +259,15 @@ class SelectStatement extends StatementContainer
      * @param $column
      * @param null   $operator
      * @param null   $value
-     * @param string $rule
+     * @param string $chainType
      *
      * @return $this
      */
-    public function having($column, $operator = null, $value = null, $rule = 'AND')
+    public function having($column, $operator = null, $value = null, $chainType = 'AND')
     {
         $this->values[] = $value;
 
-        $this->havingClause->having($column, $operator, $rule);
+        $this->havingClause->having($column, $operator, $chainType);
 
         return $this;
     }

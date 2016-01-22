@@ -4,42 +4,42 @@
 
 ### Methods
 
-##### `join($table, $first, $operator = null, $second = null, $type = 'INNER')`
+##### `join($table, $first, $operator = null, $second = null, $joinType = 'INNER')`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$table` | *string* | required | ...
-`$first` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$second` | *string* | `null` | ...
-`$type` | *string* | `'INNER'` | ...
+`$table` | *string* | required | Table name
+`$first` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$second` | *string* | `null` | Column name
+`$joinType` | *string* | `'INNER'` | Join type: `INNER`, `LEFT OUTER`, `RIGHT OUTER` or `FULL OUTER`
 
 ##### `leftJoin($table, $first, $operator = null, $second = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$table` | *string* | required | ...
-`$first` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$second` | *string* | `null` | ...
+`$table` | *string* | required | Table name
+`$first` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$second` | *string* | `null` | Column name
 
 ##### `rightJoin($table, $first, $operator = null, $second = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$table` | *string* | required | ...
-`$first` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$second` | *string* | `null` | ...
+`$table` | *string* | required | Table name
+`$first` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$second` | *string* | `null` | Column name
 
 ##### `fullJoin($table, $first, $operator = null, $second = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$table` | *string* | required | ...
-`$first` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$second` | *string* | `null` | ...
+`$table` | *string* | required | Table name
+`$first` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$second` | *string* | `null` | Column name
 
 ### Examples
 

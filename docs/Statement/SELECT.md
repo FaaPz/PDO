@@ -8,113 +8,113 @@
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$table` | *string* | required | ...
+`$table` | *string* | required | Table name
 
-##### `join($table, $first, $operator = null, $second = null, $type = 'INNER')`
+##### `join($table, $first, $operator = null, $second = null, $joinType = 'INNER')`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$table` | *string* | required | ...
-`$first` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$second` | *string* | `null` | ...
-`$type` | *string* | `'INNER'` | ...
+`$table` | *string* | required | Table name
+`$first` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$second` | *string* | `null` | Column name
+`$joinType` | *string* | `'INNER'` | Join type: `INNER`, `LEFT OUTER`, `RIGHT OUTER` or `FULL OUTER`
 
 ##### `leftJoin($table, $first, $operator = null, $second = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$table` | *string* | required | ...
-`$first` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$second` | *string* | `null` | ...
+`$table` | *string* | required | Table name
+`$first` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$second` | *string* | `null` | Column name
 
 ##### `rightJoin($table, $first, $operator = null, $second = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$table` | *string* | required | ...
-`$first` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$second` | *string* | `null` | ...
+`$table` | *string* | required | Table name
+`$first` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$second` | *string* | `null` | Column name
 
 ##### `fullJoin($table, $first, $operator = null, $second = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$table` | *string* | required | ...
-`$first` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$second` | *string* | `null` | ...
+`$table` | *string* | required | Table name
+`$first` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$second` | *string* | `null` | Column name
 
-##### `groupBy($statement)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$statement` | *string* | required | ...
-
-##### `having($column, $operator = null, $value = null, $rule = 'AND')`
+##### `groupBy($columns)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$value` | *string* | `null` | ...
-`$rule` | *string* | `'AND'` | ...
+`$columns` | *string* | required | String containing column names
+
+##### `having($column, $operator = null, $value = null, $chainType = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$value` | *string* | `null` | Column value
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
 
 ##### `orHaving($column, $operator = null, $value = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$value` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$value` | *string* | `null` | Column value
 
 ##### `havingCount($column, $operator = null, $value = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$value` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$value` | *string* | `null` | Column value
 
 ##### `havingMax($column, $operator = null, $value = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$value` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$value` | *string* | `null` | Column value
 
 ##### `havingMin($column, $operator = null, $value = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$value` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$value` | *string* | `null` | Column value
 
 ##### `havingAvg($column, $operator = null, $value = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$value` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$value` | *string* | `null` | Column value
 
 ##### `havingSum($column, $operator = null, $value = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$operator` | *string* | `null` | ...
-`$value` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logical operator
+`$value` | *string* | `null` | Column value
 
 ##### `offset($number)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$number` | *int* | required | ...
+`$number` | *int* | required | Number of rows
 
 ##### `execute()`
 
@@ -124,44 +124,44 @@ Parameter | Type | Default | Description
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | `'*'` | ...
-`$as` | *string* | `null` | ...
-`$distinct` | *bool* | `false` | ...
+`$column` | *string* | `'*'` | String containing column names
+`$as` | *string* | `null` | Column alias
+`$distinct` | *bool* | `false` | Boolean **DISTINCT** clause
 
 ##### `distinctCount($column = '*', $as = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | `'*'` | ...
-`$as` | *string* | `null` | ...
+`$column` | *string* | `'*'` | String containing column names
+`$as` | *string* | `null` | Column alias
 
 ##### `max($column, $as = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$as` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$as` | *string* | `null` | Column alias
 
 ##### `min($column, $as = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$as` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$as` | *string* | `null` | Column alias
 
 ##### `avg($column, $as = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$as` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$as` | *string* | `null` | Column alias
 
 ##### `sum($column, $as = null)`
 
 Parameter | Type | Default | Description
 --- | --- | --- | ---
-`$column` | *string* | required | ...
-`$as` | *string* | `null` | ...
+`$column` | *string* | required | Column name
+`$as` | *string* | `null` | Column alias
 
 > Example code? Click [here](https://github.com/FaaPz/Slim-PDO/blob/master/docs/AGGREGATES.md)!
 
