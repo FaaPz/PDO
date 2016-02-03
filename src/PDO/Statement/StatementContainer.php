@@ -6,6 +6,7 @@
  */
 namespace Slim\PDO\Statement;
 
+use Slim\PDO\Clause\JoinClause;
 use Slim\PDO\Clause\LimitClause;
 use Slim\PDO\Clause\OrderClause;
 use Slim\PDO\Clause\WhereClause;
@@ -16,7 +17,7 @@ use Slim\PDO\Database;
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-abstract class StatementContainer
+abstract class StatementContainer implements StatementInterface
 {
     /**
      * @var Database
@@ -72,6 +73,7 @@ abstract class StatementContainer
     {
         $this->dbh = $dbh;
 
+        $this->joinClause = new JoinClause();
         $this->whereClause = new WhereClause();
         $this->orderClause = new OrderClause();
         $this->limitClause = new LimitClause();

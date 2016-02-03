@@ -50,13 +50,9 @@ class SelectStatement extends StatementContainer
      * @param Database $dbh
      * @param array    $columns
      */
-    public function __construct(Database $dbh, array $columns)
+    public function __construct(Database $dbh, array $columns = ["*"])
     {
         parent::__construct($dbh);
-
-        if (empty($columns)) {
-            $columns = array('*');
-        }
 
         $this->setColumns($columns);
 
@@ -383,16 +379,17 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $as
+     * @param $alias
      *
      * @return string
      */
-    protected function setAs($as)
+    protected function setAs($alias)
     {
-        if (empty($as)) {
-            return '';
+        $sql = "";
+        if (! empty($alias)) {
+            $sq1 = "AS {$alias}";
         }
 
-        return ' AS '.$as;
+        return $sql;
     }
 }
