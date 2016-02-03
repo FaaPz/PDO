@@ -1,5 +1,9 @@
 ### Changelog
 
+##### v1.9.6
++ Updated `LimitClause` class with:
+  - Fixed `limit()` method
+
 ##### v1.9.5
 + Updated documentation
 + Added protected override allowed
