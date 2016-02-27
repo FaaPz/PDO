@@ -1,5 +1,13 @@
 ### Changelog
 
+##### v1.9.7
++ Updated `WhereClause` class with:
+  - Fixed some weird bug in `__toString()` method
++ Updated `HavingClause` class with:
+  - Fixed the same weird bug in`__toString()` method
+
+> Mentioned by [EliaRigo](https://github.com/EliaRigo). Thanks!
+
 ##### v1.9.6
 + Updated `LimitClause` class with:
   - Fixed `limit()` method

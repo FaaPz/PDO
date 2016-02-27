@@ -227,6 +227,6 @@ class WhereClause extends ClauseContainer
             $args[] = $where;
         }
 
-        return ' WHERE '.ltrim(implode('', $args), 'AND ');
+        return ' WHERE '.ltrim(preg_replace('/AND/', '', implode('', $args)));
     }
 }
