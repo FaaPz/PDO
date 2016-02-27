@@ -102,6 +102,6 @@ class HavingClause extends ClauseContainer
             $args[] = $having;
         }
 
-        return ' HAVING '.ltrim(preg_replace('/AND/', '', implode('', $args)));
+        return ' HAVING '.ltrim(implode('', $args), ' AND');
     }
 }

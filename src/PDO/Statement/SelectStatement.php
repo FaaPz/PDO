@@ -427,10 +427,6 @@ class SelectStatement extends StatementContainer
      */
     protected function getColumns()
     {
-        if ($this->aggregate) {
-            array_splice($this->columns, 0, -1);
-        }
-
         return implode(' , ', $this->columns);
     }
 

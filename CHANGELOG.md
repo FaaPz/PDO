@@ -1,5 +1,13 @@
 ### Changelog
 
+##### v1.9.8
++ Updated `SelectStatement` class with:
+  - Fixed `getColumns()` method
++ Updated `WhereClause` class with:
+  - Reverted `__toString()` method
++ Updated `HavingClause` class with:
+  - Reverted `__toString()` method
+
 ##### v1.9.7
 + Updated `WhereClause` class with:
   - Fixed some weird bug in `__toString()` method
