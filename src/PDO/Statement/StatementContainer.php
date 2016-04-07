@@ -82,7 +82,14 @@ abstract class StatementContainer
      */
     public function where($column, $operator = null, $value = null, $chainType = 'AND')
     {
-        $this->values[] = $value;
+        if ($column instanceof StatementCombination)
+        {
+            $this->setValues($column->values);
+        }
+        else
+        {
+            $this->values[] = $value;
+        }
 
         $this->whereClause->where($column, $operator, $chainType);
 
@@ -500,5 +507,15 @@ abstract class StatementContainer
         }
 
         return implode($separator, $result);
+    }
+
+    /**
+     * @return StatementCombination
+     */
+    public function combine()
+    {
+        $stmt = new StatementCombination($this->dbh);
+
+        return $stmt;
     }
 }
