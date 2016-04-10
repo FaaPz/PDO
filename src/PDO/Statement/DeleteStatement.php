@@ -21,7 +21,7 @@ class DeleteStatement extends StatementContainer
      * @param Database $dbh
      * @param $table
      */
-    public function __construct(Database $dbh, $table)
+    public function __construct(Database $dbh, $table = null)
     {
         parent::__construct($dbh);
 

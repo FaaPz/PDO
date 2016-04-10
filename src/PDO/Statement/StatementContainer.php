@@ -6,6 +6,7 @@
  */
 namespace Slim\PDO\Statement;
 
+use Slim\PDO\Clause\JoinClause;
 use Slim\PDO\Clause\LimitClause;
 use Slim\PDO\Clause\OrderClause;
 use Slim\PDO\Clause\WhereClause;
@@ -16,7 +17,7 @@ use Slim\PDO\Database;
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-abstract class StatementContainer
+abstract class StatementContainer implements StatementInterface
 {
     /**
      * @var Database
@@ -49,6 +50,11 @@ abstract class StatementContainer
     protected $whereClause;
 
     /**
+     * @var JoinClause
+     */
+    protected $joinClause;
+
+    /**
      * @var OrderClause
      */
     protected $orderClause;
@@ -67,6 +73,7 @@ abstract class StatementContainer
     {
         $this->dbh = $dbh;
 
+        $this->joinClause = new JoinClause();
         $this->whereClause = new WhereClause();
         $this->orderClause = new OrderClause();
         $this->limitClause = new LimitClause();
@@ -82,7 +89,14 @@ abstract class StatementContainer
      */
     public function where($column, $operator = null, $value = null, $chainType = 'AND')
     {
-        $this->values[] = $value;
+        if ($column instanceof StatementCombination)
+        {
+            $this->setValues($column->values);
+        }
+        else
+        {
+            $this->values[] = $value;
+        }
 
         $this->whereClause->where($column, $operator, $chainType);
 
@@ -365,6 +379,67 @@ abstract class StatementContainer
     }
 
     /**
+     * @param $table
+     * @param $first
+     * @param null   $operator
+     * @param null   $second
+     * @param string $joinType
+     *
+     * @return $this
+     */
+    public function join($table, $first, $operator = null, $second = null, $joinType = 'INNER')
+    {
+        $this->joinClause->join($table, $first, $operator, $second, $joinType);
+
+        return $this;
+    }
+
+    /**
+     * @param $table
+     * @param $first
+     * @param null $operator
+     * @param null $second
+     *
+     * @return $this
+     */
+    public function leftJoin($table, $first, $operator = null, $second = null)
+    {
+        $this->joinClause->leftJoin($table, $first, $operator, $second);
+
+        return $this;
+    }
+
+    /**
+     * @param $table
+     * @param $first
+     * @param null $operator
+     * @param null $second
+     *
+     * @return $this
+     */
+    public function rightJoin($table, $first, $operator = null, $second = null)
+    {
+        $this->joinClause->rightJoin($table, $first, $operator, $second);
+
+        return $this;
+    }
+
+    /**
+     * @param $table
+     * @param $first
+     * @param null $operator
+     * @param null $second
+     *
+     * @return $this
+     */
+    public function fullJoin($table, $first, $operator = null, $second = null)
+    {
+        $this->joinClause->fullJoin($table, $first, $operator, $second);
+
+        return $this;
+    }
+
+    /**
      * @param $column
      * @param string $direction
      *
@@ -500,5 +575,15 @@ abstract class StatementContainer
         }
 
         return implode($separator, $result);
+    }
+
+    /**
+     * @return StatementCombination
+     */
+    public function combine()
+    {
+        $stmt = new StatementCombination($this->dbh);
+
+        return $stmt;
     }
 }
