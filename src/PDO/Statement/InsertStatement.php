@@ -21,7 +21,7 @@ class InsertStatement extends StatementContainer
      * @param Database $dbh
      * @param array    $columns
      */
-    public function __construct(Database $dbh, array $columns)
+    public function __construct(Database $dbh, array $columns = null)
     {
         parent::__construct($dbh);
 
