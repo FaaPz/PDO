@@ -20,12 +20,35 @@ class InsertStatement extends StatementContainer
      *
      * @param Database $dbh
      * @param array    $columns
+     * @param array    $pairs
      */
-    public function __construct(Database $dbh, array $columns)
+    public function __construct(Database $dbh, array $columns, array $pairs)
     {
         parent::__construct($dbh);
 
         $this->columns($columns);
+
+        if (!empty($pairs)) {
+            $this->insertFromArray($pairs);
+        }
+    }
+
+    /**
+     * @param array $pairs
+     * @return $this
+     */
+    public function insertFromArray(array $pairs)
+    {
+        foreach($pairs as $column => $value) {
+            $columns[] = $column;
+            $values[] = $value;
+        }
+
+        $this->setColumns($columns);
+        $this->setValues($values);
+        $this->setPlaceholders($values);
+
+        return $this;
     }
 
     /**
