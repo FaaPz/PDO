@@ -89,12 +89,9 @@ abstract class StatementContainer implements StatementInterface
      */
     public function where($column, $operator = null, $value = null, $chainType = 'AND')
     {
-        if ($column instanceof StatementCombination)
-        {
+        if ($column instanceof StatementCombination) {
             $this->setValues($column->values);
-        }
-        else
-        {
+        } else {
             $this->values[] = $value;
         }
 

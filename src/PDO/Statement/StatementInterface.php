@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: abarker
- * Date: 2/2/16
- * Time: 4:14 PM
+ * @license MIT
+ * @license http://opensource.org/licenses/MIT
  */
 
 namespace Slim\PDO\Statement;

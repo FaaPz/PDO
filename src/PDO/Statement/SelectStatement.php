@@ -381,9 +381,10 @@ class SelectStatement extends StatementContainer
      */
     protected function setAs($alias)
     {
-        $sql = "";
+        $sql = '';
+
         if (! empty($alias)) {
-            $sq1 = "AS {$alias}";
+            $sql = "AS {$alias}";
         }
 
         return $sql;

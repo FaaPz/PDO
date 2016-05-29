@@ -22,12 +22,9 @@ class WhereClause extends ClauseContainer
      */
     public function where($column, $operator = null, $chainType = 'AND')
     {
-        if ($column instanceof StatementCombination)
-        {
+        if ($column instanceof StatementCombination) {
             $this->container[] = ' '.$chainType.' '.$column;
-        }
-        else
-        {
+        } else {
             $this->container[] = ' '.$chainType.' '.$column.' '.$operator.' ?';
         }
     }
