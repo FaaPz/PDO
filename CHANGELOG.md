@@ -1,5 +1,15 @@
 ### Changelog
 
+##### v1.9.9
++ Added ability to insert associative arrays (#35)
++ Updated `Database` class with:
+  - Renamed `$columns` argument in `insert()` method
++ Updated `StatementContainer` class with:
+  - Added `isAssociative()` method
+  - Fixed `getPlaceholders()` method
+
+> Proposed by [Raistlfiren](https://github.com/Raistlfiren). Thanks!
+
 ##### v1.9.8
 + Updated `SelectStatement` class with:
   - Fixed `getColumns()` method

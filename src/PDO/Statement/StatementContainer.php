@@ -457,7 +457,7 @@ abstract class StatementContainer
     {
         $placeholders = $this->placeholders;
 
-        unset($this->placeholders);
+        reset($this->placeholders);
 
         return '( '.implode(' , ', $placeholders).' )';
     }
@@ -470,6 +470,16 @@ abstract class StatementContainer
         foreach ($values as $value) {
             $this->placeholders[] = $this->setPlaceholder('?', is_null($value) ? 1 : sizeof($value));
         }
+    }
+
+    /**
+     * @param array $array
+     *
+     * @return bool
+     */
+    protected function isAssociative(array $array)
+    {
+        return array_keys($array) !== range(0, count($array) - 1);
     }
 
     /**
