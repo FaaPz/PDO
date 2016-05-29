@@ -16,7 +16,7 @@ class OffsetClause extends ClauseContainer
     /**
      * @var null
      */
-    private $offset = null;
+    protected $offset = null;
 
     /**
      * @param $number

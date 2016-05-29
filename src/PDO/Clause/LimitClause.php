@@ -16,7 +16,7 @@ class LimitClause extends ClauseContainer
     /**
      * @var null
      */
-    private $limit = null;
+    protected $limit = null;
 
     /**
      * @param $number

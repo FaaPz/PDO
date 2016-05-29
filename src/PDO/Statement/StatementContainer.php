@@ -547,7 +547,7 @@ abstract class StatementContainer implements StatementInterface
     /**
      * @return \PDOStatement
      */
-    private function getStatement()
+    protected function getStatement()
     {
         $sql = $this;
 
@@ -561,7 +561,7 @@ abstract class StatementContainer implements StatementInterface
      *
      * @return string
      */
-    private function setPlaceholder($text, $count = 0, $separator = ' , ')
+    protected function setPlaceholder($text, $count = 0, $separator = ' , ')
     {
         $result = array();
 
