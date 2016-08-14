@@ -3,7 +3,6 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
-
 namespace Slim\PDO\Statement;
 
 use Slim\PDO\Database;

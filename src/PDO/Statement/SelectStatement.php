@@ -50,7 +50,7 @@ class SelectStatement extends StatementContainer
      * @param Database $dbh
      * @param array    $columns
      */
-    public function __construct(Database $dbh, array $columns = ["*"])
+    public function __construct(Database $dbh, array $columns = ['*'])
     {
         parent::__construct($dbh);
 
@@ -383,7 +383,7 @@ class SelectStatement extends StatementContainer
     {
         $sql = '';
 
-        if (! empty($alias)) {
+        if (!empty($alias)) {
             $sql = "AS {$alias}";
         }
 

@@ -96,7 +96,7 @@ class HavingClause extends ClauseContainer
             return '';
         }
 
-        $args = array();
+        $args = [];
 
         foreach ($this->container as $having) {
             $args[] = $having;

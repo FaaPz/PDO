@@ -19,7 +19,7 @@ class UpdateStatement extends StatementContainer
      * Constructor.
      *
      * @param Database $dbh
-     * @param array $pairs
+     * @param array    $pairs
      */
     public function __construct(Database $dbh, array $pairs = [])
     {
@@ -48,7 +48,7 @@ class UpdateStatement extends StatementContainer
     public function set(array $pairs)
     {
         foreach ($pairs as $column => $value) {
-            $this->columns[] = $column . ' = ?';
+            $this->columns[] = $column.' = ?';
             $this->values[] = $value;
         }
 
@@ -68,8 +68,8 @@ class UpdateStatement extends StatementContainer
             trigger_error('Missing columns and values for update', E_USER_ERROR);
         }
 
-        $sql = 'UPDATE ' . $this->table;
-        $sql .= ' SET ' . $this->getColumns();
+        $sql = 'UPDATE '.$this->table;
+        $sql .= ' SET '.$this->getColumns();
         $sql .= $this->whereClause;
         $sql .= $this->orderClause;
         $sql .= $this->limitClause;
