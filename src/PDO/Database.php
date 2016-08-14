@@ -4,6 +4,7 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO;
 
 use Slim\PDO\Statement\DeleteStatement;
@@ -39,10 +40,10 @@ class Database extends \PDO
     protected function getDefaultOptions()
     {
         return [
-            \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-            \PDO::ATTR_EMULATE_PREPARES   => false,
-            \PDO::ATTR_STATEMENT_CLASS    => ['Slim\\PDO\\Statement', [$this]],
+            \PDO::ATTR_EMULATE_PREPARES => false,
+            \PDO::ATTR_STATEMENT_CLASS => ['Slim\\PDO\\Statement', [$this]],
         ];
     }
 

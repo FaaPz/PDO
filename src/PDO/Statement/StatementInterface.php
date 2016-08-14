@@ -3,10 +3,16 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Statement;
 
 use Slim\PDO\Database;
 
+/**
+ * Interface StatementInterface.
+ *
+ * @author Fabian de Laender <fabian@faapz.nl>
+ */
 interface StatementInterface
 {
     /**

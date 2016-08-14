@@ -8,14 +8,14 @@
 namespace Slim\PDO\Clause;
 
 /**
- * Class ClauseContainer.
+ * Interface ClauseInterface.
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-abstract class ClauseContainer implements ClauseInterface
+interface ClauseInterface
 {
     /**
-     * @var array
+     * @return string
      */
-    protected $container = [];
+    public function __toString();
 }
