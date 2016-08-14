@@ -1,5 +1,15 @@
 ### Changelog
 
+##### v1.10.0
++ Updated `StatementContainer` class with:
+  - Added transactional `commit()` method
+  - Added transactional `rollBack()` method
+  - Added transactional `beginTransaction()` method
++ Updated `LimitClause` class with:
+  - Added validation to check if parameters are casted to expected integers
++ Updated `OffsetClause` class with:
+  - Added validation to check if parameter is casted to expected integer
+
 ##### v1.9.9
 + Added ability to insert associative arrays (#35)
 + Updated `Database` class with:
