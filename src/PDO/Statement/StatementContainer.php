@@ -27,17 +27,17 @@ abstract class StatementContainer implements StatementInterface
     /**
      * @var array
      */
-    protected $columns = array();
+    protected $columns = [];
 
     /**
      * @var array
      */
-    protected $values = array();
+    protected $values = [];
 
     /**
      * @var array
      */
-    protected $placeholders = array();
+    protected $placeholders = [];
 
     /**
      * @var
@@ -540,7 +540,7 @@ abstract class StatementContainer implements StatementInterface
     protected function setPlaceholders(array $values)
     {
         foreach ($values as $value) {
-            $this->placeholders[] = $this->setPlaceholder('?', is_null($value) ? 1 : sizeof($value));
+            $this->placeholders[] = $this->setPlaceholder('?', is_null($value) ? 1 : count($value));
         }
     }
 
@@ -573,7 +573,7 @@ abstract class StatementContainer implements StatementInterface
      */
     protected function setPlaceholder($text, $count = 0, $separator = ' , ')
     {
-        $result = array();
+        $result = [];
 
         if ($count > 0) {
             for ($x = 0; $x < $count; ++$x) {

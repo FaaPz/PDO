@@ -6,10 +6,10 @@
  */
 namespace Slim\PDO;
 
-use Slim\PDO\Statement\SelectStatement;
-use Slim\PDO\Statement\InsertStatement;
-use Slim\PDO\Statement\UpdateStatement;
 use Slim\PDO\Statement\DeleteStatement;
+use Slim\PDO\Statement\InsertStatement;
+use Slim\PDO\Statement\SelectStatement;
+use Slim\PDO\Statement\UpdateStatement;
 
 /**
  * Class Database.
@@ -26,7 +26,7 @@ class Database extends \PDO
      * @param null  $pwd
      * @param array $options
      */
-    public function __construct($dsn, $usr = null, $pwd = null, array $options = array())
+    public function __construct($dsn, $usr = null, $pwd = null, array $options = [])
     {
         $options = $this->getDefaultOptions() + $options;
 
@@ -38,12 +38,12 @@ class Database extends \PDO
      */
     protected function getDefaultOptions()
     {
-        return array(
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+        return [
+            \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-            \PDO::ATTR_EMULATE_PREPARES => false,
-            \PDO::ATTR_STATEMENT_CLASS => array('Slim\\PDO\\Statement', array($this)),
-        );
+            \PDO::ATTR_EMULATE_PREPARES   => false,
+            \PDO::ATTR_STATEMENT_CLASS    => ['Slim\\PDO\\Statement', [$this]],
+        ];
     }
 
     /**
@@ -51,7 +51,7 @@ class Database extends \PDO
      *
      * @return SelectStatement
      */
-    public function select(array $columns = array('*'))
+    public function select(array $columns = ['*'])
     {
         return new SelectStatement($this, $columns);
     }
@@ -61,7 +61,7 @@ class Database extends \PDO
      *
      * @return InsertStatement
      */
-    public function insert(array $columnsOrPairs = array())
+    public function insert(array $columnsOrPairs = [])
     {
         return new InsertStatement($this, $columnsOrPairs);
     }
@@ -71,7 +71,7 @@ class Database extends \PDO
      *
      * @return UpdateStatement
      */
-    public function update(array $pairs = array())
+    public function update(array $pairs = [])
     {
         return new UpdateStatement($this, $pairs);
     }

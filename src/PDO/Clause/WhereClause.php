@@ -227,7 +227,7 @@ class WhereClause extends ClauseContainer
             return '';
         }
 
-        $args = array();
+        $args = [];
 
         foreach ($this->container as $where) {
             $args[] = $where;
