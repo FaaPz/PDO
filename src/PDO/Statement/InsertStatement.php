@@ -19,13 +19,18 @@ class InsertStatement extends StatementContainer
      * Constructor.
      *
      * @param Database $dbh
-     * @param array    $columns
+     * @param array    $columnsOrPairs
      */
-    public function __construct(Database $dbh, array $columns = null)
+    public function __construct(Database $dbh, array $columnsOrPairs = null)
     {
         parent::__construct($dbh);
 
-        $this->columns($columns);
+        if ($this->isAssociative($columnsOrPairs)) {
+            $this->columns(array_keys($columnsOrPairs));
+            $this->values(array_values($columnsOrPairs));
+        } else {
+            $this->columns($columnsOrPairs);
+        }
     }
 
     /**

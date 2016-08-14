@@ -60,6 +60,8 @@ $deleteStatement = $pdo->delete()
 $affectedRows = $deleteStatement->execute();
 ```
 
+> The `sqlsrv` extension will fail to connect when using error mode `PDO::ERRMODE_EXCEPTION` (default). To connect, you will need to explicitly pass `array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING)` (or `PDO::ERRMODE_SILENT`) into the constructor, or override the `getDefaultOptions()` method when using `sqlsrv`.
+
 ### Documentation
 
 See [DOCUMENTATION](https://github.com/FaaPz/Slim-PDO/blob/master/docs/README.md)
