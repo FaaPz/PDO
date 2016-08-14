@@ -396,6 +396,30 @@ abstract class StatementContainer
     abstract public function __toString();
 
     /**
+     * @return bool
+     */
+    public function commit()
+    {
+        return $this->dbh->commit();
+    }
+
+    /**
+     * @return bool
+     */
+    public function rollBack()
+    {
+        return $this->dbh->rollBack();
+    }
+
+    /**
+     * @return bool
+     */
+    public function beginTransaction()
+    {
+        return $this->dbh->beginTransaction();
+    }
+
+    /**
      * @return \PDOStatement
      */
     public function execute()
