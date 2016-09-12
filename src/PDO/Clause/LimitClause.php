@@ -33,7 +33,7 @@ class LimitClause extends ClauseContainer
             trigger_error('Expects parameters as integers', E_USER_ERROR);
         }
 
-        if ($offset >= 0) {
+        if ($offset > 0) {
             $this->limit = intval($offset).' , '.intval($number);
         } elseif ($number >= 0) {
             $this->limit = intval($number);
