@@ -30,7 +30,7 @@ class LimitClause extends ClauseContainer
         }
 
         if ($offset >= 0) {
-            $this->limit = intval($offset).' , '.intval($number);
+            $this->limit = intval($number).' OFFSET '.intval($offset);
         } elseif ($number >= 0) {
             $this->limit = intval($number);
         }
