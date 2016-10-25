@@ -15,15 +15,15 @@ namespace Slim\PDO\Clause;
 class LimitClause extends ClauseContainer
 {
     /**
-     * @var null
+     * @var int|null
      */
     private $limit = null;
 
     /**
-     * @param $number
-     * @param null $offset
+     * @param int $number
+     * @param int $offset
      */
-    public function limit($number, $offset = null)
+    public function limit($number, $offset = 0)
     {
         if (!is_int($number) || !is_int($offset)) {
             trigger_error('Expects parameters as integers', E_USER_ERROR);
