@@ -21,15 +21,15 @@ class LimitClause extends ClauseContainer
 
     /**
      * @param int $number
-     * @param int $offset
+     * @param int|null $offset
      */
-    public function limit($number, $offset = 0)
+    public function limit($number, $offset = null)
     {
         if (!is_int($number) || !is_int($offset)) {
             trigger_error('Expects parameters as integers', E_USER_ERROR);
         }
 
-        if ($offset >= 0) {
+        if ($offset !== null && $offset >= 0) {
             $this->limit = intval($number).' OFFSET '.intval($offset);
         } elseif ($number >= 0) {
             $this->limit = intval($number);
