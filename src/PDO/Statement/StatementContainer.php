@@ -426,9 +426,27 @@ abstract class StatementContainer
     public function execute()
     {
         $stmt = $this->getStatement();
-        $stmt->execute($this->values);
+        $this->bindValues($stmt, $this->values);
+        $stmt->execute();
 
         return $stmt;
+    }
+
+    /**
+     * Bind values to their parameters in the given statement.
+     *
+     * @param  \PDOStatement $statement
+     * @param  array  $bindings
+     * @return void
+     */
+    protected function bindValues($statement, $bindings)
+    {
+        foreach ($bindings as $key => $value) {
+            $statement->bindValue(
+                is_string($key) ? $key : $key + 1, $value,
+                is_int($value) ? \PDO::PARAM_INT : \PDO::PARAM_STR
+            );
+        }
     }
 
     /**
