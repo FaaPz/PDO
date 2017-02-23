@@ -4,6 +4,7 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Clause;
 
 /**
@@ -16,11 +17,11 @@ class HavingClause extends ClauseContainer
     /**
      * @param $column
      * @param null   $operator
-     * @param string $rule
+     * @param string $chainType
      */
-    public function having($column, $operator = null, $rule = 'AND')
+    public function having($column, $operator = null, $chainType = 'AND')
     {
-        $this->container[] = " $rule `$column` $operator ?";
+        $this->container[] = " $chainType `$column` $operator ?";
     }
 
     /**
@@ -102,6 +103,6 @@ class HavingClause extends ClauseContainer
             $args[] = $having;
         }
 
-        return ' HAVING '.ltrim(implode('', $args), 'AND ');
+        return ' HAVING '.ltrim(implode('', $args), ' AND');
     }
 }

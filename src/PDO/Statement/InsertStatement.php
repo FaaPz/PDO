@@ -4,6 +4,7 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Statement;
 
 use Slim\PDO\Database;
@@ -19,13 +20,18 @@ class InsertStatement extends StatementContainer
      * Constructor.
      *
      * @param Database $dbh
-     * @param array    $columns
+     * @param array    $columnsOrPairs
      */
-    public function __construct(Database $dbh, array $columns)
+    public function __construct(Database $dbh, array $columnsOrPairs)
     {
         parent::__construct($dbh);
 
-        $this->columns($columns);
+        if ($this->isAssociative($columnsOrPairs)) {
+            $this->columns(array_keys($columnsOrPairs));
+            $this->values(array_values($columnsOrPairs));
+        } else {
+            $this->columns($columnsOrPairs);
+        }
     }
 
     /**
@@ -91,10 +97,16 @@ class InsertStatement extends StatementContainer
     }
 
     /**
+     * @param bool $insertId
+     *
      * @return string
      */
-    public function execute()
+    public function execute($insertId = true)
     {
+        if (!$insertId) {
+            return parent::execute();
+        }
+
         parent::execute();
 
         return $this->dbh->lastInsertId();
@@ -103,7 +115,7 @@ class InsertStatement extends StatementContainer
     /**
      * @return string
      */
-    private function getColumns()
+    protected function getColumns()
     {
         return '( `'.implode('` , `', $this->columns).'` )';
     }

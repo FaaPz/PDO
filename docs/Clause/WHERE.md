@@ -1,30 +1,145 @@
-### WHERE clause
-
-##### Methods
-
-+ `where()`
-+ `orWhere()`
-+ `whereBetween()`
-+ `orWhereBetween()`
-+ `whereNotBetween()`
-+ `orWhereNotBetween()`
-+ `whereIn()`
-+ `orWhereIn()`
-+ `whereNotIn()`
-+ `orWhereNotIn()`
-+ `whereLike()`
-+ `orWhereLike()`
-+ `whereNotLike()`
-+ `orWhereNotLike()`
-+ `whereNull()`
-+ `orWhereNull()`
-+ `whereNotNull()`
-+ `orWhereNotNull()`
-+ `whereMany()`
+# WHERE clause
 
 > Used in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md), [UPDATE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/UPDATE.md) and [DELETE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/DELETE.md) statements.
 
-##### Examples
+### Methods
+
+##### `where($column, $operator = null, $chainType = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+
+##### `orWhere($column, $operator = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
+
+##### `whereBetween($column, $chainType = 'AND', $not = false)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+`$not` | *bool* | `false` | Boolean **NOT** condition
+
+##### `orWhereBetween($column)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+
+##### `whereNotBetween($column, $chainType = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+
+##### `orWhereNotBetween($column)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+
+##### `whereIn($column, $placeholders, $chainType = 'AND', $not = false)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$placeholders` | *string* | required | String containing placeholders (?)
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+`$not` | *bool* | `false` | Boolean **NOT** condition
+
+##### `orWhereIn($column, $placeholders)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$placeholders` | *string* | required | String containing placeholders (?)
+
+##### `whereNotIn($column, $placeholders, $chainType = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$placeholders` | *string* | required | String containing placeholders (?)
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+
+##### `orWhereNotIn($column, $placeholders)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$placeholders` | *string* | required | String containing placeholders (?)
+
+##### `whereLike($column, $chainType = 'AND', $not = false)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+`$not` | *bool* | `false` | Boolean **NOT** condition
+
+##### `orWhereLike($column)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+
+##### `whereNotLike($column, $chainType = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+
+##### `orWhereNotLike($column)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+
+##### `whereNull($column, $chainType = 'AND', $not = false)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+`$not` | *bool* | `false` | Boolean **NOT** condition
+
+##### `orWhereNull($column)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+
+##### `whereNotNull($column, $chainType = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+
+##### `orWhereNotNull($column)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+
+##### `whereMany(array $columns, $operator = null, $chainType = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$columns` | *array* | required | Array containing column names
+`$operator` | *string* | `null` | Logic operator
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+
+### Examples
 
 ```php
 // ... WHERE usr = ? OR f_name = ?

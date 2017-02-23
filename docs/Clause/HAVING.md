@@ -1,18 +1,60 @@
-### HAVING clause
-
-##### Methods
-
-+ `having()`
-+ `orHaving()`
-+ `havingCount()`
-+ `havingMax()`
-+ `havingMin()`
-+ `havingAvg()`
-+ `havingSum()`
+# HAVING clause
 
 > Used only in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md) statements.
 
-##### Examples
+### Methods
+
+##### `having($column, $operator = null, $chainType = 'AND')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+
+##### `orHaving($column, $operator = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
+
+##### `havingCount($column, $operator = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
+
+##### `havingMax($column, $operator = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
+
+##### `havingMin($column, $operator = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
+
+##### `havingAvg($column, $operator = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
+
+##### `havingSum($column, $operator = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$operator` | *string* | `null` | Logic operator
+
+### Examples
 
 ```php
 // ... HAVING MIN( price ) > ? OR MAX( price ) < ?

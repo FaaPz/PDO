@@ -4,6 +4,7 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Statement;
 
 use Slim\PDO\Database;
@@ -88,7 +89,7 @@ class UpdateStatement extends StatementContainer
     /**
      * @return string
      */
-    private function getColumns()
+    protected function getColumns()
     {
         return implode(' , ', $this->columns);
     }

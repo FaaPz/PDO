@@ -1,17 +1,53 @@
-### Aggregates
-
-##### Methods
-
-+ `count()`
-+ `distinctCount()`
-+ `max()`
-+ `min()`
-+ `avg()`
-+ `sum()`
+# Aggregates
 
 > Used only in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md) statements.
 
-##### Examples
+### Methods
+
+##### `count($column = '*', $as = null, $distinct = false)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | `'*'` | String containing column names
+`$as` | *string* | `null` | Column alias
+`$distinct` | *bool* | `false` | Boolean **DISTINCT** clause
+
+##### `distinctCount($column = '*', $as = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | `'*'` | String containing column names
+`$as` | *string* | `null` | Column alias
+
+##### `max($column, $as = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$as` | *string* | `null` | Column alias
+
+##### `min($column, $as = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$as` | *string* | `null` | Column alias
+
+##### `avg($column, $as = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$as` | *string* | `null` | Column alias
+
+##### `sum($column, $as = null)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$as` | *string* | `null` | Column alias
+
+### Examples
 
 ```php
 // ... COUNT( * )

@@ -4,6 +4,7 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Statement;
 
 use Slim\PDO\Clause\LimitClause;
@@ -76,15 +77,15 @@ abstract class StatementContainer
      * @param $column
      * @param null   $operator
      * @param null   $value
-     * @param string $rule
+     * @param string $chainType
      *
      * @return $this
      */
-    public function where($column, $operator = null, $value = null, $rule = 'AND')
+    public function where($column, $operator = null, $value = null, $chainType = 'AND')
     {
         $this->values[] = $value;
 
-        $this->whereClause->where($column, $operator, $rule);
+        $this->whereClause->where($column, $operator, $chainType);
 
         return $this;
     }
@@ -108,15 +109,15 @@ abstract class StatementContainer
     /**
      * @param $column
      * @param array  $values
-     * @param string $rule
+     * @param string $chainType
      *
      * @return $this
      */
-    public function whereBetween($column, array $values, $rule = 'AND')
+    public function whereBetween($column, array $values, $chainType = 'AND')
     {
         $this->setValues($values);
 
-        $this->whereClause->whereBetween($column, $rule);
+        $this->whereClause->whereBetween($column, $chainType);
 
         return $this;
     }
@@ -139,15 +140,15 @@ abstract class StatementContainer
     /**
      * @param $column
      * @param array  $values
-     * @param string $rule
+     * @param string $chainType
      *
      * @return $this
      */
-    public function whereNotBetween($column, array $values, $rule = 'AND')
+    public function whereNotBetween($column, array $values, $chainType = 'AND')
     {
         $this->setValues($values);
 
-        $this->whereClause->whereNotBetween($column, $rule);
+        $this->whereClause->whereNotBetween($column, $chainType);
 
         return $this;
     }
@@ -170,17 +171,17 @@ abstract class StatementContainer
     /**
      * @param $column
      * @param array  $values
-     * @param string $rule
+     * @param string $chainType
      *
      * @return $this
      */
-    public function whereIn($column, array $values, $rule = 'AND')
+    public function whereIn($column, array $values, $chainType = 'AND')
     {
         $this->setValues($values);
 
         $this->setPlaceholders($values);
 
-        $this->whereClause->whereIn($column, $this->getPlaceholders(), $rule);
+        $this->whereClause->whereIn($column, $this->getPlaceholders(), $chainType);
 
         return $this;
     }
@@ -205,17 +206,17 @@ abstract class StatementContainer
     /**
      * @param $column
      * @param array  $values
-     * @param string $rule
+     * @param string $chainType
      *
      * @return $this
      */
-    public function whereNotIn($column, array $values, $rule = 'AND')
+    public function whereNotIn($column, array $values, $chainType = 'AND')
     {
         $this->setValues($values);
 
         $this->setPlaceholders($values);
 
-        $this->whereClause->whereNotIn($column, $this->getPlaceholders(), $rule);
+        $this->whereClause->whereNotIn($column, $this->getPlaceholders(), $chainType);
 
         return $this;
     }
@@ -240,15 +241,15 @@ abstract class StatementContainer
     /**
      * @param $column
      * @param null   $value
-     * @param string $rule
+     * @param string $chainType
      *
      * @return $this
      */
-    public function whereLike($column, $value = null, $rule = 'AND')
+    public function whereLike($column, $value = null, $chainType = 'AND')
     {
         $this->values[] = $value;
 
-        $this->whereClause->whereLike($column, $rule);
+        $this->whereClause->whereLike($column, $chainType);
 
         return $this;
     }
@@ -271,15 +272,15 @@ abstract class StatementContainer
     /**
      * @param $column
      * @param null   $value
-     * @param string $rule
+     * @param string $chainType
      *
      * @return $this
      */
-    public function whereNotLike($column, $value = null, $rule = 'AND')
+    public function whereNotLike($column, $value = null, $chainType = 'AND')
     {
         $this->values[] = $value;
 
-        $this->whereClause->whereNotLike($column, $rule);
+        $this->whereClause->whereNotLike($column, $chainType);
 
         return $this;
     }
@@ -301,13 +302,13 @@ abstract class StatementContainer
 
     /**
      * @param $column
-     * @param string $rule
+     * @param string $chainType
      *
      * @return $this
      */
-    public function whereNull($column, $rule = 'AND')
+    public function whereNull($column, $chainType = 'AND')
     {
-        $this->whereClause->whereNull($column, $rule);
+        $this->whereClause->whereNull($column, $chainType);
 
         return $this;
     }
@@ -326,13 +327,13 @@ abstract class StatementContainer
 
     /**
      * @param $column
-     * @param string $rule
+     * @param string $chainType
      *
      * @return $this
      */
-    public function whereNotNull($column, $rule = 'AND')
+    public function whereNotNull($column, $chainType = 'AND')
     {
-        $this->whereClause->whereNotNull($column, $rule);
+        $this->whereClause->whereNotNull($column, $chainType);
 
         return $this;
     }
@@ -352,39 +353,40 @@ abstract class StatementContainer
     /**
      * @param $columns
      * @param null   $operator
-     * @param string $rule
+     * @param string $chainType
      *
      * @return $this
      */
-    public function whereMany($columns, $operator = null, $rule = 'AND')
+    public function whereMany($columns, $operator = null, $chainType = 'AND')
     {
         $this->values = array_merge($this->values, array_values($columns));
-        $this->whereClause->whereMany(array_keys($columns), $operator, $rule);
+        $this->whereClause->whereMany(array_keys($columns), $operator, $chainType);
 
         return $this;
     }
 
     /**
-     * @param $statement
-     * @param string $order
+     * @param $column
+     * @param string $direction
      *
      * @return $this
      */
-    public function orderBy($statement, $order = 'ASC')
+    public function orderBy($column, $direction = 'ASC')
     {
-        $this->orderClause->orderBy($statement, $order);
+        $this->orderClause->orderBy($column, $direction);
 
         return $this;
     }
 
     /**
      * @param $number
+     * @param null $offset
      *
      * @return $this
      */
-    public function limit($number, $end = null)
+    public function limit($number, $offset = null)
     {
-        $this->limitClause->limit($number, $end);
+        $this->limitClause->limit($number, $offset);
 
         return $this;
     }
@@ -393,6 +395,30 @@ abstract class StatementContainer
      * @return mixed
      */
     abstract public function __toString();
+
+    /**
+     * @return bool
+     */
+    public function commit()
+    {
+        return $this->dbh->commit();
+    }
+
+    /**
+     * @return bool
+     */
+    public function rollBack()
+    {
+        return $this->dbh->rollBack();
+    }
+
+    /**
+     * @return bool
+     */
+    public function beginTransaction()
+    {
+        return $this->dbh->beginTransaction();
+    }
 
     /**
      * @return \PDOStatement
@@ -456,7 +482,7 @@ abstract class StatementContainer
     {
         $placeholders = $this->placeholders;
 
-        unset($this->placeholders);
+        reset($this->placeholders);
 
         return '( '.implode(' , ', $placeholders).' )';
     }
@@ -471,6 +497,16 @@ abstract class StatementContainer
                 '?',
                 is_null($value) ? 1 : sizeof($value));
         }
+    }
+
+    /**
+     * @param array $array
+     *
+     * @return bool
+     */
+    protected function isAssociative(array $array)
+    {
+        return array_keys($array) !== range(0, count($array) - 1);
     }
 
     /**
