@@ -1,12 +1,16 @@
-### GROUP BY clause
-
-##### Methods
-
-+ `groupBy()`
+# GROUP BY clause
 
 > Used only in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md) statements.
 
-##### Examples of grouping
+### Methods
+
+##### `groupBy($columns)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$columns` | *string* | required | String containing column names
+
+### Examples
 
 ```php
 // ... GROUP BY f_name

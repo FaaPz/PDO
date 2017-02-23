@@ -43,7 +43,7 @@ $insertStatement = $pdo->insert(array('id', 'usr', 'pwd'))
                        ->into('users')
                        ->values(array(1234, 'your_username', 'your_password'));
 
-$insertId = $insertStatement->execute();
+$insertId = $insertStatement->execute(false);
 
 // UPDATE users SET pwd = ? WHERE id = ?
 $updateStatement = $pdo->update(array('pwd' => 'your_new_password'))
@@ -59,6 +59,8 @@ $deleteStatement = $pdo->delete()
 
 $affectedRows = $deleteStatement->execute();
 ```
+
+> The `sqlsrv` extension will fail to connect when using error mode `PDO::ERRMODE_EXCEPTION` (default). To connect, you will need to explicitly pass `array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING)` (or `PDO::ERRMODE_SILENT`) into the constructor, or override the `getDefaultOptions()` method when using `sqlsrv`.
 
 ### Documentation
 

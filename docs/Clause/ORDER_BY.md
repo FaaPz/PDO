@@ -1,12 +1,17 @@
-### ORDER BY clause
-
-##### Methods
-
-+ `orderBy()`
+# ORDER BY clause
 
 > Used in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md), [UPDATE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/UPDATE.md) and [DELETE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/DELETE.md) statements.
 
-##### Examples of ordering
+### Methods
+
+##### `orderBy($column, $direction = 'ASC')`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$column` | *string* | required | Column name
+`$direction` | *string* | `'ASC'` | Direction: `ASC` or `DESC`
+
+### Examples
 
 ```php
 // ... ORDER BY l_name ASC
