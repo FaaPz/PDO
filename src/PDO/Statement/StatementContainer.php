@@ -379,12 +379,12 @@ abstract class StatementContainer
     }
 
     /**
-     * @param $number
-     * @param null $offset
+     * @param int $number
+     * @param int $offset
      *
      * @return $this
      */
-    public function limit($number, $offset = null)
+    public function limit($number, $offset = 0)
     {
         $this->limitClause->limit($number, $offset);
 
