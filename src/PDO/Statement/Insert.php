@@ -6,6 +6,7 @@
  */
 namespace Slim\PDO\Statement;
 
+use Slim\PDO\AbstractStatement;
 use Slim\PDO\Database;
 
 /**
@@ -13,7 +14,7 @@ use Slim\PDO\Database;
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-class InsertStatement extends StatementContainer
+class InsertStatement extends AbstractStatement
 {
     /**
      * Constructor.
@@ -72,20 +73,19 @@ class InsertStatement extends StatementContainer
     public function __toString()
     {
         if (empty($this->table)) {
-            trigger_error('No table is set for insertion', E_USER_ERROR);
+            trigger_error("No table is set for insertion", E_USER_ERROR);
         }
 
         if (empty($this->columns)) {
-            trigger_error('Missing columns for insertion', E_USER_ERROR);
+            trigger_error("Missing columns for insertion", E_USER_ERROR);
         }
 
         if (empty($this->values)) {
-            trigger_error('Missing values for insertion', E_USER_ERROR);
+            trigger_error("Missing values for insertion", E_USER_ERROR);
         }
 
-        $sql = 'INSERT INTO '.$this->table;
-        $sql .= ' '.$this->getColumns();
-        $sql .= ' VALUES '.$this->getPlaceholders();
+        $sql = "INSERT INTO {$this->table} ({$this->getColumns()})";
+        $sql .= " VALUES ({$this->getPlaceholders()})";
 
         return $sql;
     }
@@ -105,6 +105,6 @@ class InsertStatement extends StatementContainer
      */
     private function getColumns()
     {
-        return '( '.implode(' , ', $this->columns).' )';
+        return '( '.implode(", ", $this->columns) .' )';
     }
 }

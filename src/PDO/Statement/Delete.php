@@ -6,6 +6,7 @@
  */
 namespace Slim\PDO\Statement;
 
+use Slim\PDO\AbstractStatement;
 use Slim\PDO\Database;
 
 /**
@@ -13,7 +14,7 @@ use Slim\PDO\Database;
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-class DeleteStatement extends StatementContainer
+class Delete extends AbstractStatement
 {
     /**
      * Constructor.
@@ -46,13 +47,21 @@ class DeleteStatement extends StatementContainer
     public function __toString()
     {
         if (empty($this->table)) {
-            trigger_error('No table is set for deletion', E_USER_ERROR);
+            trigger_error("No table is set for deletion", E_USER_ERROR);
         }
 
-        $sql = 'DELETE FROM '.$this->table;
-        $sql .= $this->whereClause;
-        $sql .= $this->orderClause;
-        $sql .= $this->limitClause;
+        $sql = "DELETE FROM {$this->table}";
+        if (count($this->conditionals) > 0) {
+            $sql .= " WHERE " . implode(' ', $this->conditionals);
+        }
+
+        if (count($this->orderBy) > 0) {
+            $sql .= " ORDER BY " . implode(", ", $this->orderBy);
+        }
+
+        if ($this->limit != null) {
+            $sql .= " LIMIT {$this->limit}";
+        }
 
         return $sql;
     }

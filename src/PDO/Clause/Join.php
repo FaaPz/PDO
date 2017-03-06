@@ -6,12 +6,14 @@
  */
 namespace Slim\PDO\Clause;
 
+use Slim\PDO\AbstractClause;
+
 /**
  * Class JoinClause.
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-class JoinClause extends ClauseContainer
+class Join extends AbstractClause
 {
     /**
      * @param $table

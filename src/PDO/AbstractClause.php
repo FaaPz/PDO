@@ -4,14 +4,14 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
-namespace Slim\PDO\Clause;
+namespace Slim\PDO;
 
 /**
  * Class ClauseContainer.
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-abstract class ClauseContainer
+abstract class AbstractClause
 {
     /**
      * @var array
