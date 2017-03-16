@@ -482,7 +482,7 @@ abstract class StatementContainer
     {
         $placeholders = $this->placeholders;
 
-        reset($this->placeholders);
+        $this->placeholders = array();
 
         return '( '.implode(' , ', $placeholders).' )';
     }
