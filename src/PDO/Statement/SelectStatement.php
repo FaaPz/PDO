@@ -75,6 +75,16 @@ class SelectStatement extends StatementContainer
     /**
      * @return $this
      */
+    public function clear()
+    {
+        $this->columns = [];
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
     public function distinct()
     {
         $this->distinct = true;
