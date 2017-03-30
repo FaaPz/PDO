@@ -11,57 +11,48 @@ use Slim\PDO\Clause;
 use Slim\PDO\Database;
 
 /**
- * Class SelectStatement.
+ * Class Select.
  *
  * @author Fabian de Laender <fabian@faapz.nl>
+ * @author Alex Barker <alex@1stleg.com>
  */
-class SelectStatement extends AbstractStatement
+class Select extends AbstractStatement
 {
     /**
-     * @var bool
+     * @var bool $distinct
      */
-    private $distinct = false;
+    protected $distinct = false;
 
     /**
-     * @var JoinClause
+     * @var Clause\Join[]
      */
-    private $joinClause;
+    protected $join = array();
 
     /**
-     * @var string[]
+     * @var string[] $groupBy
      */
-    private $groupBy;
+    protected $groupBy = array();
 
     /**
-     * @var Clause\Conditional[]
+     * @var Clause\Conditional|null $having
      */
-    private $having;
-
-    /**
-     * @var OffsetClause
-     */
-    private $offsetClause;
+    protected $having;
 
     /**
      * Constructor.
      *
      * @param Database $dbh
-     * @param array    $columns
+     * @param string[]|Clause\Expression[] $columns
      */
-    public function __construct(Database $dbh, array $columns)
+    public function __construct(Database $dbh, array $columns = ["*"])
     {
         parent::__construct($dbh);
 
         if (empty($columns)) {
-            $columns = array('*');
+            $columns = array("*");
         }
 
         $this->setColumns($columns);
-
-        $this->joinClause = new JoinClause();
-        $this->groupClause = new GroupClause();
-        $this->havingClause = new HavingClause();
-        $this->offsetClause = new OffsetClause();
     }
 
     /**
@@ -87,74 +78,44 @@ class SelectStatement extends AbstractStatement
     }
 
     /**
-     * @param $table
-     * @param $first
-     * @param null   $operator
-     * @param null   $second
-     * @param string $type
+     * @param Clause\Join|Clause\Join[] $clause
      *
      * @return $this
      */
-    public function join($table, $first, $operator = null, $second = null, $type = 'INNER')
-    {
-        $this->joinClause->join($table, $first, $operator, $second, $type);
+    public function join(Clause\Join $clause) {
+        if (is_array($clause)) {
+            $this->join = array_merge($this->join[], array_values($clause));
+        } else {
+            $this->join[] = $clause;
+        }
 
         return $this;
     }
 
     /**
-     * @param $table
-     * @param $first
-     * @param null $operator
-     * @param null $second
-     *
-     * @return $this
-     */
-    public function leftJoin($table, $first, $operator = null, $second = null)
-    {
-        $this->joinClause->leftJoin($table, $first, $operator, $second);
-
-        return $this;
-    }
-
-    /**
-     * @param $table
-     * @param $first
-     * @param null $operator
-     * @param null $second
-     *
-     * @return $this
-     */
-    public function rightJoin($table, $first, $operator = null, $second = null)
-    {
-        $this->joinClause->rightJoin($table, $first, $operator, $second);
-
-        return $this;
-    }
-
-    /**
-     * @param $table
-     * @param $first
-     * @param null $operator
-     * @param null $second
-     *
-     * @return $this
-     */
-    public function fullJoin($table, $first, $operator = null, $second = null)
-    {
-        $this->joinClause->fullJoin($table, $first, $operator, $second);
-
-        return $this;
-    }
-
-    /**
-     * @param $column
+     * @param string|string[] $column
      *
      * @return $this
      */
     public function groupBy($column)
     {
-        $this->groupBy[] = $column;
+        if (is_array($column)) {
+            $this->groupBy = array_merge($this->groupBy[], array_values($column));
+        } else {
+            $this->groupBy[] = $column;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Clause\Conditional $clause
+     *
+     * @return $this
+     */
+    public function having(Clause\Conditional $clause)
+    {
+        $this->having = $clause;
 
         return $this;
     }
@@ -176,18 +137,20 @@ class SelectStatement extends AbstractStatement
 
         $sql .= " {$this->getColumns()} FROM {$this->table} ";
 
-        $sql .= $this->joinClause;
+        if (count($this->join) > 0) {
+            $sql .= implode(" ", $this->join);
+        }
 
-        if (count($this->where) > 0) {
-            $sql .= " WHERE " . implode(' ', $this->where);
+        if (isset($this->where)) {
+            $sql .= " WHERE {$this->where}";
         }
 
         if (count($this->groupBy) > 0) {
             $sql .= " GROUP BY " . implode(", ", $this->groupBy);
         }
 
-        if (count($this->having) > 0) {
-            $sql .= " HAVING " . implode(' ', $this->having);
+        if (isset($this->having)) {
+            $sql .= " HAVING {$this->having}";
         }
 
         if (count($this->orderBy) > 0) {
@@ -198,42 +161,36 @@ class SelectStatement extends AbstractStatement
             $sql .= " LIMIT {$this->limit}";
         }
 
-        $sql .= $this->offsetClause;
-
         return $sql;
     }
 
-    /**
-     * @return \PDOStatement
-     */
-    public function execute()
+    public function getValues()
     {
-        return parent::execute();
-    }
+        // Only clauses have values.
+        $values = parent::getValues();
 
-    /**
-     * @return string
-     */
-    private function getColumns()
-    {
-        if ($this->aggregate) {
-            array_splice($this->columns, 0, -1);
+        foreach ($this->join as $join) {
+            $values += $join->getValues();
         }
 
-        return implode(', ', $this->columns);
+        $values += $this->where->getValues()
+                + $this->having->getValues()
+                + $this->limit->getValues();
+
+        return $values;
     }
 
-    /**
-     * @param $as
-     *
-     * @return string
-     */
-    private function setAs($as)
-    {
-        if (empty($as)) {
-            return '';
+    protected function getColumns() {
+        $columns = "";
+
+        foreach ($this->columns as $key => $value) {
+            if (is_string($key)) {
+                $columns .= "{$key} AS {$value}, ";
+            } else {
+                $columns .= "{$value}, ";
+            }
         }
 
-        return ' AS '.$as;
+        return rtrim($columns, ", ");
     }
 }

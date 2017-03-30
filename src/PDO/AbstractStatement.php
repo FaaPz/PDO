@@ -9,52 +9,52 @@ namespace Slim\PDO;
 use Slim\PDO\Clause\LimitClause;
 use Slim\PDO\Clause\OrderClause;
 use Slim\PDO\Clause\WhereClause;
-use Slim\PDO\Database;
+use PDOStatement;
 
 /**
  * Class Statement.
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-abstract class AbstractStatement
+abstract class AbstractStatement implements StatementInterface
 {
     /**
-     * @var Database
+     * PDO handle to the database.
+     * @var Database $dbh
      */
     protected $dbh;
 
     /**
-     * @var array
+     * Column names.
+     * @var string[] $columns
      */
     protected $columns = array();
 
     /**
-     * @var array
+     * @var array $values
      */
     protected $values = array();
 
     /**
-     * @var array
-     */
-    protected $placeholders = array();
-
-    /**
-     * @var
+     * Name of the table for this statement.
+     * @var string $table
      */
     protected $table;
 
     /**
-     * @var Clause\Conditional[]
+     * Where conditional clause.
+     * @var Clause\Conditional|null $where
      */
     protected $where;
 
     /**
-     * @var string[]
+     * Column and direction to order by.
+     * @var string[] $orderBy
      */
-    protected $orderBy;
+    protected $orderBy = array();
 
     /**
-     * @var string $limit;
+     * @var Clause\Limit|null $limit;
      */
     protected $limit;
 
@@ -66,14 +66,17 @@ abstract class AbstractStatement
     public function __construct(Database $dbh)
     {
         $this->dbh = $dbh;
-
-        $this->where = array();
-        $this->orderBy = array();
     }
 
+    /**
+     * @param Clause\Conditional $clause
+     *
+     * @return $this
+     */
+    public function where(Clause\Conditional $clause) {
+        $this->where = $clause;
 
-    public function where(AbstractClause $clause) {
-        $this->where[] = $clause;
+        return $this;
     }
 
     /**
@@ -95,125 +98,69 @@ abstract class AbstractStatement
      *
      * @return $this
      */
-    public function limit($count, $start = null)
+    public function limit(Clause\Limit $limit)
     {
-        $this->limit = $count;
-        if  ($start === null) {
-            $this->limit .= ", {$start}";
-        }
+        $this->limit = $limit;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     abstract public function __toString();
 
+
+
     /**
-     * @return \PDOStatement
+     * @return PDOStatement
      */
     public function execute()
     {
-        $stmt = $this->getStatement();
-        $stmt->execute($this->values);
+        $stmt = $this->dbh->prepare($this->__toString());
+        $stmt->execute($this->getValues());
 
         return $stmt;
     }
 
     /**
-     * @return string
-     */
-    public function compile()
-    {
-        return $this->getStatement()->queryString;
-    }
-
-    /**
      * @param $table
-     *
-     * @return $this
      */
     protected function setTable($table)
     {
         $this->table = $table;
-
-        return $this;
     }
 
     /**
      * @param array $columns
-     *
-     * @return $this
      */
-    protected function setColumns(array $columns)
+    protected function addColumns(array $columns)
     {
-        $this->columns = array_merge($this->columns, $columns);
-
-        return $this;
+        $this->columns += $columns;
     }
 
     /**
-     * @param array $values
-     *
-     * @return $this
+     * @return string[]
      */
-    protected function setValues(array $values)
+    protected function getColumns()
     {
-        $this->values = array_merge($this->values, $values);
-
-        return $this;
+        return $this->columns;
     }
 
-    /**
-     * @return string
-     */
-    protected function getPlaceholders()
-    {
-        $placeholders = $this->placeholders;
-
-        unset($this->placeholders);
-
-        return '( '.implode(' , ', $placeholders).' )';
-    }
 
     /**
      * @param array $values
      */
-    protected function setPlaceholders(array $values)
+    protected function addValues(array $values)
     {
-        foreach ($values as $value) {
-            $this->placeholders[] = $this->setPlaceholder('?', is_null($value) ? 1 : sizeof($value));
-        }
+        $this->values += $values;
     }
 
     /**
-     * @return \PDOStatement
+     * @return array
      */
-    private function getStatement()
+    public function getValues()
     {
-        $sql = $this;
-
-        return $this->dbh->prepare($sql);
-    }
-
-    /**
-     * @param $text
-     * @param int    $count
-     * @param string $separator
-     *
-     * @return string
-     */
-    private function setPlaceholder($text, $count = 0, $separator = ' , ')
-    {
-        $result = array();
-
-        if ($count > 0) {
-            for ($x = 0; $x < $count; ++$x) {
-                $result[] = $text;
-            }
-        }
-
-        return implode($separator, $result);
+        return $this->values;
     }
 }

@@ -8,9 +8,7 @@
 
 namespace Slim\PDO\Clause;
 
-use Slim\PDO\AbstractClause;
-
-class Grouping extends AbstractClause
+class Grouping extends Conditional
 {
     /**
      * @var string $rule
@@ -18,16 +16,16 @@ class Grouping extends AbstractClause
     protected $rule;
 
     /**
-     * @var \Slim\PDO\AbstractClause[]
+     * @var Conditional[]
      */
     protected $clauses;
 
     /**
      * Grouping constructor.
      * @param string $rule
-     * @param AbstractClause[] $clauses
+     * @param Conditional[] $clauses
      */
-    public function __construct($rule, $clauses)
+    public function __construct($rule, array $clauses)
     {
         $this->rule = $rule;
         $this->clauses = $clauses;

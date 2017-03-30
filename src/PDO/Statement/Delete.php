@@ -36,7 +36,7 @@ class Delete extends AbstractStatement
      */
     public function from($table)
     {
-        $this->setTable($table);
+        $this->table = $table;
 
         return $this;
     }
@@ -51,8 +51,8 @@ class Delete extends AbstractStatement
         }
 
         $sql = "DELETE FROM {$this->table}";
-        if (count($this->conditionals) > 0) {
-            $sql .= " WHERE " . implode(' ', $this->conditionals);
+        if (isset($this->where)) {
+            $sql .= " WHERE {$this->where}";
         }
 
         if (count($this->orderBy) > 0) {

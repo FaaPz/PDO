@@ -6,14 +6,14 @@
  */
 namespace Slim\PDO\Clause;
 
-use Slim\PDO\AbstractClause;
+use Slim\PDO\StatementInterface;
 
 /**
  * Class WhereClause.
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-class Conditional extends AbstractClause
+class Conditional extends StatementInterface
 {
     /** @var string $column */
     protected $column;
@@ -37,8 +37,8 @@ class Conditional extends AbstractClause
         $this->value = $value;
     }
 
-    public function getValue() {
-        return $this->value;
+    public function getValues() {
+        return array($this->value);
     }
 
     /**

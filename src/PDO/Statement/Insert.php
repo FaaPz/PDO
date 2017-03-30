@@ -14,7 +14,7 @@ use Slim\PDO\Database;
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-class InsertStatement extends AbstractStatement
+class Insert extends AbstractStatement
 {
     /**
      * Constructor.
@@ -22,7 +22,7 @@ class InsertStatement extends AbstractStatement
      * @param Database $dbh
      * @param array    $columns
      */
-    public function __construct(Database $dbh, array $columns)
+    public function __construct(Database $dbh, array $columns = [])
     {
         parent::__construct($dbh);
 
@@ -62,8 +62,6 @@ class InsertStatement extends AbstractStatement
     {
         $this->setValues($values);
 
-        $this->setPlaceholders($values);
-
         return $this;
     }
 
@@ -84,8 +82,11 @@ class InsertStatement extends AbstractStatement
             trigger_error("Missing values for insertion", E_USER_ERROR);
         }
 
-        $sql = "INSERT INTO {$this->table} ({$this->getColumns()})";
-        $sql .= " VALUES ({$this->getPlaceholders()})";
+        $columns = "( " . implode(", ", $this->columns) . " )";
+        $placeholders = rtrim(str_repeat("?, ", $this->values), ", ");
+
+        $sql = "INSERT INTO {$this->table} ({$columns})";
+        $sql .= " VALUES ({$placeholders})";
 
         return $sql;
     }
@@ -98,13 +99,5 @@ class InsertStatement extends AbstractStatement
         parent::execute();
 
         return $this->dbh->lastInsertId();
-    }
-
-    /**
-     * @return string
-     */
-    private function getColumns()
-    {
-        return '( '.implode(", ", $this->columns) .' )';
     }
 }

@@ -22,7 +22,7 @@ class Update extends AbstractStatement
      * @param Database $dbh
      * @param array    $pairs
      */
-    public function __construct(Database $dbh, array $pairs)
+    public function __construct(Database $dbh, array $pairs = [])
     {
         parent::__construct($dbh);
 
@@ -36,7 +36,7 @@ class Update extends AbstractStatement
      */
     public function table($table)
     {
-        $this->setTable($table);
+        $this->table = $table;
 
         return $this;
     }
@@ -49,7 +49,7 @@ class Update extends AbstractStatement
     public function set(array $pairs)
     {
         foreach ($pairs as $column => $value) {
-            $this->columns[] = $column.' = ?';
+            $this->columns[] = $column;
             $this->values[] = $value;
         }
 
@@ -72,8 +72,8 @@ class Update extends AbstractStatement
         $sql = "UPDATE {$this->table}";
         $sql .= " SET {$this->getColumns()}";
 
-        if (count($this->conditionals) > 0) {
-            $sql .= " WHERE " . implode(' ', $this->conditionals);
+        if (isset($this->where)) {
+            $sql .= " WHERE {$this->where}";
         }
 
         if (count($this->orderBy) > 0) {
@@ -100,6 +100,6 @@ class Update extends AbstractStatement
      */
     private function getColumns()
     {
-        return implode(", ", $this->columns);
+        return implode(" = ?, ", $this->columns);
     }
 }
