@@ -1,5 +1,5 @@
 {
-    "name": "slim/pdo",
+    "name": "aicconsultinginc/Slim-PDO",
     "description": "PDO database library for Slim Framework",
     "version": "1.9.2",
     "type": "library",

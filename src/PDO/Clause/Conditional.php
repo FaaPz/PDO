@@ -13,7 +13,7 @@ use Slim\PDO\StatementInterface;
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-class Conditional extends StatementInterface
+class Conditional implements StatementInterface
 {
     /** @var string $column */
     protected $column;

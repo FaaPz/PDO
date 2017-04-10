@@ -11,7 +11,7 @@ namespace Slim\PDO;
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-interface ClauseInterface
+interface StatementInterface
 {
     /**
      * @return array

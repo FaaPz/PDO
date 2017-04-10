@@ -13,7 +13,7 @@ use Slim\PDO\StatementInterface;
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-class Limit extends StatementInterface
+class Limit implements StatementInterface
 {
     /** @var int $rowCount */
     protected $rowCount;
