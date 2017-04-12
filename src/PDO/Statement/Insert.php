@@ -20,13 +20,14 @@ class Insert extends AbstractStatement
      * Constructor.
      *
      * @param Database $dbh
-     * @param array    $columns
+     * @param array    $pairs
      */
-    public function __construct(Database $dbh, array $columns = [])
+    public function __construct(Database $dbh, array $pairs = [])
     {
         parent::__construct($dbh);
 
-        $this->columns($columns);
+        $this->columns(array_keys($pairs));
+        $this->values(array_values($pairs));
     }
 
     /**
@@ -48,7 +49,7 @@ class Insert extends AbstractStatement
      */
     public function columns(array $columns)
     {
-        $this->setColumns($columns);
+        $this->addColumns($columns);
 
         return $this;
     }
@@ -60,7 +61,7 @@ class Insert extends AbstractStatement
      */
     public function values(array $values)
     {
-        $this->setValues($values);
+        $this->addValues($values);
 
         return $this;
     }
@@ -82,8 +83,8 @@ class Insert extends AbstractStatement
             trigger_error("Missing values for insertion", E_USER_ERROR);
         }
 
-        $columns = "( " . implode(", ", $this->columns) . " )";
-        $placeholders = rtrim(str_repeat("?, ", $this->values), ", ");
+        $columns = implode(", ", $this->columns);
+        $placeholders = rtrim(str_repeat("?, ", count($this->values)), ", ");
 
         $sql = "INSERT INTO {$this->table} ({$columns})";
         $sql .= " VALUES ({$placeholders})";
@@ -92,12 +93,12 @@ class Insert extends AbstractStatement
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function execute()
     {
         parent::execute();
 
-        return $this->dbh->lastInsertId();
+        return (int) $this->dbh->lastInsertId();
     }
 }

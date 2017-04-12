@@ -37,8 +37,15 @@ class Conditional implements StatementInterface
         $this->value = $value;
     }
 
-    public function getValues() {
-        return array($this->value);
+    public function getValues()
+    {
+        $values = $this->value;
+
+        if (! is_array($this->value)) {
+            $values = array($values);
+        }
+
+        return $values;
     }
 
     /**
@@ -46,6 +53,13 @@ class Conditional implements StatementInterface
      */
     public function __toString()
     {
-        return "{$this->column} {$this->operator} ?";
+        $placeholders = "?";
+
+
+        if (is_array($this->value)) {
+            $placeholders = '(' . rtrim(str_repeat("?, ", count($this->value)), ", ") . ')';
+        }
+
+        return "{$this->column} {$this->operator} {$placeholders}";
     }
 }

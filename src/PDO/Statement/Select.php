@@ -52,7 +52,7 @@ class Select extends AbstractStatement
             $columns = array("*");
         }
 
-        $this->setColumns($columns);
+        $this->addColumns($columns);
     }
 
     /**
@@ -173,9 +173,17 @@ class Select extends AbstractStatement
             $values += $join->getValues();
         }
 
-        $values += $this->where->getValues()
-                + $this->having->getValues()
-                + $this->limit->getValues();
+        if (isset($this->where)) {
+            $values += $this->where->getValues();
+        }
+
+        if (isset($this->having)) {
+            $values += $this->having->getValues();
+        }
+
+        if (isset($this->limit)) {
+            $values += $this->limit->getValues();
+        }
 
         return $values;
     }

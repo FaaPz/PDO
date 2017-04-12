@@ -1,11 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kwhat
- * Date: 2/27/17
- * Time: 11:23 PM
- */
 
+/**
+ * @license MIT
+ * @license http://opensource.org/licenses/MIT
+ */
 namespace Slim\PDO\Clause;
 
 class Grouping extends Conditional

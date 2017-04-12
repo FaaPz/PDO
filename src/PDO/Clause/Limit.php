@@ -35,7 +35,8 @@ class Limit implements StatementInterface
     /**
      * @return int[]
      */
-    public function getValues() {
+    public function getValues()
+    {
         $values = array();
 
         if (isset($this->offset)) {

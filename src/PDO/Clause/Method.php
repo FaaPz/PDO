@@ -32,7 +32,8 @@ class Method implements StatementInterface
         $this->values = $values;
     }
 
-    public function getValues() {
+    public function getValues()
+    {
         return $this->values;
     }
 
