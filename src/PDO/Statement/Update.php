@@ -6,6 +6,7 @@
  */
 namespace Slim\PDO\Statement;
 
+use Slim\PDO\AbstractStatement;
 use Slim\PDO\Database;
 
 /**
@@ -13,13 +14,13 @@ use Slim\PDO\Database;
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-class UpdateStatement extends StatementContainer
+class Update extends AbstractStatement
 {
     /**
      * Constructor.
      *
      * @param Database $dbh
-     * @param array $pairs
+     * @param array    $pairs
      */
     public function __construct(Database $dbh, array $pairs = [])
     {
@@ -35,7 +36,7 @@ class UpdateStatement extends StatementContainer
      */
     public function table($table)
     {
-        $this->setTable($table);
+        $this->table = $table;
 
         return $this;
     }
@@ -48,7 +49,7 @@ class UpdateStatement extends StatementContainer
     public function set(array $pairs)
     {
         foreach ($pairs as $column => $value) {
-            $this->columns[] = $column . ' = ?';
+            $this->columns[] = $column;
             $this->values[] = $value;
         }
 
@@ -61,18 +62,27 @@ class UpdateStatement extends StatementContainer
     public function __toString()
     {
         if (empty($this->table)) {
-            trigger_error('No table is set for update', E_USER_ERROR);
+            trigger_error("No table is set for update", E_USER_ERROR);
         }
 
         if (empty($this->columns) && empty($this->values)) {
-            trigger_error('Missing columns and values for update', E_USER_ERROR);
+            trigger_error("Missing columns and values for update", E_USER_ERROR);
         }
 
-        $sql = 'UPDATE ' . $this->table;
-        $sql .= ' SET ' . $this->getColumns();
-        $sql .= $this->whereClause;
-        $sql .= $this->orderClause;
-        $sql .= $this->limitClause;
+        $sql = "UPDATE {$this->table}";
+        $sql .= " SET {$this->getColumns()}";
+
+        if (isset($this->where)) {
+            $sql .= " WHERE {$this->where}";
+        }
+
+        if (count($this->orderBy) > 0) {
+            $sql .= " ORDER BY " . implode(", ", $this->orderBy);
+        }
+
+        if ($this->limit != null) {
+            $sql .= " LIMIT {$this->limit}";
+        }
 
         return $sql;
     }
@@ -88,8 +98,8 @@ class UpdateStatement extends StatementContainer
     /**
      * @return string
      */
-    protected function getColumns()
+    private function getColumns()
     {
-        return implode(' , ', $this->columns);
+        return implode(" = ?, ", $this->columns);
     }
 }

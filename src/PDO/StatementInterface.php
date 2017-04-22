@@ -4,17 +4,22 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
-namespace Slim\PDO\Clause;
+namespace Slim\PDO;
 
 /**
  * Class ClauseContainer.
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-abstract class ClauseContainer
+interface StatementInterface
 {
     /**
-     * @var array
+     * @return array
      */
-    protected $container = array();
+    public function getValues();
+
+    /**
+     * @return string
+     */
+    public function __toString();
 }

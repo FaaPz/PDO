@@ -6,6 +6,7 @@
  */
 namespace Slim\PDO\Statement;
 
+use Slim\PDO\AbstractStatement;
 use Slim\PDO\Database;
 
 /**
@@ -13,19 +14,20 @@ use Slim\PDO\Database;
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-class InsertStatement extends StatementContainer
+class Insert extends AbstractStatement
 {
     /**
      * Constructor.
      *
      * @param Database $dbh
-     * @param array    $columns
+     * @param array    $pairs
      */
-    public function __construct(Database $dbh, array $columns = null)
+    public function __construct(Database $dbh, array $pairs = [])
     {
         parent::__construct($dbh);
 
-        $this->columns($columns);
+        $this->columns(array_keys($pairs));
+        $this->values(array_values($pairs));
     }
 
     /**
@@ -47,7 +49,7 @@ class InsertStatement extends StatementContainer
      */
     public function columns(array $columns)
     {
-        $this->setColumns($columns);
+        $this->addColumns($columns);
 
         return $this;
     }
@@ -59,9 +61,7 @@ class InsertStatement extends StatementContainer
      */
     public function values(array $values)
     {
-        $this->setValues($values);
-
-        $this->setPlaceholders($values);
+        $this->addValues($values);
 
         return $this;
     }
@@ -72,45 +72,33 @@ class InsertStatement extends StatementContainer
     public function __toString()
     {
         if (empty($this->table)) {
-            trigger_error('No table is set for insertion', E_USER_ERROR);
+            trigger_error("No table is set for insertion", E_USER_ERROR);
         }
 
         if (empty($this->columns)) {
-            trigger_error('Missing columns for insertion', E_USER_ERROR);
+            trigger_error("Missing columns for insertion", E_USER_ERROR);
         }
 
         if (empty($this->values)) {
-            trigger_error('Missing values for insertion', E_USER_ERROR);
+            trigger_error("Missing values for insertion", E_USER_ERROR);
         }
 
-        $sql = 'INSERT INTO '.$this->table;
-        $sql .= ' '.$this->getColumns();
-        $sql .= ' VALUES '.$this->getPlaceholders();
+        $columns = implode(", ", $this->columns);
+        $placeholders = rtrim(str_repeat("?, ", count($this->values)), ", ");
+
+        $sql = "INSERT INTO {$this->table} ({$columns})";
+        $sql .= " VALUES ({$placeholders})";
 
         return $sql;
     }
 
     /**
-     * @param bool $insertId
-     *
-     * @return string
+     * @return int
      */
-    public function execute($insertId = true)
+    public function execute()
     {
-        if (!$insertId) {
-            return parent::execute();
-        }
-
         parent::execute();
 
-        return $this->dbh->lastInsertId();
-    }
-
-    /**
-     * @return string
-     */
-    protected function getColumns()
-    {
-        return '( '.implode(' , ', $this->columns).' )';
+        return (int) $this->dbh->lastInsertId();
     }
 }
