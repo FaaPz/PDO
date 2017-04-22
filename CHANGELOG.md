@@ -1,5 +1,35 @@
 ### Changelog
 
+##### v1.9.9
++ Added ability to insert associative arrays (#35)
++ Updated `Database` class with:
+  - Renamed `$columns` argument in `insert()` method
++ Updated `StatementContainer` class with:
+  - Added `isAssociative()` method
+  - Fixed `getPlaceholders()` method
+
+> Proposed by [Raistlfiren](https://github.com/Raistlfiren). Thanks!
+
+##### v1.9.8
++ Updated `SelectStatement` class with:
+  - Fixed `getColumns()` method
++ Updated `WhereClause` class with:
+  - Reverted `__toString()` method
++ Updated `HavingClause` class with:
+  - Reverted `__toString()` method
+
+##### v1.9.7
++ Updated `WhereClause` class with:
+  - Fixed some weird bug in `__toString()` method
++ Updated `HavingClause` class with:
+  - Fixed the same weird bug in`__toString()` method
+
+> Mentioned by [EliaRigo](https://github.com/EliaRigo). Thanks!
+
+##### v1.9.6
++ Updated `LimitClause` class with:
+  - Fixed `limit()` method
+
 ##### v1.9.5
 + Updated documentation
 + Added protected override allowed
