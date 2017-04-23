@@ -1,26 +1,22 @@
 <?php
+
 /**
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
-
-namespace Slim\PDO\Statement;
-
-use Slim\PDO\Database;
+namespace Slim\PDO;
 
 /**
- * Interface StatementInterface.
+ * Class ClauseContainer.
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
 interface StatementInterface
 {
     /**
-     * Constructor.
-     *
-     * @param Database $dbh
+     * @return array
      */
-    public function __construct(Database $dbh);
+    public function getValues();
 
     /**
      * @return string

@@ -11,6 +11,12 @@
             "name": "Fabian de Laender",
             "email": "fabian@faapz.nl",
             "homepage": "http://faapz.nl",
+            "role": "Owner"
+        },
+        {
+            "name": "Alexander Barker",
+            "email": "alex@1stleg.com",
+            "homepage": "https://github.com/kwhat/",
             "role": "Developer"
         }
     ],
