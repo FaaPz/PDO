@@ -12,6 +12,9 @@ use Slim\PDO\Database;
 
 class Select extends AbstractStatement
 {
+    /** @var string[] $columns */
+    protected $columns = array();
+
     /** @var bool $distinct */
     protected $distinct = false;
 
@@ -36,7 +39,7 @@ class Select extends AbstractStatement
             $columns = array("*");
         }
 
-        $this->addColumns($columns);
+        $this->columns = $columns;
     }
 
     /**
@@ -141,6 +144,9 @@ class Select extends AbstractStatement
         return $sql;
     }
 
+    /**
+     * @return array
+     */
     public function getValues()
     {
         $values = array();
@@ -164,6 +170,9 @@ class Select extends AbstractStatement
         return $values;
     }
 
+    /**
+     * @return string
+     */
     protected function getColumns() {
         $columns = "";
 

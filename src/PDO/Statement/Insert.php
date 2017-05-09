@@ -11,19 +11,13 @@ use Slim\PDO\Database;
 
 class Insert extends AbstractStatement
 {
-    /**
-     * @var string[] $columns
-     */
+    /** @var string[] $columns */
     protected $columns = array();
 
-    /**
-     * @var array $values
-     */
+    /** @var array $values */
     protected $values = array();
 
     /**
-     * Constructor.
-     *
      * @param Database $dbh
      * @param array $pairs
      */
