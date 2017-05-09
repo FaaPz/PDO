@@ -15,7 +15,7 @@ namespace Slim\PDO\Clause;
 class LimitClause extends ClauseContainer
 {
     /**
-     * @var null
+     * @var int|null
      */
     private $limit = null;
 
