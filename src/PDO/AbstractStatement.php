@@ -20,17 +20,6 @@ abstract class AbstractStatement implements StatementInterface
     protected $dbh;
 
     /**
-     * Column names.
-     * @var string[] $columns
-     */
-    protected $columns = array();
-
-    /**
-     * @var array $values
-     */
-    protected $values = array();
-
-    /**
      * Name of the table for this statement.
      * @var string $table
      */
@@ -40,7 +29,7 @@ abstract class AbstractStatement implements StatementInterface
      * Where conditional clause.
      * @var Clause\Conditional|null $where
      */
-    protected $where;
+    protected $where = null;
 
     /**
      * Column and direction to order by.
@@ -51,7 +40,7 @@ abstract class AbstractStatement implements StatementInterface
     /**
      * @var Clause\Limit|null $limit;
      */
-    protected $limit;
+    protected $limit = null;
 
     /**
      * Constructor.
@@ -101,11 +90,14 @@ abstract class AbstractStatement implements StatementInterface
     }
 
     /**
+     * @return array
+     */
+    abstract public function getValues();
+
+    /**
      * @return string
      */
     abstract public function __toString();
-
-
 
     /**
      * @return PDOStatement
@@ -124,38 +116,5 @@ abstract class AbstractStatement implements StatementInterface
     protected function setTable($table)
     {
         $this->table = $table;
-    }
-
-    /**
-     * @param array $columns
-     */
-    protected function addColumns(array $columns)
-    {
-        $this->columns += $columns;
-    }
-
-    /**
-     * @return string[]
-     */
-    protected function getColumns()
-    {
-        return $this->columns;
-    }
-
-
-    /**
-     * @param array $values
-     */
-    protected function addValues(array $values)
-    {
-        $this->values += $values;
-    }
-
-    /**
-     * @return array
-     */
-    public function getValues()
-    {
-        return $this->values;
     }
 }

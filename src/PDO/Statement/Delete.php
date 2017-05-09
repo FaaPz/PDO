@@ -41,20 +41,20 @@ class Delete extends AbstractStatement
      */
     public function __toString()
     {
-        if (empty($this->table)) {
+        if (! isset($this->table)) {
             trigger_error("No table is set for deletion", E_USER_ERROR);
         }
 
         $sql = "DELETE FROM {$this->table}";
-        if (isset($this->where)) {
+        if ($this->where !== null) {
             $sql .= " WHERE {$this->where}";
         }
 
-        if (count($this->orderBy) > 0) {
+        if (! empty($this->orderBy)) {
             $sql .= " ORDER BY " . implode(", ", $this->orderBy);
         }
 
-        if ($this->limit != null) {
+        if ($this->limit !== null) {
             $sql .= " LIMIT {$this->limit}";
         }
 
@@ -67,5 +67,23 @@ class Delete extends AbstractStatement
     public function execute()
     {
         return parent::execute()->rowCount();
+    }
+
+    /**
+     * @return array
+     */
+    public function getValues()
+    {
+        $values = array();
+
+        if ($this->where !== null) {
+            $values += $this->where->getValues();
+        }
+
+        if ($this->limit !== null) {
+            $values += $this->limit->getValues();
+        }
+
+        return $values;
     }
 }

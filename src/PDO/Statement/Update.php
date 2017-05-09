@@ -12,6 +12,16 @@ use Slim\PDO\Database;
 class Update extends AbstractStatement
 {
     /**
+     * @var string[] $columns
+     */
+    protected $columns = array();
+
+    /**
+     * @var array $values
+     */
+    protected $values = array();
+
+    /**
      * Constructor.
      *
      * @param Database $dbh
@@ -56,26 +66,26 @@ class Update extends AbstractStatement
      */
     public function __toString()
     {
-        if (empty($this->table)) {
+        if (! isset($this->table)) {
             trigger_error("No table is set for update", E_USER_ERROR);
         }
 
-        if (empty($this->columns) && empty($this->values)) {
+        if (empty($this->columns) || empty($this->values)) {
             trigger_error("Missing columns and values for update", E_USER_ERROR);
         }
 
         $sql = "UPDATE {$this->table}";
         $sql .= " SET {$this->getColumns()}";
 
-        if (isset($this->where)) {
+        if ($this->where !== null) {
             $sql .= " WHERE {$this->where}";
         }
 
-        if (count($this->orderBy) > 0) {
+        if ($this->orderBy !== null) {
             $sql .= " ORDER BY " . implode(", ", $this->orderBy);
         }
 
-        if ($this->limit != null) {
+        if ($this->limit !== null) {
             $sql .= " LIMIT {$this->limit}";
         }
 
@@ -96,5 +106,23 @@ class Update extends AbstractStatement
     protected function getColumns()
     {
         return implode(" = ?, ", $this->columns);
+    }
+
+    /**
+     * @return array
+     */
+    public function getValues()
+    {
+        $values = $this->values;
+
+        if ($this->where !== null) {
+            $values += $this->where->getValues();
+        }
+
+        if ($this->limit !== null) {
+            $values += $this->limit->getValues();
+        }
+
+        return $values;
     }
 }

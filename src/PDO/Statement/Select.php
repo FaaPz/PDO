@@ -30,7 +30,7 @@ class Select extends AbstractStatement
     /**
      * @var Clause\Conditional|null $having
      */
-    protected $having;
+    protected $having = null;
 
     /**
      * Constructor.
@@ -119,8 +119,8 @@ class Select extends AbstractStatement
      */
     public function __toString()
     {
-        if (empty($this->table)) {
-            trigger_error('No table is set for selection', E_USER_ERROR);
+        if (! isset($this->table)) {
+            trigger_error("No table is set for selection", E_USER_ERROR);
         }
 
         $sql = "SELECT";
@@ -130,28 +130,25 @@ class Select extends AbstractStatement
         }
 
         $sql .= " {$this->getColumns()} FROM {$this->table} ";
+        $sql .= implode(" ", $this->join);
 
-        if (count($this->join) > 0) {
-            $sql .= implode(" ", $this->join);
-        }
-
-        if (isset($this->where)) {
+        if ($this->where !== null) {
             $sql .= " WHERE {$this->where}";
         }
 
-        if (count($this->groupBy) > 0) {
+        if (! empty($this->groupBy)) {
             $sql .= " GROUP BY " . implode(", ", $this->groupBy);
         }
 
-        if (isset($this->having)) {
+        if ($this->having !== null) {
             $sql .= " HAVING {$this->having}";
         }
 
-        if (count($this->orderBy) > 0) {
+        if (! empty($this->orderBy)) {
             $sql .= " ORDER BY " . implode(", ", $this->orderBy);
         }
 
-        if ($this->limit != null) {
+        if ($this->limit !== null) {
             $sql .= " LIMIT {$this->limit}";
         }
 
@@ -160,22 +157,21 @@ class Select extends AbstractStatement
 
     public function getValues()
     {
-        // Only clauses have values.
-        $values = parent::getValues();
+        $values = array();
 
         foreach ($this->join as $join) {
             $values += $join->getValues();
         }
 
-        if (isset($this->where)) {
+        if ($this->where !== null) {
             $values += $this->where->getValues();
         }
 
-        if (isset($this->having)) {
+        if ($this->having !== null) {
             $values += $this->having->getValues();
         }
 
-        if (isset($this->limit)) {
+        if ($this->limit !== null) {
             $values += $this->limit->getValues();
         }
 

@@ -12,6 +12,16 @@ use Slim\PDO\Database;
 class Insert extends AbstractStatement
 {
     /**
+     * @var string[] $columns
+     */
+    protected $columns = array();
+
+    /**
+     * @var array $values
+     */
+    protected $values = array();
+
+    /**
      * Constructor.
      *
      * @param Database $dbh
@@ -44,7 +54,7 @@ class Insert extends AbstractStatement
      */
     public function columns(array $columns)
     {
-        $this->addColumns($columns);
+        $this->columns += $columns;
 
         return $this;
     }
@@ -56,7 +66,7 @@ class Insert extends AbstractStatement
      */
     public function values(array $values)
     {
-        $this->addValues($values);
+        $this->values += $values;
 
         return $this;
     }
@@ -66,7 +76,7 @@ class Insert extends AbstractStatement
      */
     public function __toString()
     {
-        if (empty($this->table)) {
+        if (! isset($this->table)) {
             trigger_error("No table is set for insertion", E_USER_ERROR);
         }
 
@@ -95,5 +105,13 @@ class Insert extends AbstractStatement
         parent::execute();
 
         return (int) $this->dbh->lastInsertId();
+    }
+
+    /**
+     * @return array
+     */
+    public function getValues()
+    {
+        return $this->values;
     }
 }
