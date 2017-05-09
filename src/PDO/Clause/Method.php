@@ -17,7 +17,6 @@ class Method implements StatementInterface
     protected $values;
 
     /**
-     * Conditional constructor.
      * @param string $name
      * @param array $values
      */
@@ -27,6 +26,9 @@ class Method implements StatementInterface
         $this->values = $values;
     }
 
+    /**
+     * @return array
+     */
     public function getValues()
     {
         return $this->values;

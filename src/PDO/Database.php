@@ -12,18 +12,16 @@ use PDO;
 class Database extends PDO
 {
     /**
-     * Constructor.
-     *
-     * @param $dsn
-     * @param null  $usr
-     * @param null  $pwd
+     * @param string $dsn
+     * @param string|null $username
+     * @param string|null $password
      * @param array $options
      */
-    public function __construct($dsn, $usr = null, $pwd = null, array $options = array())
+    public function __construct($dsn, $username = null, $password = null, array $options = array())
     {
         $options = $this->getDefaultOptions() + $options;
 
-        @parent::__construct($dsn, $usr, $pwd, $options);
+        parent::__construct($dsn, $username, $password, $options);
     }
 
     /**
@@ -69,8 +67,7 @@ class Database extends PDO
     }
 
     /**
-     * @param null $table
-     *
+     * @param string|null $table
      * @return Statement\Delete
      */
     public function delete($table = null)

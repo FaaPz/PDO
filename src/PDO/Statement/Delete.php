@@ -12,8 +12,6 @@ use Slim\PDO\Database;
 class Delete extends AbstractStatement
 {
     /**
-     * Constructor.
-     *
      * @param Database $dbh
      * @param $table
      */
@@ -26,7 +24,6 @@ class Delete extends AbstractStatement
 
     /**
      * @param $table
-     *
      * @return $this
      */
     public function from($table)

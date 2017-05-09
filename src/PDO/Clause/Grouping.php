@@ -8,14 +8,10 @@ namespace Slim\PDO\Clause;
 
 class Grouping extends Conditional
 {
-    /**
-     * @var string $rule
-     */
+    /** @var string $rule */
     protected $rule;
 
-    /**
-     * @var Conditional[] $value
-     */
+    /** @var Conditional[] $value */
     protected $value;
 
     /**

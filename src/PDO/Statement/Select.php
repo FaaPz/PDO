@@ -12,31 +12,21 @@ use Slim\PDO\Database;
 
 class Select extends AbstractStatement
 {
-    /**
-     * @var bool $distinct
-     */
+    /** @var bool $distinct */
     protected $distinct = false;
 
-    /**
-     * @var Clause\Join[]
-     */
+    /** @var Clause\Join[] */
     protected $join = array();
 
-    /**
-     * @var string[] $groupBy
-     */
+    /** @var string[] $groupBy */
     protected $groupBy = array();
 
-    /**
-     * @var Clause\Conditional|null $having
-     */
+    /** @var Clause\Conditional|null $having */
     protected $having = null;
 
     /**
-     * Constructor.
-     *
      * @param Database $dbh
-     * @param string[]|Clause\Expression[] $columns
+     * @param string[]|Clause\Method[] $columns
      */
     public function __construct(Database $dbh, array $columns = ["*"])
     {
@@ -61,7 +51,6 @@ class Select extends AbstractStatement
 
     /**
      * @param $table
-     *
      * @return $this
      */
     public function from($table)
@@ -73,7 +62,6 @@ class Select extends AbstractStatement
 
     /**
      * @param Clause\Join|Clause\Join[] $clause
-     *
      * @return $this
      */
     public function join(Clause\Join $clause) {
@@ -88,7 +76,6 @@ class Select extends AbstractStatement
 
     /**
      * @param string|string[] $column
-     *
      * @return $this
      */
     public function groupBy($column)
@@ -104,7 +91,6 @@ class Select extends AbstractStatement
 
     /**
      * @param Clause\Conditional $clause
-     *
      * @return $this
      */
     public function having(Clause\Conditional $clause)

@@ -11,21 +11,15 @@ use Slim\PDO\Database;
 
 class Update extends AbstractStatement
 {
-    /**
-     * @var string[] $columns
-     */
+    /** @var string[] $columns */
     protected $columns = array();
 
-    /**
-     * @var array $values
-     */
+    /** @var array $values */
     protected $values = array();
 
     /**
-     * Constructor.
-     *
      * @param Database $dbh
-     * @param array    $pairs
+     * @param array $pairs
      */
     public function __construct(Database $dbh, array $pairs = [])
     {
@@ -36,7 +30,6 @@ class Update extends AbstractStatement
 
     /**
      * @param $table
-     *
      * @return $this
      */
     public function table($table)
@@ -48,7 +41,6 @@ class Update extends AbstractStatement
 
     /**
      * @param array $pairs
-     *
      * @return $this
      */
     public function set(array $pairs)

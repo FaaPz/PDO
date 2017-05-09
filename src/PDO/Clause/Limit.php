@@ -17,7 +17,6 @@ class Limit implements StatementInterface
     protected $offset;
 
     /**
-     * Conditional constructor.
      * @param int $rowCount
      * @param int|null $offset
      */

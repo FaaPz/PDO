@@ -6,7 +6,7 @@
  */
 namespace Slim\PDO\Clause;
 
-use Slim\PDO\AbstractClause;
+use Slim\PDO\StatementInterface;
 
 class Join implements StatementInterface
 {

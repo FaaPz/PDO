@@ -20,7 +20,6 @@ class Conditional implements StatementInterface
     protected $value;
 
     /**
-     * Conditional constructor.
      * @param string $column
      * @param string $operator
      * @param mixed $value

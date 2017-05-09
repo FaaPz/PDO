@@ -25,7 +25,7 @@ class Insert extends AbstractStatement
      * Constructor.
      *
      * @param Database $dbh
-     * @param array    $pairs
+     * @param array $pairs
      */
     public function __construct(Database $dbh, array $pairs = [])
     {
@@ -37,7 +37,6 @@ class Insert extends AbstractStatement
 
     /**
      * @param $table
-     *
      * @return $this
      */
     public function into($table)
@@ -49,7 +48,6 @@ class Insert extends AbstractStatement
 
     /**
      * @param array $columns
-     *
      * @return $this
      */
     public function columns(array $columns)
@@ -61,7 +59,6 @@ class Insert extends AbstractStatement
 
     /**
      * @param array $values
-     *
      * @return $this
      */
     public function values(array $values)

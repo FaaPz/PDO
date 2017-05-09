@@ -13,38 +13,22 @@ use PDOStatement;
 
 abstract class AbstractStatement implements StatementInterface
 {
-    /**
-     * PDO handle to the database.
-     * @var Database $dbh
-     */
+    /** @var Database $dbh */
     protected $dbh;
 
-    /**
-     * Name of the table for this statement.
-     * @var string $table
-     */
+    /** @var string $table */
     protected $table;
 
-    /**
-     * Where conditional clause.
-     * @var Clause\Conditional|null $where
-     */
+    /** @var Clause\Conditional|null $where */
     protected $where = null;
 
-    /**
-     * Column and direction to order by.
-     * @var string[] $orderBy
-     */
+    /** @var string[] $orderBy */
     protected $orderBy = array();
 
-    /**
-     * @var Clause\Limit|null $limit;
-     */
+    /** @var Clause\Limit|null $limit */
     protected $limit = null;
 
     /**
-     * Constructor.
-     *
      * @param Database $dbh
      */
     public function __construct(Database $dbh)
@@ -54,7 +38,6 @@ abstract class AbstractStatement implements StatementInterface
 
     /**
      * @param Clause\Conditional $clause
-     *
      * @return $this
      */
     public function where(Clause\Conditional $clause) {
@@ -66,7 +49,6 @@ abstract class AbstractStatement implements StatementInterface
     /**
      * @param string $column
      * @param string $direction
-     *
      * @return $this
      */
     public function orderBy($column, $direction = null)
@@ -77,9 +59,7 @@ abstract class AbstractStatement implements StatementInterface
     }
 
     /**
-     * @param integer|null $count
-     * @param integer|null $start
-     *
+     * @param Clause\Limit|null $limit
      * @return $this
      */
     public function limit(Clause\Limit $limit)
@@ -111,7 +91,7 @@ abstract class AbstractStatement implements StatementInterface
     }
 
     /**
-     * @param $table
+     * @param string $table
      */
     protected function setTable($table)
     {
