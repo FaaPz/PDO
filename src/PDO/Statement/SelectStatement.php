@@ -28,6 +28,11 @@ class SelectStatement extends StatementContainer
     /**
      * @var bool
      */
+    protected $calcFoundRows = false;
+
+    /**
+     * @var bool
+     */
     protected $aggregate = false;
 
     /**
@@ -78,6 +83,16 @@ class SelectStatement extends StatementContainer
     public function distinct()
     {
         $this->distinct = true;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function calcFoundRows()
+    {
+        $this->calcFoundRows = true;
 
         return $this;
     }
@@ -416,11 +431,17 @@ class SelectStatement extends StatementContainer
      */
     protected function getSelect()
     {
-        if ($this->distinct) {
-            return 'SELECT DISTINCT';
+        $select = ['SELECT'];
+
+        if ($this->calcFoundRows) {
+            $select[] = 'SQL_CALC_FOUND_ROWS';
         }
 
-        return 'SELECT';
+        if ($this->distinct) {
+            $select[] = 'DISTINCT';
+        }
+
+        return implode(' ', $select);
     }
 
     /**
