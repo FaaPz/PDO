@@ -73,7 +73,7 @@ class Update extends AbstractStatement
             $sql .= " WHERE {$this->where}";
         }
 
-        if ($this->orderBy !== null) {
+        if (! empty($this->orderBy)) {
             $sql .= " ORDER BY " . implode(", ", $this->orderBy);
         }
 
