@@ -152,19 +152,19 @@ class Select extends AbstractStatement
         $values = array();
 
         foreach ($this->join as $join) {
-            $values += $join->getValues();
+            $values = array_merge($values, $join->getValues());
         }
 
         if ($this->where !== null) {
-            $values += $this->where->getValues();
+            $values = array_merge($values, $this->where->getValues());
         }
 
         if ($this->having !== null) {
-            $values += $this->having->getValues();
+            $values = array_merge($values, $this->having->getValues());
         }
 
         if ($this->limit !== null) {
-            $values += $this->limit->getValues();
+            $values = array_merge($values, $this->limit->getValues());
         }
 
         return $values;

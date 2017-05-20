@@ -74,11 +74,11 @@ class Delete extends AbstractStatement
         $values = array();
 
         if ($this->where !== null) {
-            $values += $this->where->getValues();
+            $values = array_merge($values, $this->where->getValues());
         }
 
         if ($this->limit !== null) {
-            $values += $this->limit->getValues();
+            $values = array_merge($values, $this->limit->getValues());
         }
 
         return $values;

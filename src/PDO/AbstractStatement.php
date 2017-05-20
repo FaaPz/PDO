@@ -6,9 +6,6 @@
  */
 namespace Slim\PDO;
 
-use Slim\PDO\Clause\LimitClause;
-use Slim\PDO\Clause\OrderClause;
-use Slim\PDO\Clause\WhereClause;
 use PDOStatement;
 
 abstract class AbstractStatement implements StatementInterface

@@ -11,11 +11,8 @@ use Slim\PDO\Database;
 
 class Update extends AbstractStatement
 {
-    /** @var string[] $columns */
-    protected $columns = array();
-
-    /** @var array $values */
-    protected $values = array();
+    /** @var array $pairs */
+    protected $pairs;
 
     /**
      * @param Database $dbh
@@ -25,7 +22,7 @@ class Update extends AbstractStatement
     {
         parent::__construct($dbh);
 
-        $this->set($pairs);
+        $this->pairs = $pairs;
     }
 
     /**
@@ -45,10 +42,7 @@ class Update extends AbstractStatement
      */
     public function set(array $pairs)
     {
-        foreach ($pairs as $column => $value) {
-            $this->columns[] = $column;
-            $this->values[] = $value;
-        }
+        $this->pairs = $pairs;
 
         return $this;
     }
@@ -62,12 +56,20 @@ class Update extends AbstractStatement
             trigger_error("No table is set for update", E_USER_ERROR);
         }
 
-        if (empty($this->columns) || empty($this->values)) {
+        if (empty($this->pairs)) {
             trigger_error("Missing columns and values for update", E_USER_ERROR);
         }
 
         $sql = "UPDATE {$this->table}";
-        $sql .= " SET {$this->getColumns()}";
+
+        $columns = array_keys($this->pairs);
+
+        $column = array_pop($columns);
+        $sql .= " SET ${column} = ?";
+
+        while (($column = array_pop($columns)) !== null) {
+            $sql .= ", ${column} = ?";
+        }
 
         if ($this->where !== null) {
             $sql .= " WHERE {$this->where}";
@@ -93,26 +95,18 @@ class Update extends AbstractStatement
     }
 
     /**
-     * @return string
-     */
-    protected function getColumns()
-    {
-        return implode(" = ?, ", $this->columns);
-    }
-
-    /**
      * @return array
      */
     public function getValues()
     {
-        $values = $this->values;
+        $values = array_values($this->pairs);
 
         if ($this->where !== null) {
-            $values += $this->where->getValues();
+            $values = array_merge($values, $this->where->getValues());
         }
 
         if ($this->limit !== null) {
-            $values += $this->limit->getValues();
+            $values = array_merge($values, $this->limit->getValues());
         }
 
         return $values;

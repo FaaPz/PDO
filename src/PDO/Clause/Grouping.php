@@ -38,6 +38,6 @@ class Grouping extends Conditional
 
     public function __toString()
     {
-        return '(' . implode(") {$this->rule} (", $this->clauses) . ')';
+        return '(' . implode(") {$this->rule} (", $this->value) . ')';
     }
 }
