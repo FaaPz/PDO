@@ -41,6 +41,6 @@ class Join implements StatementInterface
      */
     public function __toString()
     {
-        return rtrim("{$this->type} JOIN {$this->table} ON {$this->on}");
+        return ltrim("{$this->type} JOIN {$this->table} ON {$this->on}");
     }
 }

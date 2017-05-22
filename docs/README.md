@@ -11,9 +11,8 @@
 
 ### Clauses
 
-+ [JOIN](Clause/JOIN.md)
 + [CONDITIONAL](Clause/CONDITIONAL.md)
 + [GROUPING](Clause/GROUPING.md)
-+ [HAVING](Clause/HAVING.md)
++ [JOIN](Clause/JOIN.md)
 + [LIMIT](Clause/LIMIT.md)
 + [METHOD](Clause/METHOD.md)

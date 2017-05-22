@@ -6,9 +6,9 @@
  */
 namespace Slim\PDO\Statement;
 
+use PDO; 
 use Slim\PDO\AbstractStatement;
 use Slim\PDO\Clause;
-use Slim\PDO\Database;
 
 class Select extends AbstractStatement
 {
@@ -28,10 +28,10 @@ class Select extends AbstractStatement
     protected $having = null;
 
     /**
-     * @param Database $dbh
+     * @param PDO $dbh
      * @param string[]|Clause\Method[] $columns
      */
-    public function __construct(Database $dbh, array $columns = ["*"])
+    public function __construct(PDO $dbh, array $columns = ["*"])
     {
         parent::__construct($dbh);
 
@@ -53,12 +53,12 @@ class Select extends AbstractStatement
     }
 
     /**
-     * @param $table
+     * @param string $table
      * @return $this
      */
     public function from($table)
     {
-        $this->setTable($table);
+        $this->table = $table;
 
         return $this;
     }

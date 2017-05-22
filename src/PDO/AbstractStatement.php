@@ -6,11 +6,12 @@
  */
 namespace Slim\PDO;
 
+use PDO;
 use PDOStatement;
 
 abstract class AbstractStatement implements StatementInterface
 {
-    /** @var Database $dbh */
+    /** @var PDO $dbh */
     protected $dbh;
 
     /** @var string $table */
@@ -26,9 +27,9 @@ abstract class AbstractStatement implements StatementInterface
     protected $limit = null;
 
     /**
-     * @param Database $dbh
+     * @param PDO $dbh
      */
-    public function __construct(Database $dbh)
+    public function __construct(PDO $dbh)
     {
         $this->dbh = $dbh;
     }
@@ -85,13 +86,5 @@ abstract class AbstractStatement implements StatementInterface
         $stmt->execute($this->getValues());
 
         return $stmt;
-    }
-
-    /**
-     * @param string $table
-     */
-    protected function setTable($table)
-    {
-        $this->table = $table;
     }
 }

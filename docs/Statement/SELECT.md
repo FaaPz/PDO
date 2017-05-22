@@ -1,48 +1,84 @@
 # SELECT statement
 
+### Constructor
+
+##### `__construct($dbh, $columns = ["*"])`
+
+Parameter  | Type     | Default  | Description
+---------- | -------- | -------- | -----------
+`$dbh`     | *PDO*    | required | PDO object for database connection
+`$columns` | *array*  | ["*"]    | Array of columns or Clause\Method
+
 ### Methods
 
 ##### `distinct()`
 
 ##### `from($table)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$table` | *string* | required | Table name
+Parameter | Type     | Default  | Description
+--------- | -------- | -------- | -----------
+`$table`  | *string* | required | Table name
 
-##### `join($table, $first, $operator = null, $second = null, $joinType = 'INNER')`
+##### `join($clause)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$table` | *string* | required | Table name
-`$first` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$second` | *string* | `null` | Column name
-`$joinType` | *string* | `'INNER'` | Join type: `INNER`, `LEFT OUTER`, `RIGHT OUTER` or `FULL OUTER`
+Parameter | Type                     | Default  | Description
+--------- | ------------------------ | -------- | -----------
+`$clause` | *[Join](Clause/JOIN.md)* | required | One or more Join clauses to attach to this query
 
-##### `offset($number)`
+##### `groupBy($column)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$number` | *int* | required | Number of rows
+Parameter | Type     | Default  | Description
+--------- | -------- | -------- | -----------
+`$column` | *string* | required | One or more columns to group the result by
+
+##### `having($clause)`
+
+Parameter | Type                                   | Default  | Description
+--------- | -------------------------------------- | -------- | -----------
+`$clause` | *[Conditional](Clause/CONDITIONAL.md)* | required | One or more Conditial clauses to attach to this query
+
+##### `__toString()`
+Returns the prepared SQL string for this statement.
+
+##### `getValues()`
+Returns the values to be escaped for this statement.
+
+##### `where($clause)`
+
+Parameter | Type                                   | Default  | Description
+--------- | -------------------------------------- | -------- | -----------
+`$clause` | *[Conditional](Clause/CONDITIONAL.md)* | required | One or more Conditional clauses to attach to this query
+
+##### `orderBy($column, $direction)`
+
+Parameter | Type     | Default  | Description
+--------- | -------- | -------- | -----------
+`$column` | *string* | required | The column to order this query by.
+`$column` | *string* | null     | The order the above column should be sorted in.
+
+##### `limit($clause)`
+
+Parameter | Type                       | Default  | Description
+--------- | -------------------------- | -------- | -----------
+`$clause` | *[Limit](Clause/LIMIT.md)* | required | A single limit conditional to be applied to this statement.
 
 ##### `execute()`
+Returns PHP PDOStatement object.
 
 ### Clauses
 
-+ [JOIN](Clause/JOIN.md)
-+ [CONDITIONAL](Clause/CONDITIONAL.md)
-+ [GROUPING](Clause/GROUPING.md)
-+ [HAVING](Clause/HAVING.md)
-+ [LIMIT](Clause/LIMIT.md)
-+ [METHOD](Clause/METHOD.md)
++ [Conditional](Clause/CONDITIONAL.md)
++ [Grouping](Clause/GROUPING.md)
++ [Join](Clause/JOIN.md)
++ [Limit](Clause/LIMIT.md)
++ [Method](Clause/METHOD.md)
 
 ### Examples
 
 ```php
 // SELECT * FROM users WHERE id = ?
 $selectStatement = $slimPdo->select(array("*"))
-                           ->from('users')
+                           ->from("users")
                            ->where(new Conditional("id", "=", 1234));
 
 $stmt = $selectStatement->execute();

@@ -6,8 +6,8 @@
  */
 namespace Slim\PDO\Statement;
 
+use PDO;
 use Slim\PDO\AbstractStatement;
-use Slim\PDO\Database;
 
 class Update extends AbstractStatement
 {
@@ -15,10 +15,10 @@ class Update extends AbstractStatement
     protected $pairs;
 
     /**
-     * @param Database $dbh
+     * @param PDO $dbh
      * @param array $pairs
      */
-    public function __construct(Database $dbh, array $pairs = [])
+    public function __construct(PDO $dbh, array $pairs = [])
     {
         parent::__construct($dbh);
 

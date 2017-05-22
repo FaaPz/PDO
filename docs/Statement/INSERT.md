@@ -1,44 +1,57 @@
 # INSERT statement
 
+### Constructor
+
+##### `__construct($dbh, $columns = ["*"])`
+
+Parameter  | Type     | Default  | Description
+---------- | -------- | -------- | -----------
+`$dbh`     | *PDO*    | required | PDO object for database connection
+`$pairs`   | *array*  | []       | Array of key => value pairs to update
+
 ### Methods
 
 ##### `into($table)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$table` | *string* | required | Table name
+Parameter | Type     | Default  | Description
+--------- | -------- | -------- | -----------
+`$table`  | *string* | required | Table name
 
 ##### `columns(array $columns)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
+Parameter  | Type    | Default  | Description
+---------- | ------- | -------- | -----------
 `$columns` | *array* | required | Array containing column names
 
 ##### `values(array $values)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
+Parameter | Type    | Default  | Description
+--------- | ------- | -------- | -----------
 `$values` | *array* | required | Array containing column values
 
-##### `execute($insertId = true)`
+##### `getValues()`
+Returns the values to be escaped for this statement.
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$insertId` | *bool* | `true` | Boolean to return **lastInsertId**
+##### `execute()`
+Returns the primary key for the inserted record
+
 
 ### Examples
 
 ```php
 // INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
-$insertStatement = $slimPdo->insert(array('id', 'usr', 'pwd'))
-                           ->into('users')
-                           ->values(array(1234, 'your_username', 'your_password'));
+$insertStatement = $slimPdo->insert(array(
+                               "id" => 1234,
+                               "usr" => "your_username"",
+                               "pwd" => "your_password"
+                           ))
+                           ->into("users");
 
 // INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
-$insertStatement = $slimPdo->insert(array('id'))
-                           ->into('users')
-                           ->columns(array('usr', 'pwd'))
-                           ->values(array(1234, 'your_username', 'your_password'));
+$insertStatement = $slimPdo->insert()
+                           ->into("users")
+                           ->columns(array("id", "usr", "pwd"))
+                           ->values(array(1234, "your_username", "your_password"));
 
 $insertId = $insertStatement->execute(false);
 ```

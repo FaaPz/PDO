@@ -6,11 +6,17 @@
  */
 namespace Slim\PDO\Statement;
 
-use Slim\PDO\AbstractStatement;
-use Slim\PDO\Database;
+use PDO;
+use Slim\PDO\StatementInterface;
 
-class Insert extends AbstractStatement
+class Insert implements StatementInterface
 {
+    /** @var PDO $dbh */
+    protected $dbh;
+
+    /** @var string $table */
+    protected $table;
+
     /** @var string[] $columns */
     protected $columns = array();
 
@@ -18,12 +24,12 @@ class Insert extends AbstractStatement
     protected $values = array();
 
     /**
-     * @param Database $dbh
+     * @param PDO $dbh
      * @param array $pairs
      */
-    public function __construct(Database $dbh, array $pairs = [])
+    public function __construct(PDO $dbh, array $pairs = [])
     {
-        parent::__construct($dbh);
+        $this->dbh = $dbh;
 
         $this->columns(array_keys($pairs));
         $this->values(array_values($pairs));
@@ -35,7 +41,7 @@ class Insert extends AbstractStatement
      */
     public function into($table)
     {
-        $this->setTable($table);
+        $this->table = $table;
 
         return $this;
     }

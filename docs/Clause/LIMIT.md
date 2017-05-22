@@ -1,22 +1,27 @@
 # LIMIT clause
 
-> Used in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md), [UPDATE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/UPDATE.md) and [DELETE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/DELETE.md) statements.
+> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../docs/Statement/UPDATE.md) and [DELETE](../Statement/DELETE.md) statements.
+
+##### `__construct($table, Conditional $on, $type = "")`
+
+Parameter  | Type              | Default  | Description
+---------- | ----------------- | -------- | -----------
+`$rowCount`| *int*             | required | The number of rows to effect.
+`$offset`  | *int|null*        | null     | The offset to start counting at.
 
 ### Methods
 
-##### `limit($number, $offset = null)`
+##### `__toString()`
+Returns the prepared SQL string for this statement.
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$number` | *int* | required | Number of rows
-`$offset` | *int* | `null` | Offset value
+##### `getValues()`
+Returns the values to be escaped for this statement.
 
 ### Examples
-
 ```php
 // ... LIMIT 10
-$statement->limit(10);
+$statement->limit(new Clause\Limit(10));
 
-// ... LIMIT 10 , 30
-$statement->limit(10, 30);
+// ... LIMIT 30, 10
+$statement->limit(new Clause\Limit(10, 30));
 ```

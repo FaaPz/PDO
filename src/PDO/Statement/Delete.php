@@ -6,20 +6,20 @@
  */
 namespace Slim\PDO\Statement;
 
+use PDO;
 use Slim\PDO\AbstractStatement;
-use Slim\PDO\Database;
 
 class Delete extends AbstractStatement
 {
     /**
-     * @param Database $dbh
+     * @param PDO $dbh
      * @param $table
      */
-    public function __construct(Database $dbh, $table = null)
+    public function __construct(PDO $dbh, $table = null)
     {
         parent::__construct($dbh);
 
-        $this->setTable($table);
+        $this->table = $table;
     }
 
     /**
