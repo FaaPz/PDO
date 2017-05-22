@@ -46,7 +46,7 @@ class Insert extends AbstractStatement
      */
     public function columns(array $columns)
     {
-        $this->columns += $columns;
+        $this->columns = array_merge($this->columns, $columns);
 
         return $this;
     }
@@ -57,8 +57,8 @@ class Insert extends AbstractStatement
      */
     public function values(array $values)
     {
-        $this->values += $values;
-
+        $this->values = array_merge($this->values, $values);
+        
         return $this;
     }
 
