@@ -8,9 +8,13 @@ namespace Slim\PDO\Statement;
 
 use PDO;
 use Slim\PDO\AbstractStatement;
+use Slim\PDO\Clause;
 
 class Delete extends AbstractStatement
 {
+    /** @var Clause\Join[] */
+    protected $join = array();
+
     /**
      * @param PDO $dbh
      * @param $table
@@ -34,6 +38,20 @@ class Delete extends AbstractStatement
     }
 
     /**
+     * @param Clause\Join|Clause\Join[] $clause
+     * @return $this
+     */
+    public function join(Clause\Join $clause) {
+        if (is_array($clause)) {
+            $this->join = array_merge($this->join[], array_values($clause));
+        } else {
+            $this->join[] = $clause;
+        }
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
@@ -43,6 +61,8 @@ class Delete extends AbstractStatement
         }
 
         $sql = "DELETE FROM {$this->table}";
+        $sql .= implode(" ", $this->join);
+        
         if ($this->where !== null) {
             $sql .= " WHERE {$this->where}";
         }

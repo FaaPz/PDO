@@ -8,11 +8,15 @@ namespace Slim\PDO\Statement;
 
 use PDO;
 use Slim\PDO\AbstractStatement;
+use Slim\PDO\Clause;
 
 class Update extends AbstractStatement
 {
     /** @var array $pairs */
     protected $pairs;
+
+    /** @var Clause\Join[] */
+    protected $join = array();
 
     /**
      * @param PDO $dbh
@@ -48,6 +52,20 @@ class Update extends AbstractStatement
     }
 
     /**
+     * @param Clause\Join|Clause\Join[] $clause
+     * @return $this
+     */
+    public function join(Clause\Join $clause) {
+        if (is_array($clause)) {
+            $this->join = array_merge($this->join[], array_values($clause));
+        } else {
+            $this->join[] = $clause;
+        }
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
@@ -61,9 +79,9 @@ class Update extends AbstractStatement
         }
 
         $sql = "UPDATE {$this->table}";
+        $sql .= implode(" ", $this->join);
 
         $columns = array_keys($this->pairs);
-
         $column = array_pop($columns);
         $sql .= " SET ${column} = ?";
 
