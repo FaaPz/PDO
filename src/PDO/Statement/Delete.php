@@ -17,7 +17,7 @@ class Delete extends AbstractStatement
 
     /**
      * @param PDO $dbh
-     * @param $table
+     * @param string $table
      */
     public function __construct(PDO $dbh, $table = null)
     {

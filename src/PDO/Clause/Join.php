@@ -31,6 +31,9 @@ class Join implements StatementInterface
         $this->type = $type;
     }
 
+    /**
+     * @return array
+     */
     public function getValues()
     {
         return $this->on->getValues();
