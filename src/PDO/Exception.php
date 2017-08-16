@@ -18,7 +18,6 @@ class Exception extends RuntimeException
     protected $code;
 
     /**
-     * Exception constructor.
      * @param string $message
      * @param string $code
      * @param Throwable $previous

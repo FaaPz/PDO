@@ -38,7 +38,6 @@ class Database extends PDO
 
     /**
      * @param array $columns
-     *
      * @return Statement\Select
      */
     public function select(array $columns = array('*'))
@@ -58,7 +57,6 @@ class Database extends PDO
 
     /**
      * @param array $pairs
-     *
      * @return Statement\Update
      */
     public function update(array $pairs = array())

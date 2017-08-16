@@ -8,6 +8,7 @@ namespace Slim\PDO\Statement;
 
 use PDO;
 use PDOException;
+use Slim\PDO\Exception;
 use Slim\PDO\StatementInterface;
 
 class Insert implements StatementInterface

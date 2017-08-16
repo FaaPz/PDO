@@ -31,11 +31,14 @@ class Conditional implements StatementInterface
         $this->value = $value;
     }
 
+    /**
+     * @return array
+     */
     public function getValues()
     {
         $values = $this->value;
 
-        if (! is_array($this->value)) {
+        if (! is_array($values)) {
             $values = array($values);
         }
 
