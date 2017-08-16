@@ -7,6 +7,7 @@
 namespace Slim\PDO;
 
 use PDO;
+use PDOException;
 use PDOStatement;
 
 abstract class AbstractStatement implements StatementInterface
@@ -79,11 +80,20 @@ abstract class AbstractStatement implements StatementInterface
 
     /**
      * @return PDOStatement
+     * @throws PDOException
      */
     public function execute()
     {
         $stmt = $this->dbh->prepare($this->__toString());
-        $stmt->execute($this->getValues());
+        try {
+            $success = $stmt->execute($this->getValues());
+            if (! $success) {
+                $info = $stmt->errorInfo();
+                throw new Exception($info[2], $info[0]);
+            }
+        } catch (PDOException $e) {
+            throw new Exception($e->getMessage(), $e->getCode(), $e);
+        }
 
         return $stmt;
     }

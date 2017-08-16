@@ -7,6 +7,7 @@
 namespace Slim\PDO\Statement;
 
 use PDO;
+use PDOException;
 use Slim\PDO\StatementInterface;
 
 class Insert implements StatementInterface
@@ -95,13 +96,23 @@ class Insert implements StatementInterface
     }
 
     /**
-     * @return int
+     * @return string|int
+     * @throws Exception
      */
     public function execute()
     {
-        parent::execute();
+        $stmt = $this->dbh->prepare($this->__toString());
+        try {
+            $success = $stmt->execute($this->getValues());
+            if (! $success) {
+                $info = $stmt->errorInfo();
+                throw new Exception($info[2], $info[0]);
+            }
+        } catch (PDOException $e) {
+            throw new Exception($e->getMessage(), $e->getCode(), $e);
+        }
 
-        return (int) $this->dbh->lastInsertId();
+        return $this->dbh->lastInsertId();
     }
 
     /**
