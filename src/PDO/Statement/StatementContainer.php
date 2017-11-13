@@ -451,12 +451,12 @@ abstract class StatementContainer implements StatementInterface
     }
 
     /**
-     * @param $number
-     * @param null $offset
+     * @param int $number
+     * @param int $offset
      *
      * @return $this
      */
-    public function limit($number, $offset = null)
+    public function limit($number, $offset = 0)
     {
         $this->limitClause->limit($number, $offset);
 
@@ -469,14 +469,56 @@ abstract class StatementContainer implements StatementInterface
     abstract public function __toString();
 
     /**
+     * @return bool
+     */
+    public function commit()
+    {
+        return $this->dbh->commit();
+    }
+
+    /**
+     * @return bool
+     */
+    public function rollBack()
+    {
+        return $this->dbh->rollBack();
+    }
+
+    /**
+     * @return bool
+     */
+    public function beginTransaction()
+    {
+        return $this->dbh->beginTransaction();
+    }
+
+    /**
      * @return \PDOStatement
      */
     public function execute()
     {
         $stmt = $this->getStatement();
-        $stmt->execute($this->values);
+        $this->bindValues($stmt, $this->values);
+        $stmt->execute();
 
         return $stmt;
+    }
+
+    /**
+     * Bind values to their parameters in the given statement.
+     *
+     * @param  \PDOStatement $statement
+     * @param  array  $bindings
+     * @return void
+     */
+    protected function bindValues($statement, $bindings)
+    {
+        foreach ($bindings as $key => $value) {
+            $statement->bindValue(
+                is_string($key) ? $key : $key + 1, $value,
+                is_int($value) ? \PDO::PARAM_INT : \PDO::PARAM_STR
+            );
+        }
     }
 
     /**
@@ -530,7 +572,7 @@ abstract class StatementContainer implements StatementInterface
     {
         $placeholders = $this->placeholders;
 
-        reset($this->placeholders);
+        $this->placeholders = array();
 
         return '( '.implode(' , ', $placeholders).' )';
     }

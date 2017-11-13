@@ -24,7 +24,11 @@ class OffsetClause extends ClauseContainer
      */
     public function offset($number)
     {
-        if (is_int($number) && $number >= 0) {
+        if (!is_int($number)) {
+            trigger_error('Expects parameter as integer', E_USER_ERROR);
+        }
+
+        if ($number >= 0) {
             $this->offset = intval($number);
         }
     }

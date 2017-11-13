@@ -29,7 +29,7 @@ class Database extends \PDO
      */
     public function __construct($dsn, $usr = null, $pwd = null, array $options = [])
     {
-        $options = $this->getDefaultOptions() + $options;
+        $options = $options + $this->getDefaultOptions();
 
         @parent::__construct($dsn, $usr, $pwd, $options);
     }
