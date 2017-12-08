@@ -20,6 +20,12 @@ Parameter | Type | Default | Description
 --- | --- | --- | ---
 `$values` | *array* | required | Array containing column values
 
+##### `updateOnDuplicate(array $fieldValues( field => value ))`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$fieldValues` | *array* | required | Associative array containing fields and associated values
+
 ##### `execute($insertId = true)`
 
 Parameter | Type | Default | Description
@@ -34,11 +40,17 @@ $insertStatement = $slimPdo->insert(array('id', 'usr', 'pwd'))
                            ->into('users')
                            ->values(array(1234, 'your_username', 'your_password'));
 
-// INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
+// INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? ) 
 $insertStatement = $slimPdo->insert(array('id'))
                            ->into('users')
                            ->columns(array('usr', 'pwd'))
                            ->values(array(1234, 'your_username', 'your_password'));
+                           
+// INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? ) ON DUPLICATE KEY UPDATE pwd = ?
+$insertStatement = $slimPdo->insert(array('id'))
+                           ->into('users')
+                           ->values(array(1234, 'your_username', 'your_password'))
+                           ->updateOnDuplicate(array('pwd' => 'your_password');
 
 $insertId = $insertStatement->execute(false);
 ```
