@@ -71,6 +71,44 @@ class InsertStatement extends StatementContainer
 
         return $this;
     }
+    
+    private $_updateOnDuplicate = false;
+    private $_updateValues = array();
+    private $_updateFields = array();
+    
+    /**
+     * @param array $fieldValues
+     *
+     * @return $this
+     */
+    public function updateOnDuplicate(array $fieldValues)
+    {
+    	if(!empty($fieldValues) ) {
+    		$this->_updateOnDuplicate = true;
+    	        $this->_updateValues = array_values($fieldValues);
+    	        $this->_updateFields = array_keys($fieldValues);
+            }	
+            return $this;
+    }
+
+    /**
+     * Internal function
+     *
+     * @return string = Prepared update fields
+     */
+    protected function _prepareUpdateFields()
+    {
+    	$this->setValues($this->_updateValues);
+    
+    	$str = '';
+    	$commaFlag = false;
+    	foreach($this->_updateFields as $field) {
+    		if($commaFlag) $str .= ', ';
+    		$str .= $field . ' = ?';
+    		$commaFlag = true;
+    	}
+    	return $str;
+    }
 
     /**
      * @return string
@@ -92,6 +130,10 @@ class InsertStatement extends StatementContainer
         $sql = 'INSERT INTO '.$this->table;
         $sql .= ' '.$this->getColumns();
         $sql .= ' VALUES '.$this->getPlaceholders();
+        
+        if($this->_updateOnDuplicate) {
+            $sql .= ' ON DUPLICATE KEY UPDATE '.$this->_prepareUpdateFields();
+        }
 
         return $sql;
     }
