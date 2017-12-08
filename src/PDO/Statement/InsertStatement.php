@@ -73,9 +73,9 @@ class InsertStatement extends StatementContainer
     }
 
     private $_updateOnDuplicate = false;
-    private $_updateValues = array();
-    private $_updateFields = array();
-    
+    private $_updateValues = [];
+    private $_updateFields = [];
+
     /**
      * @param array $fieldValues
      *
@@ -134,7 +134,7 @@ class InsertStatement extends StatementContainer
         $sql = 'INSERT INTO '.$this->table;
         $sql .= ' '.$this->getColumns();
         $sql .= ' VALUES '.$this->getPlaceholders();
-        
+
         if ($this->_updateOnDuplicate) {
             $sql .= ' ON DUPLICATE KEY UPDATE '.$this->_prepareUpdateFields();
         }
