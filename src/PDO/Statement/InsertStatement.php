@@ -77,7 +77,7 @@ class InsertStatement extends StatementContainer
     private $_updateFields = [];
 
     /**
-     * @param array $fieldValues
+     * @param array $fieldValues( field => value )
      *
      * @return $this
      */
