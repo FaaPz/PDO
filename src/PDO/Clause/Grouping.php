@@ -6,9 +6,7 @@
  */
 namespace Slim\PDO\Clause;
 
-use Slim\PDO\StatementInterface;
-
-class Grouping implements StatementInterface
+class Grouping extends Conditional
 {
     /** @var string $rule */
     protected $rule;
