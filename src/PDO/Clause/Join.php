@@ -13,7 +13,7 @@ class Join implements StatementInterface
     /** @var string $table */
     protected $table;
 
-    /** @var  Conditional $on */
+    /** @var  Conditional|Grouping $on */
     protected $on;
 
     /** @var string $type */
@@ -21,10 +21,10 @@ class Join implements StatementInterface
 
     /**
      * @param string $table
-     * @param Conditional $on
+     * @param Conditional|Grouping $on
      * @param string $type
      */
-    public function __construct($table, Conditional $on, $type = "")
+    public function __construct($table, $on, $type = "")
     {
         $this->table = $table;
         $this->on = $on;
