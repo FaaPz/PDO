@@ -366,6 +366,22 @@ abstract class StatementContainer
     }
 
     /**
+     * @param array $columns
+     * @param array $values
+     * @param string $chainType
+     * @param boolean $chainBefore
+     *
+     * @return $this
+     */
+    public function whereWrapped(array $columns, array $values, $chainType = 'AND', $chainBefore = true)
+    {
+        $this->values = array_merge($this->values, $values);
+        $this->whereClause->whereWrapped($columns, $chainType, $chainBefore);
+
+        return $this;
+    }
+
+    /**
      * @param $column
      * @param string $direction
      *

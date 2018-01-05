@@ -214,6 +214,30 @@ class WhereClause extends ClauseContainer
     }
 
     /**
+     * @param array  $columns
+     * @param string $chainType
+     * @param boolean $chainBefore
+     */
+    public function whereWrapped(array $columns, $chainType = 'AND', $chainBefore = true)
+    {
+        if ($chainBefore) {
+            $this->container[] = ' '.$chainType;
+        }
+
+        $this->container[] = ' (';
+
+        foreach ($columns as $key => $column) {
+            if ($key > 0) {
+                $this->container[] = ' '.(isset($column[2]) ? $column[2] : 'AND').' '.$column[0].' '.$column[1].' ?';
+            } else {
+                $this->container[] = ' '.$column[0].' '.$column[1].' ?';
+            }
+        }
+
+        $this->container[] = ' )';
+    }
+
+    /**
      * @return string
      */
     public function __toString()

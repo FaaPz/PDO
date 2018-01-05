@@ -139,6 +139,15 @@ Parameter | Type | Default | Description
 `$operator` | *string* | `null` | Logic operator
 `$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
 
+##### `whereWrapped(array $columns, array $values, $chainType = 'AND', $chainBefore = true)`
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+`$columns` | *array* | required | Multidimensional array containing column names, logic operator and chain type (optional)
+`$values` | *array* | required | Array containing column values
+`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+`$chainBefore` | *string* | `true` | Insert chain type before wrapping clause
+
 ### Examples
 
 ```php
@@ -171,4 +180,10 @@ $statement->whereNotNull('l_name');
 
 // ... WHERE col_1 = ? AND col_2 = ? AND col_3 = ?
 $statement->whereMany(array('col_1' => 'val_1', 'col_2' => 'val_2', 'col_3' => 'val_3'), '=');
+
+// ... AND (col_1 = ? AND col_2 = ? OR col_3 = ?)
+$statement->whereWrapped(array(array('col_1' '='), array('col_2', '=', 'AND'), array('col_3', '=', 'OR'), array('val_1', 'val_2', 'val_3'), 'AND');
+
+// ... WHERE (col_1 = ? AND col_2 = ? OR col_3 = ?)
+$statement->whereWrapped(array(array('col_1' '='), array('col_2', '=', 'AND'), array('col_3', '=', 'OR'), array('val_1', 'val_2', 'val_3'), 'AND', false);
 ```
