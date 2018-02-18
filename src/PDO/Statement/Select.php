@@ -4,39 +4,40 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Statement;
 
-use PDO; 
+use PDO;
 use Slim\PDO\AbstractStatement;
 use Slim\PDO\Clause;
 
 class Select extends AbstractStatement
 {
     /** @var string[] $columns */
-    protected $columns = array();
+    protected $columns = [];
 
     /** @var bool $distinct */
     protected $distinct = false;
 
     /** @var Clause\Join[] */
-    protected $join = array();
+    protected $join = [];
 
     /** @var string[] $groupBy */
-    protected $groupBy = array();
+    protected $groupBy = [];
 
     /** @var Clause\Conditional|null $having */
     protected $having = null;
 
     /**
-     * @param PDO $dbh
+     * @param PDO                      $dbh
      * @param string[]|Clause\Method[] $columns
      */
-    public function __construct(PDO $dbh, array $columns = ["*"])
+    public function __construct(PDO $dbh, array $columns = ['*'])
     {
         parent::__construct($dbh);
 
         if (empty($columns)) {
-            $columns = array("*");
+            $columns = ['*'];
         }
 
         $this->columns = $columns;
@@ -54,6 +55,7 @@ class Select extends AbstractStatement
 
     /**
      * @param string $table
+     *
      * @return $this
      */
     public function from($table)
@@ -65,9 +67,11 @@ class Select extends AbstractStatement
 
     /**
      * @param Clause\Join|Clause\Join[] $clause
+     *
      * @return $this
      */
-    public function join(Clause\Join $clause) {
+    public function join(Clause\Join $clause)
+    {
         if (is_array($clause)) {
             $this->join = array_merge($this->join[], array_values($clause));
         } else {
@@ -79,6 +83,7 @@ class Select extends AbstractStatement
 
     /**
      * @param string|string[] $column
+     *
      * @return $this
      */
     public function groupBy($column)
@@ -94,6 +99,7 @@ class Select extends AbstractStatement
 
     /**
      * @param Clause\Conditional $clause
+     *
      * @return $this
      */
     public function having(Clause\Conditional $clause)
@@ -108,33 +114,33 @@ class Select extends AbstractStatement
      */
     public function __toString()
     {
-        if (! isset($this->table)) {
-            trigger_error("No table is set for selection", E_USER_ERROR);
+        if (!isset($this->table)) {
+            trigger_error('No table is set for selection', E_USER_ERROR);
         }
 
-        $sql = "SELECT";
+        $sql = 'SELECT';
 
         if ($this->distinct) {
-            $sql .= " DISTINCT";
+            $sql .= ' DISTINCT';
         }
 
         $sql .= " {$this->getColumns()} FROM {$this->table} ";
-        $sql .= implode(" ", $this->join);
+        $sql .= implode(' ', $this->join);
 
         if ($this->where !== null) {
             $sql .= " WHERE {$this->where}";
         }
 
-        if (! empty($this->groupBy)) {
-            $sql .= " GROUP BY " . implode(", ", $this->groupBy);
+        if (!empty($this->groupBy)) {
+            $sql .= ' GROUP BY '.implode(', ', $this->groupBy);
         }
 
         if ($this->having !== null) {
             $sql .= " HAVING {$this->having}";
         }
 
-        if (! empty($this->orderBy)) {
-            $sql .= " ORDER BY " . implode(", ", $this->orderBy);
+        if (!empty($this->orderBy)) {
+            $sql .= ' ORDER BY '.implode(', ', $this->orderBy);
         }
 
         if ($this->limit !== null) {
@@ -149,7 +155,7 @@ class Select extends AbstractStatement
      */
     public function getValues()
     {
-        $values = array();
+        $values = [];
 
         foreach ($this->join as $join) {
             $values = array_merge($values, $join->getValues());
@@ -173,8 +179,9 @@ class Select extends AbstractStatement
     /**
      * @return string
      */
-    protected function getColumns() {
-        $columns = "";
+    protected function getColumns()
+    {
+        $columns = '';
 
         foreach ($this->columns as $key => $value) {
             if (is_string($key)) {
@@ -184,6 +191,6 @@ class Select extends AbstractStatement
             }
         }
 
-        return rtrim($columns, ", ");
+        return rtrim($columns, ', ');
     }
 }

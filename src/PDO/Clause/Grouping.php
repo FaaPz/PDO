@@ -4,6 +4,7 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Clause;
 
 class Grouping extends Conditional
@@ -15,7 +16,7 @@ class Grouping extends Conditional
     protected $value;
 
     /**
-     * @param string $rule
+     * @param string        $rule
      * @param Conditional[] $clauses
      */
     public function __construct($rule, array $clauses)
@@ -29,7 +30,7 @@ class Grouping extends Conditional
      */
     public function getValues()
     {
-        $values = array();
+        $values = [];
 
         foreach ($this->value as $clause) {
             $values = array_merge($values, $clause->getValues());
@@ -43,6 +44,6 @@ class Grouping extends Conditional
      */
     public function __toString()
     {
-        return '(' . implode(") {$this->rule} (", $this->value) . ')';
+        return '('.implode(") {$this->rule} (", $this->value).')';
     }
 }

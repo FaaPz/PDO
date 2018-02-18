@@ -4,6 +4,7 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Clause;
 
 use Slim\PDO\StatementInterface;
@@ -22,7 +23,7 @@ class Conditional implements StatementInterface
     /**
      * @param string $column
      * @param string $operator
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function __construct($column, $operator, $value)
     {
@@ -38,8 +39,8 @@ class Conditional implements StatementInterface
     {
         $values = $this->value;
 
-        if (! is_array($values)) {
-            $values = array($values);
+        if (!is_array($values)) {
+            $values = [$values];
         }
 
         return $values;
@@ -50,10 +51,10 @@ class Conditional implements StatementInterface
      */
     public function __toString()
     {
-        $placeholders = "?";
+        $placeholders = '?';
 
         if (is_array($this->value)) {
-            $placeholders = '(' . rtrim(str_repeat("?, ", count($this->value)), ", ") . ')';
+            $placeholders = '('.rtrim(str_repeat('?, ', count($this->value)), ', ').')';
         }
 
         return "{$this->column} {$this->operator} {$placeholders}";

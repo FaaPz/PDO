@@ -4,6 +4,7 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Statement;
 
 use PDO;
@@ -15,11 +16,11 @@ class Update extends AbstractStatement
     /** @var array $pairs */
     protected $pairs;
 
-    /** @var Clause\Join[] */
-    protected $join = array();
+    /** @var Clause\Join[] $join */
+    protected $join = [];
 
     /**
-     * @param PDO $dbh
+     * @param PDO   $dbh
      * @param array $pairs
      */
     public function __construct(PDO $dbh, array $pairs = [])
@@ -30,7 +31,8 @@ class Update extends AbstractStatement
     }
 
     /**
-     * @param $table
+     * @param  $table
+     *
      * @return $this
      */
     public function table($table)
@@ -42,6 +44,7 @@ class Update extends AbstractStatement
 
     /**
      * @param array $pairs
+     *
      * @return $this
      */
     public function set(array $pairs)
@@ -53,9 +56,11 @@ class Update extends AbstractStatement
 
     /**
      * @param Clause\Join|Clause\Join[] $clause
+     *
      * @return $this
      */
-    public function join(Clause\Join $clause) {
+    public function join(Clause\Join $clause)
+    {
         if (is_array($clause)) {
             $this->join = array_merge($this->join[], array_values($clause));
         } else {
@@ -70,16 +75,16 @@ class Update extends AbstractStatement
      */
     public function __toString()
     {
-        if (! isset($this->table)) {
-            trigger_error("No table is set for update", E_USER_ERROR);
+        if (!isset($this->table)) {
+            trigger_error('No table is set for update', E_USER_ERROR);
         }
 
         if (empty($this->pairs)) {
-            trigger_error("Missing columns and values for update", E_USER_ERROR);
+            trigger_error('Missing columns and values for update', E_USER_ERROR);
         }
 
         $sql = "UPDATE {$this->table}";
-        $sql .= implode(" ", $this->join);
+        $sql .= implode(' ', $this->join);
 
         $columns = array_keys($this->pairs);
         $column = array_pop($columns);
@@ -93,8 +98,8 @@ class Update extends AbstractStatement
             $sql .= " WHERE {$this->where}";
         }
 
-        if (! empty($this->orderBy)) {
-            $sql .= " ORDER BY " . implode(", ", $this->orderBy);
+        if (!empty($this->orderBy)) {
+            $sql .= ' ORDER BY '.implode(', ', $this->orderBy);
         }
 
         if ($this->limit !== null) {

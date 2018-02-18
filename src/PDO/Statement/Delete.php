@@ -4,6 +4,7 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Statement;
 
 use PDO;
@@ -13,10 +14,10 @@ use Slim\PDO\Clause;
 class Delete extends AbstractStatement
 {
     /** @var Clause\Join[] */
-    protected $join = array();
+    protected $join = [];
 
     /**
-     * @param PDO $dbh
+     * @param PDO    $dbh
      * @param string $table
      */
     public function __construct(PDO $dbh, $table = null)
@@ -28,6 +29,7 @@ class Delete extends AbstractStatement
 
     /**
      * @param $table
+     *
      * @return $this
      */
     public function from($table)
@@ -39,9 +41,11 @@ class Delete extends AbstractStatement
 
     /**
      * @param Clause\Join|Clause\Join[] $clause
+     *
      * @return $this
      */
-    public function join(Clause\Join $clause) {
+    public function join(Clause\Join $clause)
+    {
         if (is_array($clause)) {
             $this->join = array_merge($this->join[], array_values($clause));
         } else {
@@ -56,19 +60,19 @@ class Delete extends AbstractStatement
      */
     public function __toString()
     {
-        if (! isset($this->table)) {
-            trigger_error("No table is set for deletion", E_USER_ERROR);
+        if (!isset($this->table)) {
+            trigger_error('No table is set for deletion', E_USER_ERROR);
         }
 
         $sql = "DELETE FROM {$this->table}";
-        $sql .= implode(" ", $this->join);
-        
+        $sql .= implode(' ', $this->join);
+
         if ($this->where !== null) {
             $sql .= " WHERE {$this->where}";
         }
 
-        if (! empty($this->orderBy)) {
-            $sql .= " ORDER BY " . implode(", ", $this->orderBy);
+        if (!empty($this->orderBy)) {
+            $sql .= ' ORDER BY '.implode(', ', $this->orderBy);
         }
 
         if ($this->limit !== null) {
@@ -91,7 +95,7 @@ class Delete extends AbstractStatement
      */
     public function getValues()
     {
-        $values = array();
+        $values = [];
 
         if ($this->where !== null) {
             $values = array_merge($values, $this->where->getValues());

@@ -4,6 +4,7 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Clause;
 
 use Slim\PDO\StatementInterface;
@@ -18,7 +19,7 @@ class Method implements StatementInterface
 
     /**
      * @param string $name
-     * @param array $values
+     * @param array  $values
      */
     public function __construct($name, array $values = [])
     {
@@ -39,7 +40,8 @@ class Method implements StatementInterface
      */
     public function __toString()
     {
-        $placeholders = rtrim(str_repeat("?, ", count($this->values)), ", ");
+        $placeholders = rtrim(str_repeat('?, ', count($this->values)), ', ');
+
         return "{$this->name}({$placeholders})";
     }
 }

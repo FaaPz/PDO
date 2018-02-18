@@ -4,6 +4,7 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Statement;
 
 use PDO;
@@ -20,13 +21,13 @@ class Insert implements StatementInterface
     protected $table;
 
     /** @var string[] $columns */
-    protected $columns = array();
+    protected $columns = [];
 
     /** @var array $values */
-    protected $values = array();
+    protected $values = [];
 
     /**
-     * @param PDO $dbh
+     * @param PDO   $dbh
      * @param array $pairs
      */
     public function __construct(PDO $dbh, array $pairs = [])
@@ -39,6 +40,7 @@ class Insert implements StatementInterface
 
     /**
      * @param $table
+     *
      * @return $this
      */
     public function into($table)
@@ -50,6 +52,7 @@ class Insert implements StatementInterface
 
     /**
      * @param array $columns
+     *
      * @return $this
      */
     public function columns(array $columns)
@@ -61,12 +64,13 @@ class Insert implements StatementInterface
 
     /**
      * @param array $values
+     *
      * @return $this
      */
     public function values(array $values)
     {
         $this->values = array_merge($this->values, $values);
-        
+
         return $this;
     }
 
@@ -75,20 +79,20 @@ class Insert implements StatementInterface
      */
     public function __toString()
     {
-        if (! isset($this->table)) {
-            trigger_error("No table is set for insertion", E_USER_ERROR);
+        if (!isset($this->table)) {
+            trigger_error('No table is set for insertion', E_USER_ERROR);
         }
 
         if (empty($this->columns)) {
-            trigger_error("Missing columns for insertion", E_USER_ERROR);
+            trigger_error('Missing columns for insertion', E_USER_ERROR);
         }
 
         if (empty($this->values)) {
-            trigger_error("Missing values for insertion", E_USER_ERROR);
+            trigger_error('Missing values for insertion', E_USER_ERROR);
         }
 
-        $columns = implode(", ", $this->columns);
-        $placeholders = rtrim(str_repeat("?, ", count($this->values)), ", ");
+        $columns = implode(', ', $this->columns);
+        $placeholders = rtrim(str_repeat('?, ', count($this->values)), ', ');
 
         $sql = "INSERT INTO {$this->table} ({$columns})";
         $sql .= " VALUES ({$placeholders})";
@@ -97,16 +101,19 @@ class Insert implements StatementInterface
     }
 
     /**
-     * @return string|int
      * @throws Exception
+     *
+     * @return string|int
      */
     public function execute()
     {
         $stmt = $this->dbh->prepare($this->__toString());
+
         try {
             $success = $stmt->execute($this->getValues());
-            if (! $success) {
+            if (!$success) {
                 $info = $stmt->errorInfo();
+
                 throw new Exception($info[2], $info[0]);
             }
         } catch (PDOException $e) {

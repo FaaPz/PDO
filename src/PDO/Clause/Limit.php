@@ -4,6 +4,7 @@
  * @license MIT
  * @license http://opensource.org/licenses/MIT
  */
+
 namespace Slim\PDO\Clause;
 
 use Slim\PDO\StatementInterface;
@@ -17,7 +18,7 @@ class Limit implements StatementInterface
     protected $offset;
 
     /**
-     * @param int $rowCount
+     * @param int      $rowCount
      * @param int|null $offset
      */
     public function __construct($rowCount, $offset = null)
@@ -31,7 +32,7 @@ class Limit implements StatementInterface
      */
     public function getValues()
     {
-        $values = array();
+        $values = [];
 
         if (isset($this->offset)) {
             $values[] = $this->offset;
@@ -47,13 +48,13 @@ class Limit implements StatementInterface
      */
     public function __toString()
     {
-        $sql = "";
+        $sql = '';
 
         if (isset($this->offset)) {
-            $sql = "?, ";
+            $sql = '?, ';
         }
 
-        $sql .= "?";
+        $sql .= '?';
 
         return $sql;
     }
