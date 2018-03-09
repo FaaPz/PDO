@@ -88,10 +88,10 @@ class Update extends AbstractStatement
 
         $columns = array_keys($this->pairs);
         $column = array_pop($columns);
-        $sql .= " SET ${column} = ?";
+        $sql .= " SET `{$column}` = ?";
 
         while (($column = array_pop($columns)) !== null) {
-            $sql .= ", ${column} = ?";
+            $sql .= ", `{$column}` = ?";
         }
 
         if ($this->where !== null) {
@@ -99,7 +99,7 @@ class Update extends AbstractStatement
         }
 
         if (!empty($this->orderBy)) {
-            $sql .= ' ORDER BY '.implode(', ', $this->orderBy);
+            $sql .= ' ORDER BY `'.implode('`, `', $this->orderBy).'`';
         }
 
         if ($this->limit !== null) {

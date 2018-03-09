@@ -91,7 +91,7 @@ class Insert implements StatementInterface
             trigger_error('Missing values for insertion', E_USER_ERROR);
         }
 
-        $columns = implode(', ', $this->columns);
+        $columns = '`'.implode('`, `', $this->columns).'`';
         $placeholders = rtrim(str_repeat('?, ', count($this->values)), ', ');
 
         $sql = "INSERT INTO {$this->table} ({$columns})";
