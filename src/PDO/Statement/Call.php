@@ -27,11 +27,11 @@ class Call extends AbstractStatement
         $this->table = $procedure;
     }
 
-	/**
-	 * @param Clause\Method $procedure
-	 *
-	 * @return $this
-	 */
+    /**
+     * @param Clause\Method $procedure
+     *
+     * @return $this
+     */
     public function method(Clause\Method $procedure)
     {
         $this->table = $procedure;

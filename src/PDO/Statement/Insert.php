@@ -92,15 +92,15 @@ class Insert implements StatementInterface
         }
 
         $columns = '`'.implode('`, `', $this->columns).'`';
-		$placeholders = '';
+        $placeholders = '';
         foreach ($this->values as $value) {
-        	if ($value instanceof StatementInterface) {
-				$placeholders .= "{$value}, ";
-			} else {
-				$placeholders .= '?, ';
-			}
-		}
-		$placeholders = rtrim($placeholders, ', ');
+            if ($value instanceof StatementInterface) {
+                $placeholders .= "{$value}, ";
+            } else {
+                $placeholders .= '?, ';
+            }
+        }
+        $placeholders = rtrim($placeholders, ', ');
 
         $sql = "INSERT INTO {$this->table} ({$columns})";
         $sql .= " VALUES ({$placeholders})";
@@ -136,14 +136,14 @@ class Insert implements StatementInterface
      */
     public function getValues()
     {
-		$values = array();
-		foreach ($this->values as $value) {
-			if ($value instanceof StatementInterface) {
-				$values = array_merge($values, $value->getValues());
-			} else {
-				$values[] = $values;
-			}
-		}
+        $values = [];
+        foreach ($this->values as $value) {
+            if ($value instanceof StatementInterface) {
+                $values = array_merge($values, $value->getValues());
+            } else {
+                $values[] = $value;
+            }
+        }
 
         return $values;
     }
