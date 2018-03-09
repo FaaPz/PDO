@@ -57,7 +57,7 @@ class Insert implements StatementInterface
      */
     public function columns(array $columns)
     {
-        $this->columns = array_merge($this->columns, $columns);
+        $this->columns = $columns;
 
         return $this;
     }
@@ -69,7 +69,7 @@ class Insert implements StatementInterface
      */
     public function values(array $values)
     {
-        $this->values = array_merge($this->values, $values);
+        $this->values = $values;
 
         return $this;
     }
@@ -87,12 +87,20 @@ class Insert implements StatementInterface
             trigger_error('Missing columns for insertion', E_USER_ERROR);
         }
 
-        if (empty($this->values)) {
+        if (empty($this->values) || count($this->columns) != count($this->values)) {
             trigger_error('Missing values for insertion', E_USER_ERROR);
         }
 
         $columns = '`'.implode('`, `', $this->columns).'`';
-        $placeholders = rtrim(str_repeat('?, ', count($this->values)), ', ');
+		$placeholders = '';
+        foreach ($this->values as $value) {
+        	if ($value instanceof StatementInterface) {
+				$placeholders .= "{$value}, ";
+			} else {
+				$placeholders .= '?, ';
+			}
+		}
+		$placeholders = rtrim($placeholders, ', ');
 
         $sql = "INSERT INTO {$this->table} ({$columns})";
         $sql .= " VALUES ({$placeholders})";
@@ -128,6 +136,15 @@ class Insert implements StatementInterface
      */
     public function getValues()
     {
-        return $this->values;
+		$values = array();
+		foreach ($this->values as $value) {
+			if ($value instanceof StatementInterface) {
+				$values = array_merge($values, $value->getValues());
+			} else {
+				$values[] = $values;
+			}
+		}
+
+        return $values;
     }
 }
