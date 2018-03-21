@@ -7,31 +7,21 @@
 
 namespace Slim\PDO;
 
-use Slim\PDO\Statement\DeleteStatement;
-use Slim\PDO\Statement\InsertStatement;
-use Slim\PDO\Statement\SelectStatement;
-use Slim\PDO\Statement\UpdateStatement;
+use PDO;
 
-/**
- * Class Database.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
-class Database extends \PDO
+class Database extends PDO
 {
     /**
-     * Constructor.
-     *
-     * @param $dsn
-     * @param null  $usr
-     * @param null  $pwd
-     * @param array $options
+     * @param string      $dsn
+     * @param string|null $username
+     * @param string|null $password
+     * @param array       $options
      */
-    public function __construct($dsn, $usr = null, $pwd = null, array $options = [])
+    public function __construct($dsn, $username = null, $password = null, array $options = [])
     {
         $options = $options + $this->getDefaultOptions();
 
-        @parent::__construct($dsn, $usr, $pwd, $options);
+        parent::__construct($dsn, $username, $password, $options);
     }
 
     /**
@@ -40,50 +30,59 @@ class Database extends \PDO
     protected function getDefaultOptions()
     {
         return [
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-            \PDO::ATTR_EMULATE_PREPARES => false,
-            \PDO::ATTR_STATEMENT_CLASS => ['Slim\\PDO\\Statement', [$this]],
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => false,
         ];
+    }
+
+    /**
+     * @param Clause\Method $procedure
+     *
+     * @return Statement\Call
+     */
+    public function call(Clause\Method $procedure = null)
+    {
+        return new Statement\Call($this, $procedure);
     }
 
     /**
      * @param array $columns
      *
-     * @return SelectStatement
+     * @return Statement\Select
      */
     public function select(array $columns = ['*'])
     {
-        return new SelectStatement($this, $columns);
+        return new Statement\Select($this, $columns);
     }
 
     /**
-     * @param array $columnsOrPairs
+     * @param array $columns
      *
-     * @return InsertStatement
+     * @return Statement\Insert
      */
-    public function insert(array $columnsOrPairs = [])
+    public function insert(array $columns = [])
     {
-        return new InsertStatement($this, $columnsOrPairs);
+        return new Statement\Insert($this, $columns);
     }
 
     /**
      * @param array $pairs
      *
-     * @return UpdateStatement
+     * @return Statement\Update
      */
     public function update(array $pairs = [])
     {
-        return new UpdateStatement($this, $pairs);
+        return new Statement\Update($this, $pairs);
     }
 
     /**
-     * @param null $table
+     * @param string|null $table
      *
-     * @return DeleteStatement
+     * @return Statement\Delete
      */
     public function delete($table = null)
     {
-        return new DeleteStatement($this, $table);
+        return new Statement\Delete($this, $table);
     }
 }

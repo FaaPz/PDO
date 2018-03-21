@@ -1,59 +1,52 @@
 # JOIN clause
 
-> Used only in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md) statements.
+> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../docs/Statement/UPDATE.md) and [DELETE](../Statement/DELETE.md) statements.
+
+##### `__construct($table, Conditional $on, $type = "")`
+
+Parameter  | Type                                   | Default  | Description
+---------- | -------------------------------------- | -------- | -----------
+`$table`   | *string*                               | required | The table to join against
+`$on`      | *[Conditional](Clause/CONDITIONAL.md)* | required | Conditional to join the above table on.
+`$type`    | *string*                               | ""       | The type of join to perform.
 
 ### Methods
 
-##### `join($table, $first, $operator = null, $second = null, $joinType = 'INNER')`
+##### `__toString()`
+Returns the prepared SQL string for this statement.
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$table` | *string* | required | Table name
-`$first` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$second` | *string* | `null` | Column name
-`$joinType` | *string* | `'INNER'` | Join type: `INNER`, `LEFT OUTER`, `RIGHT OUTER` or `FULL OUTER`
-
-##### `leftJoin($table, $first, $operator = null, $second = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$table` | *string* | required | Table name
-`$first` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$second` | *string* | `null` | Column name
-
-##### `rightJoin($table, $first, $operator = null, $second = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$table` | *string* | required | Table name
-`$first` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$second` | *string* | `null` | Column name
-
-##### `fullJoin($table, $first, $operator = null, $second = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$table` | *string* | required | Table name
-`$first` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$second` | *string* | `null` | Column name
+##### `getValues()`
+Returns the values to be escaped for this statement.
 
 ### Examples
 
 ```php
+// ... JOIN orders ON customers.id = orders.customer_id
+$selectStatement->join(new Clause\Join("orders",
+    new Clause\Conditional("customers.id",  "=", "orders.customer_id")
+);
+
 // ... INNER JOIN orders ON customers.id = orders.customer_id
-$selectStatement->join('orders', 'customers.id', '=', 'orders.customer_id');
-$selectStatement->join('orders', 'customers.id', '=', 'orders.customer_id', 'INNER');
+$selectStatement->join(new Clause\Join("orders",
+    new Clause\Conditional("customers.id",  "=", "orders.customer_id"),
+    "INNER"
+);
 
 // ... LEFT OUTER JOIN orders ON customers.id = orders.customer_id
-$selectStatement->leftJoin('orders', 'customers.id', '=', 'orders.customer_id');
+$selectStatement->join(new Clause\Join("orders",
+    new Clause\Conditional("customers.id",  "=", "orders.customer_id"),
+    "LEFT OUTER"
+);
 
 // ... RIGHT OUTER JOIN orders ON customers.id = orders.customer_id
-$selectStatement->rightJoin('orders', 'customers.id', '=', 'orders.customer_id');
+$selectStatement->join(new Clause\Join("orders",
+    new Clause\Conditional("customers.id",  "=", "orders.customer_id"),
+    "RIGHT OUTER"
+);
 
 // ... FULL OUTER JOIN orders ON customers.id = orders.customer_id
-$selectStatement->fullJoin('orders', 'customers.id', '=', 'orders.customer_id');
+$selectStatement->join(new Clause\Join("orders",
+    new Clause\Conditional("customers.id",  "=", "orders.customer_id"),
+    "FULL OUTER"
+);
 ```

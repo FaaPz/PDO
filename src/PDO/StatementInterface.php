@@ -5,15 +5,15 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO\Clause;
+namespace Slim\PDO;
 
-/**
- * Interface ClauseInterface.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
-interface ClauseInterface
+interface StatementInterface
 {
+    /**
+     * @return array
+     */
+    public function getValues();
+
     /**
      * @return string
      */

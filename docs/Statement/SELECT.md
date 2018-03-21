@@ -1,187 +1,85 @@
 # SELECT statement
 
+### Constructor
+
+##### `__construct($dbh, $columns = ["*"])`
+
+Parameter  | Type     | Default  | Description
+---------- | -------- | -------- | -----------
+`$dbh`     | *PDO*    | required | PDO object for database connection
+`$columns` | *array*  | ["*"]    | Array of columns or Clause\Method
+
 ### Methods
 
 ##### `distinct()`
 
 ##### `from($table)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$table` | *string* | required | Table name
+Parameter | Type     | Default  | Description
+--------- | -------- | -------- | -----------
+`$table`  | *string* | required | Table name
 
-##### `join($table, $first, $operator = null, $second = null, $joinType = 'INNER')`
+##### `join($clause)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$table` | *string* | required | Table name
-`$first` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$second` | *string* | `null` | Column name
-`$joinType` | *string* | `'INNER'` | Join type: `INNER`, `LEFT OUTER`, `RIGHT OUTER` or `FULL OUTER`
+Parameter | Type                     | Default  | Description
+--------- | ------------------------ | -------- | -----------
+`$clause` | *[Join](Clause/JOIN.md)* | required | One or more Join clauses to attach to this query
 
-##### `leftJoin($table, $first, $operator = null, $second = null)`
+##### `groupBy($column)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$table` | *string* | required | Table name
-`$first` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$second` | *string* | `null` | Column name
+Parameter | Type     | Default  | Description
+--------- | -------- | -------- | -----------
+`$column` | *string* | required | One or more columns to group the result by
 
-##### `rightJoin($table, $first, $operator = null, $second = null)`
+##### `having($clause)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$table` | *string* | required | Table name
-`$first` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$second` | *string* | `null` | Column name
+Parameter | Type                                   | Default  | Description
+--------- | -------------------------------------- | -------- | -----------
+`$clause` | *[Conditional](Clause/CONDITIONAL.md)* | required | One or more Conditial clauses to attach to this query
 
-##### `fullJoin($table, $first, $operator = null, $second = null)`
+##### `__toString()`
+Returns the prepared SQL string for this statement.
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$table` | *string* | required | Table name
-`$first` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$second` | *string* | `null` | Column name
+##### `getValues()`
+Returns the values to be escaped for this statement.
 
-##### `groupBy($columns)`
+##### `where($clause)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$columns` | *string* | required | String containing column names
+Parameter | Type                                   | Default  | Description
+--------- | -------------------------------------- | -------- | -----------
+`$clause` | *[Conditional](Clause/CONDITIONAL.md)* | required | One or more Conditional clauses to attach to this query
 
-##### `having($column, $operator = null, $value = null, $chainType = 'AND')`
+##### `orderBy($column, $direction)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$value` | *string* | `null` | Column value
-`$chainType` | *string* | `'AND'` | Chain type: `AND` or `OR`
+Parameter | Type     | Default  | Description
+--------- | -------- | -------- | -----------
+`$column` | *string* | required | The column to order this query by.
+`$column` | *string* | null     | The order the above column should be sorted in.
 
-##### `orHaving($column, $operator = null, $value = null)`
+##### `limit($clause)`
 
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$value` | *string* | `null` | Column value
-
-##### `havingCount($column, $operator = null, $value = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$value` | *string* | `null` | Column value
-
-##### `havingMax($column, $operator = null, $value = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$value` | *string* | `null` | Column value
-
-##### `havingMin($column, $operator = null, $value = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$value` | *string* | `null` | Column value
-
-##### `havingAvg($column, $operator = null, $value = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$value` | *string* | `null` | Column value
-
-##### `havingSum($column, $operator = null, $value = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | required | Column name
-`$operator` | *string* | `null` | Logical operator
-`$value` | *string* | `null` | Column value
-
-##### `offset($number)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$number` | *int* | required | Number of rows
+Parameter | Type                       | Default  | Description
+--------- | -------------------------- | -------- | -----------
+`$clause` | *[Limit](Clause/LIMIT.md)* | required | A single limit conditional to be applied to this statement.
 
 ##### `execute()`
-
-### Aggregate methods
-
-##### `count($column = '*', $as = null, $distinct = false)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | `'*'` | String containing column names
-`$as` | *string* | `null` | Column alias
-`$distinct` | *bool* | `false` | Boolean **DISTINCT** clause
-
-##### `distinctCount($column = '*', $as = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | `'*'` | String containing column names
-`$as` | *string* | `null` | Column alias
-
-##### `max($column, $as = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | required | Column name
-`$as` | *string* | `null` | Column alias
-
-##### `min($column, $as = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | required | Column name
-`$as` | *string* | `null` | Column alias
-
-##### `avg($column, $as = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | required | Column name
-`$as` | *string* | `null` | Column alias
-
-##### `sum($column, $as = null)`
-
-Parameter | Type | Default | Description
---- | --- | --- | ---
-`$column` | *string* | required | Column name
-`$as` | *string* | `null` | Column alias
-
-> Example code? Click [here](https://github.com/FaaPz/Slim-PDO/blob/master/docs/AGGREGATES.md)!
+Returns PHP PDOStatement object.
 
 ### Clauses
 
-+ [JOIN](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/JOIN.md)
-+ [WHERE](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/WHERE.md)
-+ [GROUP BY](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/GROUP_BY.md)
-+ [HAVING](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/HAVING.md)
-+ [ORDER BY](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/ORDER_BY.md)
-+ [LIMIT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/LIMIT.md)
-+ [OFFSET](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Clause/OFFSET.md)
++ [Conditional](Clause/CONDITIONAL.md)
++ [Grouping](Clause/GROUPING.md)
++ [Join](Clause/JOIN.md)
++ [Limit](Clause/LIMIT.md)
++ [Method](Clause/METHOD.md)
 
 ### Examples
 
 ```php
 // SELECT * FROM users WHERE id = ?
-$selectStatement = $slimPdo->select()
-                           ->from('users')
-                           ->where('id', '=', 1234);
+$selectStatement = $slimPdo->select(array("*"))
+                           ->from("users")
+                           ->where(new Conditional("id", "=", 1234));
 
 $stmt = $selectStatement->execute();
 $data = $stmt->fetch();

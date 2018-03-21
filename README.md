@@ -13,7 +13,7 @@ Use [Composer](https://getcomposer.org/)
 
 ```json
 "require": {
-    "slim/pdo": "~1.10"
+    "slim/pdo": "dev-v2-dev"
 }
 ```
 
@@ -39,23 +39,26 @@ $stmt = $selectStatement->execute();
 $data = $stmt->fetch();
 
 // INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
-$insertStatement = $pdo->insert(array('id', 'usr', 'pwd'))
-                       ->into('users')
-                       ->values(array(1234, 'your_username', 'your_password'));
+$insertStatement = $pdo->insert(array(
+                           "id" =>1234,
+                           "usr" => "your_username",
+                           "pwd" => "your_password"
+                       ))
+                       ->into("users");
 
-$insertId = $insertStatement->execute(false);
+$insertId = $insertStatement->execute();
 
 // UPDATE users SET pwd = ? WHERE id = ?
-$updateStatement = $pdo->update(array('pwd' => 'your_new_password'))
-                       ->table('users')
-                       ->where('id', '=', 1234);
+$updateStatement = $pdo->update(array("pwd" => "your_new_password"))
+                       ->table("users")
+                       ->where(new Clause\Conditional("id", "=", 1234));
 
 $affectedRows = $updateStatement->execute();
 
 // DELETE FROM users WHERE id = ?
 $deleteStatement = $pdo->delete()
-                       ->from('users')
-                       ->where('id', '=', 1234);
+                       ->from("users")
+                       ->where(new Clause\Conditional("id", "=", 1234));
 
 $affectedRows = $deleteStatement->execute();
 ```
@@ -64,12 +67,12 @@ $affectedRows = $deleteStatement->execute();
 
 ### Documentation
 
-See [DOCUMENTATION](https://github.com/FaaPz/Slim-PDO/blob/master/docs/README.md)
+See [DOCUMENTATION](docs/README.md)
 
 ### Changelog
 
-See [CHANGELOG](https://github.com/FaaPz/Slim-PDO/blob/master/CHANGELOG.md)
+See [CHANGELOG](CHANGELOG.md)
 
 ### License
 
-See [LICENSE](https://github.com/FaaPz/Slim-PDO/blob/master/LICENSE)
+See [LICENSE](LICENSE)
