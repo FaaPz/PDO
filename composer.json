@@ -1,19 +1,17 @@
 {
-    "name": "slim/pdo",
+    "name": "kimosabi77/Slim-PDO",
     "description": "PDO database library for Slim Framework",
     "version": "1.10.1",
     "type": "library",
     "keywords": ["pdo", "database", "slim", "framework"],
-    "homepage": "https://github.com/FaaPz/Slim-PDO",
+    "homepage": "https://github.com/kimosabi77/Slim-PDO",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Fabian de Laender",
-            "email": "fabian@faapz.nl",
-            "homepage": "http://faapz.nl",
-            "role": "Developer"
-        }
-    ],
+    "authors": [{
+        "name": "Fabian de Laender",
+        "email": "fabian@faapz.nl",
+        "homepage": "http://faapz.nl",
+        "role": "Developer"
+    }],
     "support": {
         "issues": "https://github.com/FaaPz/Slim-PDO/issues",
         "docs": "https://github.com/FaaPz/Slim-PDO/blob/master/docs/README.md"
