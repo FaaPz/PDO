@@ -1,6 +1,6 @@
 {
     "name": "kimoslim/pdo",
-    "description": "PDO database library for Slim Framework",
+    "description": "PHP 7.2 Compatible Fork of PDO database library for Slim Framework",
     "version": "1.10.2",
     "type": "library",
     "keywords": ["pdo", "database", "slim", "framework"],
@@ -21,8 +21,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/kimosabi77/Slim-PDO/issues",
-        "docs": "https://github.com/kimosabi77/Slim-PDO/blob/master/docs/README.md"
+        "issues": "https://github.com/FaaPz/Slim-PDO/issues",
+        "docs": "https://github.com/FaaPz/Slim-PDO/blob/master/docs/README.md"
     },
     "require": {
         "php": ">=5.3.0",
