@@ -185,9 +185,17 @@ class Select extends AbstractStatement
 
         foreach ($this->columns as $key => $value) {
             if (is_string($key)) {
-                $columns .= "`{$key}` AS `{$value}`, ";
+                if (trim($key) != '*') {
+                    $key = '`'.str_replace('.', '`.`', $key).'`';
+                }
+
+                $columns .= "{$key} AS {$value}, ";
             } else {
-                $columns .= "`{$value}`, ";
+                if (trim($value) != '*') {
+                    $value = '`'.str_replace('.', '`.`', $value).'`';
+                }
+
+                $columns .= "{$value}, ";
             }
         }
 

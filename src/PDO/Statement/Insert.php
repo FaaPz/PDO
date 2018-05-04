@@ -92,6 +92,8 @@ class Insert implements StatementInterface
         }
 
         $columns = '`'.implode('`, `', $this->columns).'`';
+        $columns = str_replace('.', '`.`', $columns);
+
         $placeholders = '';
         foreach ($this->values as $value) {
             if ($value instanceof StatementInterface) {
