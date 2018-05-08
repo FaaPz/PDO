@@ -1,7 +1,7 @@
 {
-    "name": "slim/pdo",
-    "description": "PDO database library for Slim Framework",
-    "version": "1.10.1",
+    "name": "kimoslim/pdo",
+    "description": "PHP 7.2 Compatible Fork of PDO database library for Slim Framework",
+    "version": "1.10.2",
     "type": "library",
     "keywords": ["pdo", "database", "slim", "framework"],
     "homepage": "https://github.com/FaaPz/Slim-PDO",
@@ -11,6 +11,12 @@
             "name": "Fabian de Laender",
             "email": "fabian@faapz.nl",
             "homepage": "http://faapz.nl",
+            "role": "Developer"
+        },
+        {
+            "name": "Kim Richardson",
+            "email": "krichardson@viewdale.com.au",
+            "homepage": "https://viewdaleit.com.au",
             "role": "Developer"
         }
     ],

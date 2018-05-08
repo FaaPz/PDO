@@ -1,11 +1,10 @@
 # Slim-PDO
 
-[![Latest Stable Version](https://poser.pugx.org/slim/pdo/v/stable)](https://packagist.org/packages/slim/pdo)
-[![Total Downloads](https://poser.pugx.org/slim/pdo/downloads)](https://packagist.org/packages/slim/pdo)
-[![Latest Unstable Version](https://poser.pugx.org/slim/pdo/v/unstable)](https://packagist.org/packages/slim/pdo)
-[![License](https://poser.pugx.org/slim/pdo/license)](https://packagist.org/packages/slim/pdo)
-
 PDO database library for Slim Framework
+
+This is a fork of Fabien's project with support for PHP 7.2.
+
+Please refer to the main package at https://github.com/faaPz/Slim-PDO for pull requests, support and documentation.
 
 ### Installation
 
@@ -13,7 +12,7 @@ Use [Composer](https://getcomposer.org/)
 
 ```json
 "require": {
-    "slim/pdo": "~1.10"
+    "kimoslim/pdo": "~1.10"
 }
 ```
 
