@@ -1,5 +1,15 @@
 ### Changelog
 
+##### v1.10.1
++ Updated `Database` class with:
+  - Allow user provided PDO options to overwrite default values
++ Updated `StatementContainer` class with:
+  - Added check to stop executing when field value is not expected
++ Updated `LimitClause` class with:
+  - Fixed `LIMIT/OFFSET` format
+  - Changed default offset value
+  - Added check whether offset is null (before checking if is integer)
+
 ##### v1.10.0
 + Updated `StatementContainer` class with:
   - Added transactional `commit()` method
