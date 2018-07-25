@@ -513,7 +513,9 @@ abstract class StatementContainer
         foreach ($values as $value) {
             $this->placeholders[] = $this->setPlaceholder(
                 '?',
-                is_null($value) ? 1 : sizeof($value));
+                is_array($value) || $value instanceof \Countable
+                    ? sizeof($value)
+                    : 1);
         }
     }
 
