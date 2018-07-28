@@ -1,10 +1,9 @@
 {
-    "name": "mikegioia/pdo",
+    "name": "particlebits/pdo",
     "description": "PDO database library for Slim Framework",
-    "version": "1.10.1",
     "type": "library",
-    "keywords": ["pdo", "database", "slim", "framework"],
-    "homepage": "https://github.com/mikegioia/Slim-PDO",
+    "keywords": ["pdo", "database"],
+    "homepage": "https://github.com/particlebits/pdo",
     "license": "MIT",
     "authors": [
         {
@@ -15,16 +14,16 @@
         },
         {
             "name": "Mike Gioia",
-            "homepage": "http://mikegioia.com",
-            "email": "mikegioia@gmail.com"
+            "homepage": "https://particlebits.com",
+            "email": "mike@particlebits.com"
         }
     ],
     "support": {
-        "issues": "https://github.com/mikegioia/Slim-PDO/issues",
-        "docs": "https://github.com/mikegioia/Slim-PDO/blob/master/docs/README.md"
+        "issues": "https://github.com/particlebits/pdo/issues",
+        "docs": "https://github.com/particlebits/pdo/blob/master/docs/README.md"
     },
     "require": {
-        "php": ">=5.3.0",
+        "php": ">= 5.6",
         "ext-pdo": "*"
     },
     "autoload": {
