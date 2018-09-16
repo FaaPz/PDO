@@ -4,9 +4,16 @@ namespace Pb\PDO\Clause;
 
 class GroupClause extends ClauseContainer
 {
-    public function groupBy(array $columns)
+    /**
+     * @param mixed $columns
+     */
+    public function groupBy($columns)
     {
-        $this->container += $columns;
+        if (is_array($columns)) {
+            $this->container += $columns;
+        } else {
+            $this->container[] = $columns;
+        }
     }
 
     public function __toString()

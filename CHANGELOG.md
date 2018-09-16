@@ -1,5 +1,9 @@
 ### Changelog
 
+##### v2.0.2
++ Updated `GroupClause` class with:
+  - For backwards compatibility, `groupBy()` accepts both `array` and `string`
+
 ##### v2.0.1
 + Updated `GroupClause` class with:
   - `array` type is required in `groupBy()` function
