@@ -7,15 +7,16 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Fabian de Laender",
-            "email": "fabian@faapz.nl",
-            "homepage": "http://faapz.nl",
+            "name": "Mike Gioia",
+            "homepage": "https://particlebits.com",
+            "email": "mike@particlebits.com",
             "role": "Developer"
         },
         {
-            "name": "Mike Gioia",
-            "homepage": "https://particlebits.com",
-            "email": "mike@particlebits.com"
+            "name": "Fabian de Laender",
+            "email": "fabian@faapz.nl",
+            "homepage": "http://faapz.nl",
+            "role": "Original Developer"
         }
     ],
     "support": {

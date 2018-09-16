@@ -11,6 +11,7 @@ use Slim\PDO\Statement\SelectStatement;
 use Slim\PDO\Statement\InsertStatement;
 use Slim\PDO\Statement\UpdateStatement;
 use Slim\PDO\Statement\DeleteStatement;
+use Slim\PDO\Statement\InsertMultiStatement;
 
 /**
  * Class Database.
@@ -65,6 +66,17 @@ class Database extends \PDO
     public function insert(array $columnsOrPairs = array())
     {
         return new InsertStatement($this, $columnsOrPairs);
+    }
+
+    /**
+     * @param array $keys
+     * @param array $values
+     *
+     * @return InsertMultiStatement
+     */
+    public function insertMulti(array $keys = array(), array $values = array())
+    {
+        return new InsertMultiStatement($this, $keys, $values);
     }
 
     /**

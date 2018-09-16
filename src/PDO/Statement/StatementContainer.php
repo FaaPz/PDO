@@ -40,6 +40,11 @@ abstract class StatementContainer
     protected $placeholders = array();
 
     /**
+     * @var array
+     */
+    protected $placeholdersMulti = array();
+
+    /**
      * @var
      */
     protected $table;
@@ -433,6 +438,21 @@ abstract class StatementContainer
     }
 
     /**
+     * @return \PDOStatement
+     */
+    public function executeMulti()
+    {
+        $stmt = $this->getStatement();
+        $this->bindValuesMulti($stmt, $this->values);
+try {
+        $stmt->execute();
+} catch (\Exception $e) {
+    var_dump($stmt);exit;
+}
+        return $stmt;
+    }
+
+    /**
      * Bind values to their parameters in the given statement.
      *
      * @param  \PDOStatement $statement
@@ -443,10 +463,23 @@ abstract class StatementContainer
     {
         foreach ($bindings as $key => $value) {
             $statement->bindValue(
-                is_string($key) ? $key : $key + 1, $value,
+                is_string($key) ? $key : $key + 1,
+                $value,
                 is_int($value) ? \PDO::PARAM_INT : \PDO::PARAM_STR
             );
         }
+    }
+
+    protected function bindValuesMulti($statement, $bindings)
+    {
+        // Reduce array to flat values while preserving order
+        $values = [];
+
+        foreach ($bindings as $array) {
+            $values = array_merge($values, array_values($array));
+        }
+
+        return $this->bindValues($statement, $values);
     }
 
     /**
@@ -494,6 +527,18 @@ abstract class StatementContainer
     }
 
     /**
+     * @param array $values
+     *
+     * @return $this
+     */
+    protected function appendValues(array $values)
+    {
+        $this->values[] = $values;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     protected function getPlaceholders()
@@ -503,6 +548,23 @@ abstract class StatementContainer
         $this->placeholders = array();
 
         return '( '.implode(' , ', $placeholders).' )';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getPlaceholdersMulti()
+    {
+        $result = [];
+        $placeholders = $this->placeholdersMulti;
+
+        $this->placeholdersMulti = array();
+
+        foreach ($placeholders as $placeholder) {
+            $result[] = '( '.implode(' , ', $placeholder).' )';
+        }
+
+        return implode(' , ', $result);
     }
 
     /**
@@ -517,6 +579,24 @@ abstract class StatementContainer
                     ? sizeof($value)
                     : 1);
         }
+    }
+
+    /**
+     * @param array $values
+     */
+    protected function setMultiPlaceholders(array $values)
+    {
+        $placeholders = [];
+
+        foreach ($values as $value) {
+            $placeholders[] = $this->setPlaceholder(
+                '?',
+                is_array($value) || $value instanceof \Countable
+                    ? sizeof($value)
+                    : 1);
+        }
+
+        $this->placeholdersMulti[] = $placeholders;
     }
 
     /**
