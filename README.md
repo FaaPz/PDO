@@ -1,4 +1,5 @@
-# `\Pb\PDO` &mdash; Micro PDO Library
+# \Pb\PDO 
+## Micro PDO Library
 
 [![Latest Stable Version](https://poser.pugx.org/ParticleBits/pdo/v/stable)](https://packagist.org/packages/ParticleBits/pdo)
 [![License](https://poser.pugx.org/ParticleBits/pdo/license)](https://packagist.org/packages/ParticleBits/pdo)
