@@ -1,22 +1,12 @@
 <?php
 
-/**
- * @license MIT
- * @license http://opensource.org/licenses/MIT
- */
+namespace Pb\PDO\Clause;
 
-namespace Slim\PDO\Clause;
-
-/**
- * Class JoinClause.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
 class JoinClause extends ClauseContainer
 {
     /**
-     * @param $table
-     * @param $first
+     * @param string $table
+     * @param string $first
      * @param null   $operator
      * @param null   $second
      * @param string $joinType
@@ -27,10 +17,10 @@ class JoinClause extends ClauseContainer
     }
 
     /**
-     * @param $table
-     * @param $first
-     * @param null $operator
-     * @param null $second
+     * @param string $table
+     * @param string $first
+     * @param null   $operator
+     * @param null   $second
      */
     public function leftJoin($table, $first, $operator = null, $second = null)
     {
@@ -38,10 +28,10 @@ class JoinClause extends ClauseContainer
     }
 
     /**
-     * @param $table
-     * @param $first
-     * @param null $operator
-     * @param null $second
+     * @param string $table
+     * @param string $first
+     * @param null   $operator
+     * @param null   $second
      */
     public function rightJoin($table, $first, $operator = null, $second = null)
     {
@@ -49,10 +39,10 @@ class JoinClause extends ClauseContainer
     }
 
     /**
-     * @param $table
-     * @param $first
-     * @param null $operator
-     * @param null $second
+     * @param string $table
+     * @param string $first
+     * @param null   $operator
+     * @param null   $second
      */
     public function fullJoin($table, $first, $operator = null, $second = null)
     {
@@ -68,7 +58,7 @@ class JoinClause extends ClauseContainer
             return '';
         }
 
-        $args = array();
+        $args = [];
 
         foreach ($this->container as $join) {
             $args[] = $join;

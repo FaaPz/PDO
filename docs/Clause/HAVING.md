@@ -1,6 +1,6 @@
 # HAVING clause
 
-> Used only in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md) statements.
+> Used only in [SELECT](https://github.com/ParticleBits/PDO/blob/master/docs/Statement/SELECT.md) statements.
 
 ### Methods
 
@@ -58,7 +58,8 @@ Parameter | Type | Default | Description
 
 ```php
 // ... HAVING MIN( price ) > ? OR MAX( price ) < ?
-$selectStatement->having('MIN( price )', '>', 125)->orHaving('MAX( price )', '<', 250);
+$selectStatement->having('MIN( price )', '>', 125)
+                ->orHaving('MAX( price )', '<', 250);
 
 // ... HAVING COUNT( * ) > ?
 $selectStatement->havingCount('*', '>', 1234);

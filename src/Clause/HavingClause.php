@@ -1,21 +1,11 @@
 <?php
 
-/**
- * @license MIT
- * @license http://opensource.org/licenses/MIT
- */
+namespace Pb\PDO\Clause;
 
-namespace Slim\PDO\Clause;
-
-/**
- * Class HavingClause.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
 class HavingClause extends ClauseContainer
 {
     /**
-     * @param $column
+     * @param string $column
      * @param null   $operator
      * @param string $chainType
      */
@@ -25,8 +15,8 @@ class HavingClause extends ClauseContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
+     * @param string $column
+     * @param null   $operator
      */
     public function orHaving($column, $operator = null)
     {
@@ -34,8 +24,8 @@ class HavingClause extends ClauseContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
+     * @param string $column
+     * @param null   $operator
      */
     public function havingCount($column, $operator = null)
     {
@@ -45,8 +35,8 @@ class HavingClause extends ClauseContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
+     * @param string $column
+     * @param null   $operator
      */
     public function havingMax($column, $operator = null)
     {
@@ -56,8 +46,8 @@ class HavingClause extends ClauseContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
+     * @param string $column
+     * @param null   $operator
      */
     public function havingMin($column, $operator = null)
     {
@@ -67,8 +57,8 @@ class HavingClause extends ClauseContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
+     * @param string $column
+     * @param null   $operator
      */
     public function havingAvg($column, $operator = null)
     {
@@ -78,8 +68,8 @@ class HavingClause extends ClauseContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
+     * @param string $column
+     * @param null   $operator
      */
     public function havingSum($column, $operator = null)
     {
@@ -97,7 +87,7 @@ class HavingClause extends ClauseContainer
             return '';
         }
 
-        $args = array();
+        $args = [];
 
         foreach ($this->container as $having) {
             $args[] = $having;

@@ -29,16 +29,16 @@ Parameter | Type | Default | Description
 ### Examples
 
 ```php
-// INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
-$insertStatement = $slimPdo->insert(array('id', 'usr', 'pwd'))
-                           ->into('users')
-                           ->values(array(1234, 'your_username', 'your_password'));
+// INSERT INTO users ( usr , pwd ) VALUES ( ? , ? )
+$insertStatement = $db->insert(['usr', 'pwd'])
+                      ->into('users')
+                      ->values(['usr_1', 'pwd_1']);
 
 // INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
-$insertStatement = $slimPdo->insert(array('id'))
-                           ->into('users')
-                           ->columns(array('usr', 'pwd'))
-                           ->values(array(1234, 'your_username', 'your_password'));
+$insertStatement = $db->insert(['id'])
+                      ->into('users')
+                      ->columns(['usr', 'pwd'])
+                      ->values([1234, 'usr_1234', 'pwd_1234']);
 
 $insertId = $insertStatement->execute(false);
 ```

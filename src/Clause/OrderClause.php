@@ -1,21 +1,11 @@
 <?php
 
-/**
- * @license MIT
- * @license http://opensource.org/licenses/MIT
- */
+namespace Pb\PDO\Clause;
 
-namespace Slim\PDO\Clause;
-
-/**
- * Class OrderClause.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
 class OrderClause extends ClauseContainer
 {
     /**
-     * @param $column
+     * @param string $column
      * @param string $direction
      */
     public function orderBy($column, $direction = 'ASC')

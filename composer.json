@@ -1,8 +1,13 @@
 {
     "name": "particlebits/pdo",
-    "description": "PDO database library for Slim Framework",
+    "description": "Smallest possible PDO database while being super useful",
     "type": "library",
-    "keywords": ["pdo", "database"],
+    "keywords": [
+        "micro pdo",
+        "tiny pdo",
+        "pdo",
+        "database"
+    ],
     "homepage": "https://github.com/particlebits/pdo",
     "license": "MIT",
     "authors": [
@@ -27,9 +32,14 @@
         "php": ">= 5.6",
         "ext-pdo": "*"
     },
+    "scripts": {
+        "fix": "php-cs-fixer fix",
+        "test": "./vendor/bin/phpunit",
+        "lint": "php-cs-fixer fix --dry-run --diff"
+    },
     "autoload": {
         "psr-4": {
-            "Slim\\PDO\\": "src/PDO/"
+            "Pb\\PDO\\": "src/"
         }
     }
 }

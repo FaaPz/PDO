@@ -1,22 +1,9 @@
 <?php
 
-/**
- * @license MIT
- * @license http://opensource.org/licenses/MIT
- */
+namespace Pb\PDO\Clause;
 
-namespace Slim\PDO\Clause;
-
-/**
- * Class LimitClause.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
 class LimitClause extends ClauseContainer
 {
-    /**
-     * @var null
-     */
     private $limit = null;
 
     /**
@@ -25,11 +12,11 @@ class LimitClause extends ClauseContainer
      */
     public function limit($number, $offset = 0)
     {
-        if (!is_int($number) || (!is_null($offset) && !is_int($offset))) {
+        if (! is_int($number) || (! is_null($offset) && ! is_int($offset))) {
             trigger_error('Expects parameters as integers', E_USER_ERROR);
         }
 
-        if (!is_null($offset) && $offset >= 0) {
+        if (! is_null($offset) && $offset >= 0) {
             $this->limit = intval($number).' OFFSET '.intval($offset);
         } elseif ($number >= 0) {
             $this->limit = intval($number);

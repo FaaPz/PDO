@@ -1,29 +1,13 @@
 <?php
 
-/**
- * @license MIT
- * @license http://opensource.org/licenses/MIT
- */
+namespace Pb\PDO\Statement;
 
-namespace Slim\PDO\Statement;
+use Pb\PDO\Database;
 
-use Slim\PDO\Database;
-
-/**
- * Class InsertStatement.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
 class InsertMultiStatement extends StatementContainer
 {
     protected $updateOnDuplicate = [];
 
-    /**
-     * Constructor.
-     *
-     * @param Database $dbh
-     * @param array    $keys
-     */
     public function __construct(Database $dbh, array $keys, array $values)
     {
         parent::__construct($dbh);
@@ -34,9 +18,7 @@ class InsertMultiStatement extends StatementContainer
     }
 
     /**
-     * @param $table
-     *
-     * @return $this
+     * @param string $table
      */
     public function into($table)
     {
@@ -45,11 +27,6 @@ class InsertMultiStatement extends StatementContainer
         return $this;
     }
 
-    /**
-     * @param array $columns
-     *
-     * @return $this
-     */
     public function columns(array $columns)
     {
         $this->setColumns($columns);
@@ -57,11 +34,6 @@ class InsertMultiStatement extends StatementContainer
         return $this;
     }
 
-    /**
-     * @param array $values
-     *
-     * @return $this
-     */
     public function values(array $values)
     {
         $this->setValues($values);
@@ -73,12 +45,7 @@ class InsertMultiStatement extends StatementContainer
         return $this;
     }
 
-    /**
-     * @param array $values
-     *
-     * @return $this
-     */
-    public function addValues(array $values)
+    public function addRow(array $values)
     {
         $this->appendValues($values);
 
@@ -115,7 +82,7 @@ class InsertMultiStatement extends StatementContainer
         $sql .= ' '.$this->getColumns();
         $sql .= ' VALUES '.$this->getPlaceholdersMulti();
 
-        if (!empty($this->updateOnDuplicate)) {
+        if (! empty($this->updateOnDuplicate)) {
             $sql .= ' ON DUPLICATE KEY UPDATE '.$this->getOnDuplicates();
         }
 
@@ -151,6 +118,6 @@ class InsertMultiStatement extends StatementContainer
             $updates[] = '`'.$key.'` = VALUES( `'.$key.'` )';
         }
 
-        return implode( ' , ', $updates);
+        return implode(' , ', $updates);
     }
 }

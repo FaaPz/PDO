@@ -1,11 +1,9 @@
-# Slim-PDO
+# `\Pb\PDO` &mdash; Micro PDO Library
 
-[![Latest Stable Version](https://poser.pugx.org/slim/pdo/v/stable)](https://packagist.org/packages/slim/pdo)
-[![Total Downloads](https://poser.pugx.org/slim/pdo/downloads)](https://packagist.org/packages/slim/pdo)
-[![Latest Unstable Version](https://poser.pugx.org/slim/pdo/v/unstable)](https://packagist.org/packages/slim/pdo)
-[![License](https://poser.pugx.org/slim/pdo/license)](https://packagist.org/packages/slim/pdo)
+[![Latest Stable Version](https://poser.pugx.org/ParticleBits/pdo/v/stable)](https://packagist.org/packages/ParticleBits/pdo)
+[![License](https://poser.pugx.org/ParticleBits/pdo/license)](https://packagist.org/packages/ParticleBits/pdo)
 
-PDO database library for Slim Framework
+Smallest possible PDO database while being super useful
 
 ### Installation
 
@@ -13,9 +11,11 @@ Use [Composer](https://getcomposer.org/)
 
 ```json
 "require": {
-    "slim/pdo": "~1.10"
+    "ParticleBits/pdo": "~2.0"
 }
 ```
+
+Compatible with PHP 5.6 and higher. Tested on all versions of PHP 5.6 and higher.
 
 ### Usage
 
@@ -28,7 +28,7 @@ $dsn = 'mysql:host=your_db_host;dbname=your_db_name;charset=utf8';
 $usr = 'your_db_username';
 $pwd = 'your_db_password';
 
-$pdo = new \Slim\PDO\Database($dsn, $usr, $pwd);
+$pdo = new \Pb\PDO\Database($dsn, $usr, $pwd);
 
 // SELECT * FROM users WHERE id = ?
 $selectStatement = $pdo->select()
@@ -39,14 +39,14 @@ $stmt = $selectStatement->execute();
 $data = $stmt->fetch();
 
 // INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
-$insertStatement = $pdo->insert(array('id', 'usr', 'pwd'))
+$insertStatement = $pdo->insert(['id', 'usr', 'pwd'])
                        ->into('users')
-                       ->values(array(1234, 'your_username', 'your_password'));
+                       ->values([1234, 'your_username', 'your_password']);
 
 $insertId = $insertStatement->execute(false);
 
 // UPDATE users SET pwd = ? WHERE id = ?
-$updateStatement = $pdo->update(array('pwd' => 'your_new_password'))
+$updateStatement = $pdo->update(['pwd' => 'your_new_password'])
                        ->table('users')
                        ->where('id', '=', 1234);
 
@@ -64,12 +64,12 @@ $affectedRows = $deleteStatement->execute();
 
 ### Documentation
 
-See [DOCUMENTATION](https://github.com/FaaPz/Slim-PDO/blob/master/docs/README.md)
+See [DOCUMENTATION](https://github.com/ParticleBits/PDO/blob/master/docs/README.md)
 
 ### Changelog
 
-See [CHANGELOG](https://github.com/FaaPz/Slim-PDO/blob/master/CHANGELOG.md)
+See [CHANGELOG](https://github.com/ParticleBits/PDO/blob/master/CHANGELOG.md)
 
 ### License
 
-See [LICENSE](https://github.com/FaaPz/Slim-PDO/blob/master/LICENSE)
+See [LICENSE](https://github.com/ParticleBits/PDO/blob/master/LICENSE)

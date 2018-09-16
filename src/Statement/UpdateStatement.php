@@ -1,27 +1,11 @@
 <?php
 
-/**
- * @license MIT
- * @license http://opensource.org/licenses/MIT
- */
+namespace Pb\PDO\Statement;
 
-namespace Slim\PDO\Statement;
+use Pb\PDO\Database;
 
-use Slim\PDO\Database;
-
-/**
- * Class UpdateStatement.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
 class UpdateStatement extends StatementContainer
 {
-    /**
-     * Constructor.
-     *
-     * @param Database $dbh
-     * @param array    $pairs
-     */
     public function __construct(Database $dbh, array $pairs)
     {
         parent::__construct($dbh);
@@ -30,9 +14,7 @@ class UpdateStatement extends StatementContainer
     }
 
     /**
-     * @param $table
-     *
-     * @return $this
+     * @param string $table
      */
     public function table($table)
     {
@@ -43,8 +25,6 @@ class UpdateStatement extends StatementContainer
 
     /**
      * @param array $pairs
-     *
-     * @return $this
      */
     public function set(array $pairs)
     {

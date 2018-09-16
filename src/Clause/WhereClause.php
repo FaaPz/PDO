@@ -1,21 +1,11 @@
 <?php
 
-/**
- * @license MIT
- * @license http://opensource.org/licenses/MIT
- */
+namespace Pb\PDO\Clause;
 
-namespace Slim\PDO\Clause;
-
-/**
- * Class WhereClause.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
 class WhereClause extends ClauseContainer
 {
     /**
-     * @param $column
+     * @param string $column
      * @param null   $operator
      * @param string $chainType
      */
@@ -25,8 +15,8 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
+     * @param string $column
+     * @param null   $operator
      */
     public function orWhere($column, $operator = null)
     {
@@ -34,7 +24,7 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @param string $chainType
      * @param bool   $not
      */
@@ -50,7 +40,7 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
      */
     public function orWhereBetween($column)
     {
@@ -58,7 +48,7 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @param string $chainType
      */
     public function whereNotBetween($column, $chainType = 'AND')
@@ -67,7 +57,7 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
      */
     public function orWhereNotBetween($column)
     {
@@ -75,8 +65,8 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
-     * @param $placeholders
+     * @param string $column
+     * @param string $placeholders
      * @param string $chainType
      * @param bool   $not
      */
@@ -92,8 +82,8 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
-     * @param $placeholders
+     * @param string $column
+     * @param string $placeholders
      */
     public function orWhereIn($column, $placeholders)
     {
@@ -101,8 +91,8 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
-     * @param $placeholders
+     * @param string $column
+     * @param string $placeholders
      * @param string $chainType
      */
     public function whereNotIn($column, $placeholders, $chainType = 'AND')
@@ -111,8 +101,8 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
-     * @param $placeholders
+     * @param string $column
+     * @param string $placeholders
      */
     public function orWhereNotIn($column, $placeholders)
     {
@@ -120,7 +110,7 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @param string $chainType
      * @param bool   $not
      */
@@ -136,7 +126,7 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
      */
     public function orWhereLike($column)
     {
@@ -144,7 +134,7 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @param string $chainType
      */
     public function whereNotLike($column, $chainType = 'AND')
@@ -153,7 +143,7 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
      */
     public function orWhereNotLike($column)
     {
@@ -161,7 +151,7 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @param string $chainType
      * @param bool   $not
      */
@@ -185,7 +175,7 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @param string $chainType
      */
     public function whereNotNull($column, $chainType = 'AND')
@@ -194,7 +184,7 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
      */
     public function orWhereNotNull($column)
     {
@@ -222,7 +212,7 @@ class WhereClause extends ClauseContainer
             return '';
         }
 
-        $args = array();
+        $args = [];
 
         foreach ($this->container as $where) {
             $args[] = $where;

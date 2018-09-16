@@ -1,27 +1,11 @@
 <?php
 
-/**
- * @license MIT
- * @license http://opensource.org/licenses/MIT
- */
+namespace Pb\PDO\Statement;
 
-namespace Slim\PDO\Statement;
+use Pb\PDO\Database;
 
-use Slim\PDO\Database;
-
-/**
- * Class InsertStatement.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
 class InsertStatement extends StatementContainer
 {
-    /**
-     * Constructor.
-     *
-     * @param Database $dbh
-     * @param array    $columnsOrPairs
-     */
     public function __construct(Database $dbh, array $columnsOrPairs)
     {
         parent::__construct($dbh);
@@ -35,9 +19,7 @@ class InsertStatement extends StatementContainer
     }
 
     /**
-     * @param $table
-     *
-     * @return $this
+     * @param string $table
      */
     public function into($table)
     {
@@ -46,11 +28,6 @@ class InsertStatement extends StatementContainer
         return $this;
     }
 
-    /**
-     * @param array $columns
-     *
-     * @return $this
-     */
     public function columns(array $columns)
     {
         $this->setColumns($columns);
@@ -58,11 +35,6 @@ class InsertStatement extends StatementContainer
         return $this;
     }
 
-    /**
-     * @param array $values
-     *
-     * @return $this
-     */
     public function values(array $values)
     {
         $this->setValues($values);
@@ -103,7 +75,7 @@ class InsertStatement extends StatementContainer
      */
     public function execute($insertId = true)
     {
-        if (!$insertId) {
+        if (! $insertId) {
             return parent::execute();
         }
 

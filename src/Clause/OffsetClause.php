@@ -1,30 +1,17 @@
 <?php
 
-/**
- * @license MIT
- * @license http://opensource.org/licenses/MIT
- */
+namespace Pb\PDO\Clause;
 
-namespace Slim\PDO\Clause;
-
-/**
- * Class OffsetClause.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
 class OffsetClause extends ClauseContainer
 {
-    /**
-     * @var null
-     */
     private $offset = null;
 
     /**
-     * @param $number
+     * @param int $number
      */
     public function offset($number)
     {
-        if (!is_int($number)) {
+        if (! is_int($number)) {
             trigger_error('Expects parameter as integer', E_USER_ERROR);
         }
 

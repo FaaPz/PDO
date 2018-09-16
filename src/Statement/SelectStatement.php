@@ -1,23 +1,13 @@
 <?php
 
-/**
- * @license MIT
- * @license http://opensource.org/licenses/MIT
- */
+namespace Pb\PDO\Statement;
 
-namespace Slim\PDO\Statement;
+use Pb\PDO\Database;
+use Pb\PDO\Clause\JoinClause;
+use Pb\PDO\Clause\GroupClause;
+use Pb\PDO\Clause\HavingClause;
+use Pb\PDO\Clause\OffsetClause;
 
-use Slim\PDO\Clause\GroupClause;
-use Slim\PDO\Clause\HavingClause;
-use Slim\PDO\Clause\JoinClause;
-use Slim\PDO\Clause\OffsetClause;
-use Slim\PDO\Database;
-
-/**
- * Class SelectStatement.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
 class SelectStatement extends StatementContainer
 {
     /**
@@ -50,12 +40,6 @@ class SelectStatement extends StatementContainer
      */
     protected $offsetClause;
 
-    /**
-     * Constructor.
-     *
-     * @param Database $dbh
-     * @param array    $columns
-     */
     public function __construct(Database $dbh, array $columns)
     {
         parent::__construct($dbh);
@@ -72,9 +56,6 @@ class SelectStatement extends StatementContainer
         $this->offsetClause = new OffsetClause();
     }
 
-    /**
-     * @return $this
-     */
     public function clear()
     {
         $this->columns = [];
@@ -82,9 +63,6 @@ class SelectStatement extends StatementContainer
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function distinct()
     {
         $this->distinct = true;
@@ -96,8 +74,6 @@ class SelectStatement extends StatementContainer
      * @param string $column
      * @param null   $as
      * @param bool   $distinct
-     *
-     * @return $this
      */
     public function count($column = '*', $as = null, $distinct = false)
     {
@@ -111,8 +87,6 @@ class SelectStatement extends StatementContainer
     /**
      * @param string $column
      * @param null   $as
-     *
-     * @return $this
      */
     public function distinctCount($column = '*', $as = null)
     {
@@ -122,10 +96,8 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $column
-     * @param null $as
-     *
-     * @return $this
+     * @param string $column
+     * @param null   $as
      */
     public function max($column, $as = null)
     {
@@ -137,10 +109,8 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $column
-     * @param null $as
-     *
-     * @return $this
+     * @param string $column
+     * @param null   $as
      */
     public function min($column, $as = null)
     {
@@ -152,10 +122,8 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $column
-     * @param null $as
-     *
-     * @return $this
+     * @param string $column
+     * @param null   $as
      */
     public function avg($column, $as = null)
     {
@@ -167,10 +135,8 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $column
-     * @param null $as
-     *
-     * @return $this
+     * @param string $column
+     * @param null   $as
      */
     public function sum($column, $as = null)
     {
@@ -182,9 +148,7 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $table
-     *
-     * @return $this
+     * @param string $table
      */
     public function from($table)
     {
@@ -194,13 +158,11 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $table
-     * @param $first
+     * @param string $table
+     * @param string $first
      * @param null   $operator
      * @param null   $second
      * @param string $joinType
-     *
-     * @return $this
      */
     public function join($table, $first, $operator = null, $second = null, $joinType = 'INNER')
     {
@@ -210,12 +172,10 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $table
-     * @param $first
-     * @param null $operator
-     * @param null $second
-     *
-     * @return $this
+     * @param srting $table
+     * @param string $first
+     * @param null   $operator
+     * @param null   $second
      */
     public function leftJoin($table, $first, $operator = null, $second = null)
     {
@@ -225,12 +185,10 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $table
-     * @param $first
-     * @param null $operator
-     * @param null $second
-     *
-     * @return $this
+     * @param string $table
+     * @param string $first
+     * @param null   $operator
+     * @param null   $second
      */
     public function rightJoin($table, $first, $operator = null, $second = null)
     {
@@ -240,12 +198,10 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $table
-     * @param $first
-     * @param null $operator
-     * @param null $second
-     *
-     * @return $this
+     * @param string $table
+     * @param string $first
+     * @param null   $operator
+     * @param null   $second
      */
     public function fullJoin($table, $first, $operator = null, $second = null)
     {
@@ -255,9 +211,7 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $columns
-     *
-     * @return $this
+     * @param string $columns
      */
     public function groupBy($columns)
     {
@@ -267,12 +221,10 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @param null   $operator
      * @param null   $value
      * @param string $chainType
-     *
-     * @return $this
      */
     public function having($column, $operator = null, $value = null, $chainType = 'AND')
     {
@@ -284,11 +236,9 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
-     * @param null $value
-     *
-     * @return $this
+     * @param string $column
+     * @param null   $operator
+     * @param null   $value
      */
     public function orHaving($column, $operator = null, $value = null)
     {
@@ -300,11 +250,9 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
-     * @param null $value
-     *
-     * @return $this
+     * @param string $column
+     * @param null   $operator
+     * @param null   $value
      */
     public function havingCount($column, $operator = null, $value = null)
     {
@@ -316,11 +264,9 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
-     * @param null $value
-     *
-     * @return $this
+     * @param string $column
+     * @param null   $operator
+     * @param null   $value
      */
     public function havingMax($column, $operator = null, $value = null)
     {
@@ -332,11 +278,9 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
-     * @param null $value
-     *
-     * @return $this
+     * @param string $column
+     * @param null   $operator
+     * @param null   $value
      */
     public function havingMin($column, $operator = null, $value = null)
     {
@@ -348,11 +292,9 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
-     * @param null $value
-     *
-     * @return $this
+     * @param string $column
+     * @param null   $operator
+     * @param null   $value
      */
     public function havingAvg($column, $operator = null, $value = null)
     {
@@ -364,11 +306,9 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $column
-     * @param null $operator
-     * @param null $value
-     *
-     * @return $this
+     * @param string $column
+     * @param null   $operator
+     * @param null   $value
      */
     public function havingSum($column, $operator = null, $value = null)
     {
@@ -380,9 +320,7 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $number
-     *
-     * @return $this
+     * @param int $number
      */
     public function offset($number)
     {
@@ -442,7 +380,7 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $distinct
+     * @param bool $distinct
      *
      * @return string
      */
@@ -456,7 +394,7 @@ class SelectStatement extends StatementContainer
     }
 
     /**
-     * @param $as
+     * @param string $as
      *
      * @return string
      */

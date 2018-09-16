@@ -1,26 +1,14 @@
 <?php
 
-/**
- * @license MIT
- * @license http://opensource.org/licenses/MIT
- */
+namespace Pb\PDO\Statement;
 
-namespace Slim\PDO\Statement;
+use Pb\PDO\Database;
 
-use Slim\PDO\Database;
-
-/**
- * Class DeleteStatement.
- *
- * @author Fabian de Laender <fabian@faapz.nl>
- */
 class DeleteStatement extends StatementContainer
 {
     /**
-     * Constructor.
-     *
      * @param Database $dbh
-     * @param $table
+     * @param string   $table
      */
     public function __construct(Database $dbh, $table)
     {
@@ -30,9 +18,7 @@ class DeleteStatement extends StatementContainer
     }
 
     /**
-     * @param $table
-     *
-     * @return $this
+     * @param string $table
      */
     public function from($table)
     {
