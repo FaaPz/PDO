@@ -6,7 +6,7 @@ class GroupClause extends ClauseContainer
 {
     public function groupBy(array $columns)
     {
-        $this->container[] = $columns;
+        $this->container += $columns;
     }
 
     public function __toString()

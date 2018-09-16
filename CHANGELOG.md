@@ -1,5 +1,10 @@
 ### Changelog
 
+##### v2.0.1
++ Updated `GroupClause` class with:
+  - `array` type is required in `groupBy()` function
+  - Values can still be appended with multiple calls
+
 ##### v2.0.0
 + Added `InsertMultiStatement` class with:
   - Support to insert multiple rows at once
