@@ -9,7 +9,6 @@
 # --- Icon Must End With Two \r ---
 Icon
 
-
 # --- Thumbnails ---
 ._*
 
@@ -53,3 +52,4 @@ composer.phar
 vendor/
 .idea/
 *.orig
+*.cache
