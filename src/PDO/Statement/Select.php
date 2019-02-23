@@ -8,19 +8,23 @@
 namespace Slim\PDO\Statement;
 
 use PDO;
-use Slim\PDO\AbstractStatement;
+use Slim\PDO\AdvancedStatement;
 use Slim\PDO\Clause;
+use Slim\PDO\StatementInterface;
 
-class Select extends AbstractStatement
+class Select extends AdvancedStatement
 {
-    /** @var string[] $columns */
+    /** @var string|string[string]|Select[string] $table */
+    protected $table;
+
+    /** @var string[]|StatementInterface[] $columns */
     protected $columns = [];
 
     /** @var bool $distinct */
     protected $distinct = false;
 
-    /** @var Clause\Join[] */
-    protected $join = [];
+    /** @var Select[]|Call[] */
+    private $union = [];
 
     /** @var string[] $groupBy */
     protected $groupBy = [];
@@ -54,7 +58,19 @@ class Select extends AbstractStatement
     }
 
     /**
-     * @param string $table
+     * @param Select $query
+     *
+     * @return $this
+     */
+    public function union(self $query)
+    {
+        $this->union[] = $query;
+
+        return $this;
+    }
+
+    /**
+     * @param string|string[string]|Select[string] $table
      *
      * @return $this
      */
@@ -110,47 +126,6 @@ class Select extends AbstractStatement
     }
 
     /**
-     * @return string
-     */
-    public function __toString()
-    {
-        if (!isset($this->table)) {
-            trigger_error('No table is set for selection', E_USER_ERROR);
-        }
-
-        $sql = 'SELECT';
-
-        if ($this->distinct) {
-            $sql .= ' DISTINCT';
-        }
-
-        $sql .= " {$this->getColumns()} FROM {$this->table} ";
-        $sql .= implode(' ', $this->join);
-
-        if ($this->where !== null) {
-            $sql .= " WHERE {$this->where}";
-        }
-
-        if (!empty($this->groupBy)) {
-            $sql .= ' GROUP BY '.implode(', ', $this->groupBy);
-        }
-
-        if ($this->having !== null) {
-            $sql .= " HAVING {$this->having}";
-        }
-
-        if (!empty($this->orderBy)) {
-            $sql .= ' ORDER BY '.implode(', ', $this->orderBy);
-        }
-
-        if ($this->limit !== null) {
-            $sql .= " LIMIT {$this->limit}";
-        }
-
-        return $sql;
-    }
-
-    /**
      * @return array
      */
     public function getValues()
@@ -184,21 +159,81 @@ class Select extends AbstractStatement
         $columns = '';
 
         foreach ($this->columns as $key => $value) {
-            if (is_string($key)) {
-                if (trim($key) != '*') {
-                    $key = '`'.str_replace('.', '`.`', $key).'`';
-                }
-
-                $columns .= "{$key} AS {$value}, ";
+            if ($value instanceof StatementInterface) {
+                $columns .= "({$value})";
             } else {
-                if (trim($value) != '*') {
-                    $value = '`'.str_replace('.', '`.`', $value).'`';
-                }
-
-                $columns .= "{$value}, ";
+                $columns .= "{$value}";
             }
+
+            if (is_string($key)) {
+                $columns .= " AS {$key}";
+            }
+            $columns .= ', ';
         }
 
         return rtrim($columns, ', ');
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        if (!isset($this->table)) {
+            trigger_error('No table is set for selection', E_USER_ERROR);
+        }
+
+        $sql = 'SELECT';
+        if ($this->distinct) {
+            $sql .= ' DISTINCT';
+        }
+
+        $sql .= " {$this->getColumns()}";
+
+        if (is_array($this->table)) {
+            $alias = array_key_first($this->table);
+
+            $table = "{$this->table[$alias]}";
+            if ($this->table[$alias] instanceof self) {
+                $table = "({$table})";
+            }
+
+            if (is_string($alias)) {
+                $table .= " AS {$alias}";
+            }
+        } else {
+            $table = "{$this->table}";
+        }
+        $sql .= " FROM {$table}";
+
+        if (count($this->join) > 0) {
+            $sql .= ' '.implode(' ', $this->join);
+        }
+
+        if ($this->where !== null) {
+            $sql .= " WHERE {$this->where}";
+        }
+
+        if (!empty($this->groupBy)) {
+            $sql .= ' GROUP BY '.implode(', ', $this->groupBy);
+        }
+
+        if ($this->having !== null) {
+            $sql .= " HAVING {$this->having}";
+        }
+
+        if (!empty($this->orderBy)) {
+            $sql .= ' ORDER BY '.implode(', ', $this->orderBy);
+        }
+
+        if ($this->limit !== null) {
+            $sql .= " LIMIT {$this->limit}";
+        }
+
+        if (count($this->union) > 0) {
+            $sql = '('.$sql.implode(') UNION (', $this->union).')';
+        }
+
+        return $sql;
     }
 }

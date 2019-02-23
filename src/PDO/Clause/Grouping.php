@@ -7,7 +7,9 @@
 
 namespace Slim\PDO\Clause;
 
-class Grouping extends Conditional
+use Slim\PDO\StatementInterface;
+
+class Grouping implements StatementInterface
 {
     /** @var string $rule */
     protected $rule;
@@ -16,12 +18,12 @@ class Grouping extends Conditional
     protected $value;
 
     /**
-     * @param string        $rule
-     * @param Conditional[] $clauses
+     * @param string                   $rule
+     * @param Conditional[]|Grouping[] $clauses
      */
     public function __construct($rule, array $clauses)
     {
-        $this->rule = $rule;
+        $this->rule = strtoupper($rule);
         $this->value = $clauses;
     }
 
@@ -44,6 +46,17 @@ class Grouping extends Conditional
      */
     public function __toString()
     {
-        return '('.implode(") {$this->rule} (", $this->value).')';
+        $sql = '';
+        foreach ($this->value as $clause) {
+            if ($clause instanceof self) {
+                $sql .= "({$clause}) ";
+            } else {
+                $sql .= "{$clause} ";
+            }
+
+            $sql .= "{$this->rule} ";
+        }
+
+        return rtrim($sql, "{$this->rule} ");
     }
 }

@@ -16,61 +16,12 @@ abstract class AbstractStatement implements StatementInterface
     /** @var PDO $dbh */
     protected $dbh;
 
-    /** @var string $table */
-    protected $table;
-
-    /** @var Clause\Conditional|null $where */
-    protected $where = null;
-
-    /** @var string[] $orderBy */
-    protected $orderBy = [];
-
-    /** @var Clause\Limit|null $limit */
-    protected $limit = null;
-
     /**
      * @param PDO $dbh
      */
     public function __construct(PDO $dbh)
     {
         $this->dbh = $dbh;
-    }
-
-    /**
-     * @param Clause\Conditional $clause
-     *
-     * @return $this
-     */
-    public function where(Clause\Conditional $clause)
-    {
-        $this->where = $clause;
-
-        return $this;
-    }
-
-    /**
-     * @param string $column
-     * @param string $direction
-     *
-     * @return $this
-     */
-    public function orderBy($column, $direction = null)
-    {
-        $this->orderBy[] = rtrim("{$column} {$direction}");
-
-        return $this;
-    }
-
-    /**
-     * @param Clause\Limit|null $limit
-     *
-     * @return $this
-     */
-    public function limit(Clause\Limit $limit)
-    {
-        $this->limit = $limit;
-
-        return $this;
     }
 
     /**

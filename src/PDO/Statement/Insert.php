@@ -8,15 +8,12 @@
 namespace Slim\PDO\Statement;
 
 use PDO;
-use PDOException;
+use Slim\PDO\AbstractStatement;
 use Slim\PDO\Exception;
 use Slim\PDO\StatementInterface;
 
-class Insert implements StatementInterface
+class Insert extends AbstractStatement
 {
-    /** @var PDO $dbh */
-    protected $dbh;
-
     /** @var string $table */
     protected $table;
 
@@ -32,7 +29,7 @@ class Insert implements StatementInterface
      */
     public function __construct(PDO $dbh, array $pairs = [])
     {
-        $this->dbh = $dbh;
+        parent::__construct($dbh);
 
         $this->columns(array_keys($pairs));
         $this->values(array_values($pairs));
@@ -91,9 +88,6 @@ class Insert implements StatementInterface
             trigger_error('Missing values for insertion', E_USER_ERROR);
         }
 
-        $columns = '`'.implode('`, `', $this->columns).'`';
-        $columns = str_replace('.', '`.`', $columns);
-
         $placeholders = '';
         foreach ($this->values as $value) {
             if ($value instanceof StatementInterface) {
@@ -104,33 +98,11 @@ class Insert implements StatementInterface
         }
         $placeholders = rtrim($placeholders, ', ');
 
+        $columns = implode(', ', $this->columns);
         $sql = "INSERT INTO {$this->table} ({$columns})";
         $sql .= " VALUES ({$placeholders})";
 
         return $sql;
-    }
-
-    /**
-     * @throws Exception
-     *
-     * @return string|int
-     */
-    public function execute()
-    {
-        $stmt = $this->dbh->prepare($this->__toString());
-
-        try {
-            $success = $stmt->execute($this->getValues());
-            if (!$success) {
-                $info = $stmt->errorInfo();
-
-                throw new Exception($info[2], $info[0]);
-            }
-        } catch (PDOException $e) {
-            throw new Exception($e->getMessage(), $e->getCode(), $e);
-        }
-
-        return $this->dbh->lastInsertId();
     }
 
     /**
@@ -148,5 +120,17 @@ class Insert implements StatementInterface
         }
 
         return $values;
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @return string|int
+     */
+    public function execute()
+    {
+        parent::execute();
+
+        return $this->dbh->lastInsertId();
     }
 }
