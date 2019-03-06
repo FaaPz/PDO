@@ -8,16 +8,15 @@
 namespace Slim\PDO\Statement;
 
 use PDO;
-use Slim\PDO\AbstractStatement;
-use Slim\PDO\Clause;
+use Slim\PDO\AdvancedStatement;
 
-class Update extends AbstractStatement
+class Update extends AdvancedStatement
 {
+    /** @var string $table */
+    protected $table;
+
     /** @var array $pairs */
     protected $pairs;
-
-    /** @var Clause\Join[] $join */
-    protected $join = [];
 
     /**
      * @param PDO   $dbh
@@ -55,19 +54,21 @@ class Update extends AbstractStatement
     }
 
     /**
-     * @param Clause\Join|Clause\Join[] $clause
-     *
-     * @return $this
+     * @return array
      */
-    public function join(Clause\Join $clause)
+    public function getValues()
     {
-        if (is_array($clause)) {
-            $this->join = array_merge($this->join[], array_values($clause));
-        } else {
-            $this->join[] = $clause;
+        $values = array_values($this->pairs);
+
+        if ($this->where !== null) {
+            $values = array_merge($values, $this->where->getValues());
         }
 
-        return $this;
+        if ($this->limit !== null) {
+            $values = array_merge($values, $this->limit->getValues());
+        }
+
+        return $values;
     }
 
     /**
@@ -88,10 +89,10 @@ class Update extends AbstractStatement
 
         $columns = array_keys($this->pairs);
         $column = array_pop($columns);
-        $sql .= " SET `{$column}` = ?";
+        $sql .= " SET {$column} = ?";
 
         while (($column = array_pop($columns)) !== null) {
-            $sql .= ", `{$column}` = ?";
+            $sql .= ", {$column} = ?";
         }
 
         if ($this->where !== null) {
@@ -99,7 +100,7 @@ class Update extends AbstractStatement
         }
 
         if (!empty($this->orderBy)) {
-            $sql .= ' ORDER BY `'.implode('`, `', $this->orderBy).'`';
+            $sql .= ' ORDER BY '.implode(', ', $this->orderBy);
         }
 
         if ($this->limit !== null) {
@@ -115,23 +116,5 @@ class Update extends AbstractStatement
     public function execute()
     {
         return parent::execute()->rowCount();
-    }
-
-    /**
-     * @return array
-     */
-    public function getValues()
-    {
-        $values = array_values($this->pairs);
-
-        if ($this->where !== null) {
-            $values = array_merge($values, $this->where->getValues());
-        }
-
-        if ($this->limit !== null) {
-            $values = array_merge($values, $this->limit->getValues());
-        }
-
-        return $values;
     }
 }

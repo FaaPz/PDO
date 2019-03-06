@@ -13,8 +13,8 @@ use Slim\PDO\Clause;
 
 class Call extends AbstractStatement
 {
-    /** @var Clause\Method $table */
-    protected $table;
+    /** @var Clause\Method $method */
+    protected $method;
 
     /**
      * @param PDO           $dbh
@@ -24,7 +24,7 @@ class Call extends AbstractStatement
     {
         parent::__construct($dbh);
 
-        $this->table = $procedure;
+        $this->method = $procedure;
     }
 
     /**
@@ -34,7 +34,7 @@ class Call extends AbstractStatement
      */
     public function method(Clause\Method $procedure)
     {
-        $this->table = $procedure;
+        $this->method = $procedure;
 
         return $this;
     }
@@ -44,11 +44,11 @@ class Call extends AbstractStatement
      */
     public function __toString()
     {
-        if (!isset($this->table)) {
+        if (!isset($this->method)) {
             trigger_error('No method is set for stored procedure call', E_USER_ERROR);
         }
 
-        $sql = "CALL {$this->table};";
+        $sql = "CALL {$this->method};";
 
         return $sql;
     }
@@ -58,6 +58,6 @@ class Call extends AbstractStatement
      */
     public function getValues()
     {
-        return $this->table->getValues();
+        return $this->method->getValues();
     }
 }

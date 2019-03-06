@@ -28,7 +28,7 @@ class Conditional implements StatementInterface
     public function __construct($column, $operator, $value)
     {
         $this->column = $column;
-        $this->operator = $operator;
+        $this->operator = strtoupper($operator);
         $this->value = $value;
     }
 
@@ -51,12 +51,15 @@ class Conditional implements StatementInterface
      */
     public function __toString()
     {
-        $placeholders = '?';
-
-        if (is_array($this->value)) {
-            $placeholders = '('.rtrim(str_repeat('?, ', count($this->value)), ', ').')';
+        $sql = "{$this->column} {$this->operator}";
+        if (preg_match('/IN$/', $this->operator)) {
+            $sql .= ' ('.rtrim(str_repeat('?, ', count($this->getValues())), ', ').')';
+        } elseif (preg_match('/BETWEEN$/', $this->operator)) {
+            $sql = "({$sql} ? AND ?)";
+        } else {
+            $sql .= ' ?';
         }
 
-        return "{$this->column} {$this->operator} {$placeholders}";
+        return $sql;
     }
 }
