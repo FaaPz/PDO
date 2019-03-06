@@ -1,5 +1,10 @@
 ### Changelog
 
+##### v1.11.0
++ Rename package namespace in favor of Slim Framework (#20)
++ Updated `StatementContainer` class with:
+  - Fixed `getPlaceholders()` method (#92)
+
 ##### v1.10.1
 + Updated `Database` class with:
   - Allow user provided PDO options to overwrite default values
