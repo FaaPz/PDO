@@ -5,12 +5,12 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO\Statement;
+namespace FaaPz\PDO\Statement;
 
 use PDO;
-use Slim\PDO\AdvancedStatement;
-use Slim\PDO\Clause;
-use Slim\PDO\StatementInterface;
+use FaaPz\PDO\AdvancedStatement;
+use FaaPz\PDO\Clause;
+use FaaPz\PDO\StatementInterface;
 
 class Select extends AdvancedStatement
 {

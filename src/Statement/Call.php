@@ -5,11 +5,11 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO\Statement;
+namespace FaaPz\PDO\Statement;
 
 use PDO;
-use Slim\PDO\AbstractStatement;
-use Slim\PDO\Clause;
+use FaaPz\PDO\AbstractStatement;
+use FaaPz\PDO\Clause;
 
 class Call extends AbstractStatement
 {

@@ -63,7 +63,7 @@ Returns Number of affected rows
 
 ```php
 // DELETE FROM users WHERE id = ?
-$deleteStatement = $slimPdo->delete()
+$deleteStatement = $pdo->delete()
                            ->from("users")
                            ->where(new Clause\Conditional("id", "=", 1234));
 

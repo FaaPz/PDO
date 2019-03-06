@@ -5,10 +5,10 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO\Statement;
+namespace FaaPz\PDO\Statement;
 
 use PDO;
-use Slim\PDO\AdvancedStatement;
+use FaaPz\PDO\AdvancedStatement;
 
 class Update extends AdvancedStatement
 {

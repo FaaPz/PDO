@@ -63,7 +63,7 @@ Returns Number of affected rows
 
 ```php
 // UPDATE users SET pwd = ? WHERE id = ?
-$updateStatement = $slimPdo->update(array(
+$updateStatement = $pdo->update(array(
                                "usr" => "your_new_username",
                                "pwd" => "your_new_password"
                            ))
@@ -71,7 +71,7 @@ $updateStatement = $slimPdo->update(array(
                            ->where(new Clause\Conditional("id", "=", 1234));
 
 // UPDATE users SET usr = ? , pwd = ? WHERE id = ?
-$updateStatement = $slimPdo->update()
+$updateStatement = $pdo->update()
                            ->set(array(
                                 "usr" => "your_new_username",
                                 "pwd" => "your_new_password"

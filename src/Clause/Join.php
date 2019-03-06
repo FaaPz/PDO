@@ -5,10 +5,10 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO\Clause;
+namespace FaaPz\PDO\Clause;
 
-use Slim\PDO\Statement\Select;
-use Slim\PDO\StatementInterface;
+use FaaPz\PDO\Statement\Select;
+use FaaPz\PDO\StatementInterface;
 
 class Join implements StatementInterface
 {

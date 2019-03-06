@@ -22,12 +22,12 @@ Returns the values to be escaped for this statement.
 ### Examples
 
 ```php
-$selectStatement = $slimPdo->select(array(
+$selectStatement = $pdo->select(array(
                                 new Clause\Method("MAX", "id")
                             ))
                            ->from("users");
 
-$selectStatement = $slimPdo->select(array(
+$selectStatement = $pdo->select(array(
                                 new Clause\Method("COUNT", "id")
                             ))
                            ->from("users")

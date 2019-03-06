@@ -1,16 +1,15 @@
 {
-    "name": "slim/pdo",
-    "description": "PDO database library for Slim Framework",
-    "version": "2.0.0-dev",
+    "name": "faapz/pdo",
+    "description": "Just another PDO database library",
     "type": "library",
-    "keywords": ["pdo", "database", "slim", "framework"],
-    "homepage": "https://github.com/FaaPz/Slim-PDO",
+    "keywords": ["pdo", "sql", "database"],
+    "homepage": "https://github.com/FaaPz/PDO",
     "license": "MIT",
     "authors": [
         {
             "name": "Fabian de Laender",
-            "email": "fabian@faapz.nl",
-            "homepage": "http://faapz.nl",
+            "email": "fabian@faapz.productions",
+            "homepage": "https://faapz.productions",
             "role": "Owner"
         },
         {
@@ -21,8 +20,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/FaaPz/Slim-PDO/issues",
-        "docs": "https://github.com/FaaPz/Slim-PDO/blob/master/docs/README.md"
+        "issues": "https://github.com/FaaPz/PDO/issues",
+        "docs": "https://github.com/FaaPz/PDO/blob/master/docs/README.md"
     },
     "require": {
         "php": ">=5.6.0",
@@ -34,12 +33,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Slim\\PDO\\": "src/PDO/"
+            "FaaPz\\PDO\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Slim\\PDO\\Test\\": "tests"
+            "FaaPz\\PDO\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "stable"

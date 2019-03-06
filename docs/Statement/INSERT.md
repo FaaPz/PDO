@@ -40,7 +40,7 @@ Returns the primary key for the inserted record
 
 ```php
 // INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
-$insertStatement = $slimPdo->insert(array(
+$insertStatement = $pdo->insert(array(
                                "id" => 1234,
                                "usr" => "your_username"",
                                "pwd" => "your_password"
@@ -48,7 +48,7 @@ $insertStatement = $slimPdo->insert(array(
                            ->into("users");
 
 // INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
-$insertStatement = $slimPdo->insert()
+$insertStatement = $pdo->insert()
                            ->into("users")
                            ->columns(array("id", "usr", "pwd"))
                            ->values(array(1234, "your_username", "your_password"));
