@@ -5,12 +5,12 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO;
+namespace FaaPz\PDO;
 
-use Slim\PDO\Statement\SelectStatement;
-use Slim\PDO\Statement\InsertStatement;
-use Slim\PDO\Statement\UpdateStatement;
-use Slim\PDO\Statement\DeleteStatement;
+use FaaPz\PDO\Statement\SelectStatement;
+use FaaPz\PDO\Statement\InsertStatement;
+use FaaPz\PDO\Statement\UpdateStatement;
+use FaaPz\PDO\Statement\DeleteStatement;
 
 /**
  * Class Database.
@@ -43,7 +43,7 @@ class Database extends \PDO
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
             \PDO::ATTR_EMULATE_PREPARES => false,
-            \PDO::ATTR_STATEMENT_CLASS => array('Slim\\PDO\\Statement', array($this)),
+            \PDO::ATTR_STATEMENT_CLASS => array('FaaPz\\PDO\\Statement', array($this)),
         );
     }
 

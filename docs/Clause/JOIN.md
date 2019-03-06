@@ -1,6 +1,6 @@
 # JOIN clause
 
-> Used only in [SELECT](https://github.com/FaaPz/Slim-PDO/blob/master/docs/Statement/SELECT.md) statements.
+> Used only in [SELECT](https://github.com/FaaPz/PDO/blob/master/docs/Statement/SELECT.md) statements.
 
 ### Methods
 

@@ -5,9 +5,9 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO\Statement;
+namespace FaaPz\PDO\Statement;
 
-use Slim\PDO\Database;
+use FaaPz\PDO\Database;
 
 /**
  * Class UpdateStatement.

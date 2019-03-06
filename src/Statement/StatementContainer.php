@@ -5,12 +5,12 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO\Statement;
+namespace FaaPz\PDO\Statement;
 
-use Slim\PDO\Clause\LimitClause;
-use Slim\PDO\Clause\OrderClause;
-use Slim\PDO\Clause\WhereClause;
-use Slim\PDO\Database;
+use FaaPz\PDO\Clause\LimitClause;
+use FaaPz\PDO\Clause\OrderClause;
+use FaaPz\PDO\Clause\WhereClause;
+use FaaPz\PDO\Database;
 
 /**
  * Class Statement.

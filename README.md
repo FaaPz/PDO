@@ -1,20 +1,18 @@
-# Slim-PDO
+# PDO
 
-[![Latest Stable Version](https://poser.pugx.org/slim/pdo/v/stable)](https://packagist.org/packages/slim/pdo)
-[![Total Downloads](https://poser.pugx.org/slim/pdo/downloads)](https://packagist.org/packages/slim/pdo)
-[![Latest Unstable Version](https://poser.pugx.org/slim/pdo/v/unstable)](https://packagist.org/packages/slim/pdo)
-[![License](https://poser.pugx.org/slim/pdo/license)](https://packagist.org/packages/slim/pdo)
+[![Latest Stable Version](https://poser.pugx.org/faapz/pdo/v/stable)](https://packagist.org/packages/faapz/pdo)
+[![Total Downloads](https://poser.pugx.org/faapz/pdo/downloads)](https://packagist.org/packages/faapz/pdo)
+[![Latest Unstable Version](https://poser.pugx.org/faapz/pdo/v/unstable)](https://packagist.org/packages/faapz/pdo)
+[![License](https://poser.pugx.org/faapz/pdo/license)](https://packagist.org/packages/faapz/pdo)
 
-PDO database library for Slim Framework
+Just another PDO database library
 
 ### Installation
 
 Use [Composer](https://getcomposer.org/)
 
-```json
-"require": {
-    "slim/pdo": "~1.10"
-}
+```bash
+$ composer require faapz/pdo
 ```
 
 ### Usage
@@ -28,7 +26,7 @@ $dsn = 'mysql:host=your_db_host;dbname=your_db_name;charset=utf8';
 $usr = 'your_db_username';
 $pwd = 'your_db_password';
 
-$pdo = new \Slim\PDO\Database($dsn, $usr, $pwd);
+$pdo = new \FaaPz\PDO\Database($dsn, $usr, $pwd);
 
 // SELECT * FROM users WHERE id = ?
 $selectStatement = $pdo->select()
@@ -64,12 +62,12 @@ $affectedRows = $deleteStatement->execute();
 
 ### Documentation
 
-See [DOCUMENTATION](https://github.com/FaaPz/Slim-PDO/blob/master/docs/README.md)
+See [DOCUMENTATION](https://github.com/FaaPz/PDO/blob/master/docs/README.md)
 
 ### Changelog
 
-See [CHANGELOG](https://github.com/FaaPz/Slim-PDO/blob/master/CHANGELOG.md)
+See [CHANGELOG](https://github.com/FaaPz/PDO/blob/master/CHANGELOG.md)
 
 ### License
 
-See [LICENSE](https://github.com/FaaPz/Slim-PDO/blob/master/LICENSE)
+See [LICENSE](https://github.com/FaaPz/PDO/blob/master/LICENSE)

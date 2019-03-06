@@ -5,13 +5,13 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO\Statement;
+namespace FaaPz\PDO\Statement;
 
-use Slim\PDO\Clause\GroupClause;
-use Slim\PDO\Clause\HavingClause;
-use Slim\PDO\Clause\JoinClause;
-use Slim\PDO\Clause\OffsetClause;
-use Slim\PDO\Database;
+use FaaPz\PDO\Clause\GroupClause;
+use FaaPz\PDO\Clause\HavingClause;
+use FaaPz\PDO\Clause\JoinClause;
+use FaaPz\PDO\Clause\OffsetClause;
+use FaaPz\PDO\Database;
 
 /**
  * Class SelectStatement.

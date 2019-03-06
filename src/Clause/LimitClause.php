@@ -5,7 +5,7 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO\Clause;
+namespace FaaPz\PDO\Clause;
 
 /**
  * Class LimitClause.
