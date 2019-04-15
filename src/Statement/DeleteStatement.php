@@ -14,55 +14,50 @@ use FaaPz\PDO\Database;
  *
  * @author Fabian de Laender <fabian@faapz.nl>
  */
-class DeleteStatement extends StatementContainer
-{
-    /**
-     * Constructor.
-     *
-     * @param Database $dbh
-     * @param $table
-     */
-    public function __construct(Database $dbh, $table)
-    {
-        parent::__construct($dbh);
+class DeleteStatement extends StatementContainer {
+	/**
+	 * Constructor.
+	 *
+	 * @param Database $dbh
+	 * @param $table
+	 */
+	public function __construct(Database $dbh, $table) {
+		parent::__construct($dbh);
 
-        $this->setTable($table);
-    }
+		$this->setTable($table);
+	}
 
-    /**
-     * @param $table
-     *
-     * @return $this
-     */
-    public function from($table)
-    {
-        $this->setTable($table);
+	/**
+	 * @param $table
+	 *
+	 * @return $this
+	 */
+	public function from($table) {
+		$this->setTable($table);
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        if (empty($this->table)) {
-            trigger_error('No table is set for deletion', E_USER_ERROR);
-        }
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+		if (empty($this->table)) {
+			trigger_error('No table is set for deletion', E_USER_ERROR);
+		}
 
-        $sql = 'DELETE FROM '.$this->table;
-        $sql .= $this->whereClause;
-        $sql .= $this->orderClause;
-        $sql .= $this->limitClause;
+		$sql = 'DELETE FROM `' . $this->table . '`';
+		$sql .= $this->whereClause;
+		$sql .= $this->orderClause;
+		$sql .= $this->limitClause;
 
-        return $sql;
-    }
+		return $sql;
+	}
 
-    /**
-     * @return int
-     */
-    public function execute()
-    {
-        return parent::execute()->rowCount();
-    }
+	/**
+	 * @return int
+	 */
+	public function execute() {
+		return parent::execute()->rowCount();
+	}
 }
