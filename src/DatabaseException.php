@@ -5,12 +5,12 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO;
+namespace FaaPz\PDO;
 
+use Exception;
 use RuntimeException;
-use Throwable;
 
-class Exception extends RuntimeException
+class DatabaseException extends RuntimeException
 {
     /** @var string $code */
     protected $code;
@@ -18,9 +18,9 @@ class Exception extends RuntimeException
     /**
      * @param string    $message
      * @param string    $code
-     * @param Throwable $previous
+     * @param Exception $previous
      */
-    public function __construct($message = '', $code = 'database_error', Throwable $previous = null)
+    public function __construct($message = '', $code = 'database_error', Exception $previous = null)
     {
         parent::__construct($message, 0, $previous);
         $this->code = $code;

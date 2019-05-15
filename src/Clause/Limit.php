@@ -5,9 +5,9 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO\Clause;
+namespace FaaPz\PDO\Clause;
 
-use Slim\PDO\StatementInterface;
+use FaaPz\PDO\StatementInterface;
 
 class Limit implements StatementInterface
 {

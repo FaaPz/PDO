@@ -77,7 +77,7 @@ Returns PHP PDOStatement object.
 
 ```php
 // SELECT * FROM users WHERE id = ?
-$selectStatement = $slimPdo->select(array("*"))
+$selectStatement = $pdo->select(array("*"))
                            ->from("users")
                            ->where(new Conditional("id", "=", 1234));
 

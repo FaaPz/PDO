@@ -5,12 +5,12 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Slim\PDO\Statement;
+namespace FaaPz\PDO\Statement;
 
+use FaaPz\PDO\AbstractStatement;
+use FaaPz\PDO\DatabaseException;
+use FaaPz\PDO\StatementInterface;
 use PDO;
-use Slim\PDO\AbstractStatement;
-use Slim\PDO\Exception;
-use Slim\PDO\StatementInterface;
 
 class Insert extends AbstractStatement
 {
@@ -123,7 +123,7 @@ class Insert extends AbstractStatement
     }
 
     /**
-     * @throws Exception
+     * @throws DatabaseException
      *
      * @return string|int
      */
