@@ -1,7 +1,6 @@
 {
     "name": "faapz/pdo",
     "description": "Just another PDO database library",
-    "version": "2.0.0-dev",
     "type": "library",
     "keywords": ["pdo", "sql", "database"],
     "homepage": "https://github.com/FaaPz/PDO",
@@ -9,8 +8,8 @@
     "authors": [
         {
             "name": "Fabian de Laender",
-            "email": "fabian@faapz.nl",
-            "homepage": "http://faapz.nl",
+            "email": "fabian@faapz.productions",
+            "homepage": "https://faapz.productions",
             "role": "Owner"
         },
         {
