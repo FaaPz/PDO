@@ -35,7 +35,7 @@ abstract class AbstractStatement implements StatementInterface
     abstract public function __toString();
 
     /**
-     * @throws PDOException
+     * @throws DatabaseException
      *
      * @return PDOStatement
      */
@@ -48,10 +48,10 @@ abstract class AbstractStatement implements StatementInterface
             if (!$success) {
                 $info = $stmt->errorInfo();
 
-                throw new Exception($info[2], $info[0]);
+                throw new DatabaseException($info[2], $info[0]);
             }
         } catch (PDOException $e) {
-            throw new Exception($e->getMessage(), $e->getCode(), $e);
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
         }
 
         return $stmt;
