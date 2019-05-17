@@ -57,13 +57,13 @@ class Database extends PDO
     }
 
     /**
-     * @param array $columns
+     * @param array $pairs
      *
      * @return Statement\Insert
      */
-    public function insert(array $columns = [])
+    public function insert(array $pairs = [])
     {
-        return new Statement\Insert($this, $columns);
+        return new Statement\Insert($this, $pairs);
     }
 
     /**
