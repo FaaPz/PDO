@@ -14,14 +14,14 @@ class Grouping implements StatementInterface
     /** @var string $rule */
     protected $rule;
 
-    /** @var Conditional[] $value */
+    /** @var Conditional[]|Grouping[] $value */
     protected $value;
 
     /**
      * @param string                   $rule
      * @param Conditional[]|Grouping[] $clauses
      */
-    public function __construct($rule, array $clauses)
+    public function __construct($rule, ...$clauses)
     {
         $this->rule = strtoupper($rule);
         $this->value = $clauses;

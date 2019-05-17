@@ -21,7 +21,7 @@ class Method implements StatementInterface
      * @param string $name
      * @param array  $values
      */
-    public function __construct($name, array $values = [])
+    public function __construct($name, ...$values)
     {
         $this->name = strtoupper($name);
         $this->values = $values;
