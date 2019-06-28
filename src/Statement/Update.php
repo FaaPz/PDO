@@ -48,7 +48,7 @@ class Update extends AdvancedStatement
      */
     public function set(array $pairs)
     {
-        $this->pairs = $pairs;
+        $this->pairs = array_merge($this->pairs, $pairs);
 
         return $this;
     }
