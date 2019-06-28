@@ -88,10 +88,10 @@ class Update extends AdvancedStatement
         $sql .= implode(' ', $this->join);
 
         $columns = array_keys($this->pairs);
-        $column = array_pop($columns);
+        $column = array_shift($columns);
         $sql .= " SET {$column} = ?";
 
-        while (($column = array_pop($columns)) !== null) {
+        while (($column = array_shift($columns)) !== null) {
             $sql .= ", {$column} = ?";
         }
 
