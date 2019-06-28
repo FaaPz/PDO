@@ -40,7 +40,7 @@ class Method implements StatementInterface
      */
     public function __toString()
     {
-        $placeholders = rtrim(str_repeat('?, ', count($this->values)), ', ');
+        $placeholders = preg_replace('/, $/', '', str_repeat('?, ', count($this->values)));
 
         return "{$this->name}({$placeholders})";
     }

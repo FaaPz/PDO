@@ -171,7 +171,7 @@ class Select extends AdvancedStatement
             $columns .= ', ';
         }
 
-        return rtrim($columns, ', ');
+        return preg_replace('/, $/', '', $columns);
     }
 
     /**

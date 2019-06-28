@@ -96,7 +96,7 @@ class Insert extends AbstractStatement
                 $placeholders .= '?, ';
             }
         }
-        $placeholders = rtrim($placeholders, ', ');
+        $placeholders = preg_replace('/, $/', '', $placeholders);
 
         $columns = implode(', ', $this->columns);
         $sql = "INSERT INTO {$this->table} ({$columns})";

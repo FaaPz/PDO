@@ -57,6 +57,6 @@ class Grouping implements StatementInterface
             $sql .= "{$this->rule} ";
         }
 
-        return rtrim($sql, "{$this->rule} ");
+        return preg_replace("/{$this->rule} $/", '',  $sql);
     }
 }

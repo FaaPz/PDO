@@ -53,7 +53,7 @@ class Conditional implements StatementInterface
     {
         $sql = "{$this->column} {$this->operator}";
         if (preg_match('/IN$/', $this->operator)) {
-            $sql .= ' ('.rtrim(str_repeat('?, ', count($this->getValues())), ', ').')';
+            $sql .= ' ('.preg_replace('/, $/', '', str_repeat('?, ', count($this->getValues()))).')';
         } elseif (preg_match('/BETWEEN$/', $this->operator)) {
             $sql = "({$sql} ? AND ?)";
         } else {
