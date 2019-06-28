@@ -23,6 +23,9 @@ class Insert extends AbstractStatement
     /** @var array $values */
     protected $values = [];
 
+    /** @var bool $ignore */
+    protected $ignore = false;
+
     /**
      * @param PDO   $dbh
      * @param array $pairs
@@ -72,6 +75,16 @@ class Insert extends AbstractStatement
     }
 
     /**
+     * @return $this
+     */
+    public function ignore()
+    {
+        $this->ignore = true;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
@@ -99,7 +112,12 @@ class Insert extends AbstractStatement
         $placeholders = preg_replace('/, $/', '', $placeholders);
 
         $columns = implode(', ', $this->columns);
-        $sql = "INSERT INTO {$this->table} ({$columns})";
+
+        $sql = 'INSERT';
+        if ($this->ignore) {
+            $sql .= ' IGNORE';
+        }
+        $sql .= " INTO {$this->table} ({$columns})";
         $sql .= " VALUES ({$placeholders})";
 
         return $sql;
