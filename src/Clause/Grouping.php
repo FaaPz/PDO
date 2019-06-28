@@ -57,6 +57,6 @@ class Grouping implements StatementInterface
             $sql .= "{$this->rule} ";
         }
 
-        return preg_replace('/'.preg_quote($this->rule, '/').' $/', '',  $sql);
+        return preg_replace('/'.preg_quote($this->rule, '/').' $/', '', $sql);
     }
 }
