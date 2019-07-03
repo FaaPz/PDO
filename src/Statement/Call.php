@@ -9,6 +9,7 @@ namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AbstractStatement;
 use FaaPz\PDO\Clause;
+use FaaPz\PDO\DatabaseException;
 use PDO;
 
 class Call extends AbstractStatement
@@ -45,7 +46,7 @@ class Call extends AbstractStatement
     public function __toString()
     {
         if (!isset($this->method)) {
-            trigger_error('No method is set for stored procedure call', E_USER_ERROR);
+            throw new DatabaseException('No method is set for stored procedure call');
         }
 
         $sql = "CALL {$this->method};";

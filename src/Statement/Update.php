@@ -8,6 +8,8 @@
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
+use FaaPz\PDO\DatabaseException;
+use mysql_xdevapi\Exception;
 use PDO;
 
 class Update extends AdvancedStatement
@@ -77,11 +79,11 @@ class Update extends AdvancedStatement
     public function __toString()
     {
         if (!isset($this->table)) {
-            trigger_error('No table is set for update', E_USER_ERROR);
+            throw new DatabaseException('No table is set for update');
         }
 
         if (empty($this->pairs)) {
-            trigger_error('Missing columns and values for update', E_USER_ERROR);
+            throw new DatabaseException('Missing columns and values for update');
         }
 
         $sql = "UPDATE {$this->table}";

@@ -9,6 +9,7 @@ namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
 use FaaPz\PDO\Clause;
+use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\StatementInterface;
 use PDO;
 
@@ -180,7 +181,7 @@ class Select extends AdvancedStatement
     public function __toString()
     {
         if (!isset($this->table)) {
-            trigger_error('No table is set for selection', E_USER_ERROR);
+            throw new DatabaseException('No table is set for selection');
         }
 
         $sql = 'SELECT';

@@ -90,15 +90,15 @@ class Insert extends AbstractStatement
     public function __toString()
     {
         if (!isset($this->table)) {
-            trigger_error('No table is set for insertion', E_USER_ERROR);
+            throw new DatabaseException('No table is set for insertion');
         }
 
         if (empty($this->columns)) {
-            trigger_error('Missing columns for insertion', E_USER_ERROR);
+            throw new DatabaseException('Missing columns for insertion');
         }
 
         if (empty($this->values) || count($this->columns) != count($this->values)) {
-            trigger_error('Missing values for insertion', E_USER_ERROR);
+            throw new DatabaseException('Missing values for insertion');
         }
 
         $placeholders = '';

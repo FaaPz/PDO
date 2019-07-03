@@ -8,6 +8,7 @@
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
+use FaaPz\PDO\DatabaseException;
 use PDO;
 
 class Delete extends AdvancedStatement
@@ -44,7 +45,7 @@ class Delete extends AdvancedStatement
     public function __toString()
     {
         if (!isset($this->table)) {
-            trigger_error('No table is set for deletion', E_USER_ERROR);
+            throw new DatabaseException('No table is set for deletion');
         }
 
         $sql = "DELETE FROM {$this->table}";
