@@ -37,7 +37,7 @@ class DropStatement extends StatementContainer
 
     protected function getDrop()
     {
-        return 'DROP';
+        return 'DROP TABLE IF EXISTS';
     }
 
     /**
