@@ -56,6 +56,11 @@ $deleteStatement = $pdo->delete()
                        ->where('id', '=', 1234);
 
 $affectedRows = $deleteStatement->execute();
+
+// TRUNCATE user
+$truncateStatement = $pdo->truncate('users');
+
+$truncateStatement->execute();
 ```
 
 > The `sqlsrv` extension will fail to connect when using error mode `PDO::ERRMODE_EXCEPTION` (default). To connect, you will need to explicitly pass `array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING)` (or `PDO::ERRMODE_SILENT`) into the constructor, or override the `getDefaultOptions()` method when using `sqlsrv`.
