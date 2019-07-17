@@ -11,6 +11,7 @@ use FaaPz\PDO\Statement\SelectStatement;
 use FaaPz\PDO\Statement\InsertStatement;
 use FaaPz\PDO\Statement\UpdateStatement;
 use FaaPz\PDO\Statement\DeleteStatement;
+use FaaPz\PDO\Statement\TruncateStatement;
 
 /**
  * Class Database.
@@ -85,5 +86,15 @@ class Database extends \PDO
     public function delete($table = null)
     {
         return new DeleteStatement($this, $table);
+    }
+
+    /**
+     * @param null $able
+     *
+     * @return TruncateStatement
+     */
+    public function truncate($table = null)
+    {
+        return new TruncateStatement($this, $table);
     }
 }
