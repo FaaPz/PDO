@@ -6,7 +6,7 @@ namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\Database;
 
-class TruncateStatement extends StatementContainer
+class DropStatement extends StatementContainer
 {
     /**
      * Constructor.
@@ -30,14 +30,14 @@ class TruncateStatement extends StatementContainer
             trigger_error('No table is set for selection', E_USER_ERROR);
         }
 
-        $sql = $this->getTruncate().' '.$this->table;
+        $sql = $this->getDrop().' '.$this->table;
 
         return $sql;
     }
 
-    protected function getTruncate()
+    protected function getDrop()
     {
-        return 'TRUNCATE';
+        return 'DROP';
     }
 
     /**
