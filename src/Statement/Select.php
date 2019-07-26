@@ -63,7 +63,7 @@ class Select extends AdvancedStatement
      *
      * @return $this
      */
-    public function union(self $query)
+    public function union(Select $query)
     {
         $this->union[] = $query;
 

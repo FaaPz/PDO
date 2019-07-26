@@ -9,7 +9,6 @@ namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
 use FaaPz\PDO\DatabaseException;
-use mysql_xdevapi\Exception;
 use PDO;
 
 class Update extends AdvancedStatement
