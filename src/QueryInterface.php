@@ -7,15 +7,15 @@
 
 namespace FaaPz\PDO;
 
-interface StatementInterface
+interface QueryInterface
 {
     /**
-     * @return array
+     * @return mixed[]
      */
-    public function getValues();
+    public function getValues() : array;
 
     /**
      * @return string
      */
-    public function __toString();
+    public function __toString() : string;
 }

@@ -12,37 +12,33 @@ abstract class AdvancedStatement extends AbstractStatement
     /** @var Clause\Join[] */
     protected $join = [];
 
-    /** @var Clause\Conditional|Clause\Grouping|null $where */
+    /** @var Clause\Conditional $where */
     protected $where = null;
 
     /** @var string[] $orderBy */
     protected $orderBy = [];
 
-    /** @var Clause\Limit|null $limit */
+    /** @var Clause\Limit $limit */
     protected $limit = null;
 
     /**
-     * @param Clause\Join|Clause\Join[] $clause
+     * @param Clause\Join $clause
      *
-     * @return $this
+     * @return self
      */
     public function join(Clause\Join $clause)
     {
-        if (is_array($clause)) {
-            $this->join = array_merge($this->join[], array_values($clause));
-        } else {
-            $this->join[] = $clause;
-        }
+        $this->join[] = $clause;
 
         return $this;
     }
 
     /**
-     * @param Clause\Conditional|Clause\Grouping $clause
+     * @param Clause\Conditional $clause
      *
-     * @return $this
+     * @return self
      */
-    public function where($clause)
+    public function where(Clause\Conditional $clause)
     {
         $this->where = $clause;
 
@@ -53,11 +49,11 @@ abstract class AdvancedStatement extends AbstractStatement
      * @param string $column
      * @param string $direction
      *
-     * @return $this
+     * @return self
      */
-    public function orderBy($column, $direction = null)
+    public function orderBy(string $column, string $direction = '')
     {
-        $this->orderBy[] = rtrim("{$column} {$direction}");
+        $this->orderBy[$column] = $direction;
 
         return $this;
     }
@@ -65,7 +61,7 @@ abstract class AdvancedStatement extends AbstractStatement
     /**
      * @param Clause\Limit|null $limit
      *
-     * @return $this
+     * @return self
      */
     public function limit(Clause\Limit $limit)
     {

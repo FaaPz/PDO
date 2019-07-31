@@ -7,33 +7,26 @@
 
 namespace FaaPz\PDO\Clause;
 
-use FaaPz\PDO\StatementInterface;
-
-class Grouping implements StatementInterface
+class Grouping extends Conditional
 {
-    /** @var string $rule */
-    protected $rule;
-
-    /** @var Conditional[]|Grouping[] $value */
+    /** @var Conditional[] $value */
     protected $value;
 
     /**
-     * @param string                   $rule
-     * @param Conditional[]|Grouping[] $clauses
+     * @param string        $rule
+     * @param Conditional[] $clauses
      */
-    public function __construct($rule, ...$clauses)
+    public function __construct(string $rule, Conditional ...$clauses)
     {
-        $this->rule = strtoupper($rule);
-        $this->value = $clauses;
+        parent::__construct('', strtoupper(trim($rule)), $clauses);
     }
 
     /**
      * @return array
      */
-    public function getValues()
+    public function getValues() : array
     {
         $values = [];
-
         foreach ($this->value as $clause) {
             $values = array_merge($values, $clause->getValues());
         }
@@ -44,19 +37,17 @@ class Grouping implements StatementInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         $sql = '';
         foreach ($this->value as $clause) {
             if ($clause instanceof self) {
-                $sql .= "({$clause}) ";
-            } else {
-                $sql .= "{$clause} ";
+                $clause = "({$clause})";
             }
 
-            $sql .= "{$this->rule} ";
+            $sql .= "{$clause} {$this->operator} ";
         }
 
-        return preg_replace('/'.preg_quote($this->rule, '/').' $/', '', $sql);
+        return preg_replace('/'.preg_quote(" $this->operator ", '/').'$/', '', $sql);
     }
 }

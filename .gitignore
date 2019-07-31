@@ -49,7 +49,9 @@ $RECYCLE.BIN/
 # ---------------------------
 
 .php_cs.cache
+.phpunit.result.cache
 composer.lock
 composer.phar
+build/
 vendor/
 .idea/

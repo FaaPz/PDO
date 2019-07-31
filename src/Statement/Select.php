@@ -10,7 +10,7 @@ namespace FaaPz\PDO\Statement;
 use FaaPz\PDO\AdvancedStatement;
 use FaaPz\PDO\Clause;
 use FaaPz\PDO\DatabaseException;
-use FaaPz\PDO\StatementInterface;
+use FaaPz\PDO\QueryInterface;
 use PDO;
 
 class Select extends AdvancedStatement
@@ -18,7 +18,7 @@ class Select extends AdvancedStatement
     /** @var string|string[string]|Select[string] $table */
     protected $table;
 
-    /** @var string[]|StatementInterface[] $columns */
+    /** @var array[int|string] $columns */
     protected $columns = [];
 
     /** @var bool $distinct */
@@ -41,11 +41,7 @@ class Select extends AdvancedStatement
     {
         parent::__construct($dbh);
 
-        if (empty($columns)) {
-            $columns = ['*'];
-        }
-
-        $this->columns = $columns;
+        $this->columns($columns);
     }
 
     /**
@@ -59,13 +55,17 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @param Select $query
+     * @param string[]|string[string] $columns
      *
      * @return $this
      */
-    public function union(Select $query)
+    public function columns(array $columns = ['*']) : self
     {
-        $this->union[] = $query;
+        if (empty($columns)) {
+            $this->columns = ['*'];
+        } else {
+            $this->columns = $columns;
+        }
 
         return $this;
     }
@@ -75,7 +75,7 @@ class Select extends AdvancedStatement
      *
      * @return $this
      */
-    public function from($table)
+    public function from($table) : self
     {
         $this->table = $table;
 
@@ -83,33 +83,37 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @param Clause\Join|Clause\Join[] $clause
+     * @param Clause\Join $clause
      *
-     * @return $this
+     * @return self
      */
-    public function join(Clause\Join $clause)
+    public function join(Clause\Join $clause) : self
     {
-        if (is_array($clause)) {
-            $this->join = array_merge($this->join[], array_values($clause));
-        } else {
-            $this->join[] = $clause;
-        }
+        $this->join[] = $clause;
 
         return $this;
     }
 
     /**
-     * @param string|string[] $column
+     * @param self $query
      *
      * @return $this
      */
-    public function groupBy($column)
+    public function union(self $query) : self
     {
-        if (is_array($column)) {
-            $this->groupBy = array_merge($this->groupBy[], array_values($column));
-        } else {
-            $this->groupBy[] = $column;
-        }
+        $this->union[] = $query;
+
+        return $this;
+    }
+
+    /**
+     * @param string[] $columns
+     *
+     * @return $this
+     */
+    public function groupBy(...$columns) : self
+    {
+        $this->groupBy = array_merge($this->groupBy, $columns);
 
         return $this;
     }
@@ -119,7 +123,7 @@ class Select extends AdvancedStatement
      *
      * @return $this
      */
-    public function having(Clause\Conditional $clause)
+    public function having(Clause\Conditional $clause) : self
     {
         $this->having = $clause;
 
@@ -127,12 +131,11 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
-    public function getValues()
+    public function getValues() : array
     {
         $values = [];
-
         foreach ($this->join as $join) {
             $values = array_merge($values, $join->getValues());
         }
@@ -155,32 +158,36 @@ class Select extends AdvancedStatement
     /**
      * @return string
      */
-    protected function getColumns()
+    protected function getColumns() : string
     {
         $columns = '';
-
         foreach ($this->columns as $key => $value) {
-            if ($value instanceof StatementInterface) {
-                $columns .= "({$value})";
+            if (!empty($columns)) {
+                $columns .= ', ';
+            }
+
+            if ($value instanceof QueryInterface) {
+                $column = "({$value})";
             } else {
-                $columns .= "{$value}";
+                $column = $value;
             }
 
             if (is_string($key)) {
-                $columns .= " AS {$key}";
+                $column .= " AS {$key}";
             }
-            $columns .= ', ';
+
+            $columns .= $column;
         }
 
-        return preg_replace('/, $/', '', $columns);
+        return $columns;
     }
 
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
-        if (!isset($this->table)) {
+        if (empty($this->table)) {
             throw new DatabaseException('No table is set for selection');
         }
 
@@ -192,11 +199,13 @@ class Select extends AdvancedStatement
         $sql .= " {$this->getColumns()}";
 
         if (is_array($this->table)) {
-            $alias = array_key_first($this->table);
+            reset($this->table);
+            $alias = key($this->table);
 
-            $table = "{$this->table[$alias]}";
-            if ($this->table[$alias] instanceof self) {
-                $table = "({$table})";
+            if ($this->table[$alias] instanceof QueryInterface) {
+                $table = "({$this->table[$alias]})";
+            } else {
+                $table = $this->table[$alias];
             }
 
             if (is_string($alias)) {
@@ -207,11 +216,11 @@ class Select extends AdvancedStatement
         }
         $sql .= " FROM {$table}";
 
-        if (count($this->join) > 0) {
+        if (!empty($this->join)) {
             $sql .= ' '.implode(' ', $this->join);
         }
 
-        if ($this->where !== null) {
+        if ($this->where != null) {
             $sql .= " WHERE {$this->where}";
         }
 
@@ -219,20 +228,28 @@ class Select extends AdvancedStatement
             $sql .= ' GROUP BY '.implode(', ', $this->groupBy);
         }
 
-        if ($this->having !== null) {
+        if ($this->having != null) {
             $sql .= " HAVING {$this->having}";
         }
 
         if (!empty($this->orderBy)) {
-            $sql .= ' ORDER BY '.implode(', ', $this->orderBy);
+            $sql .= ' ORDER BY ';
+            foreach ($this->orderBy as $column => $direction) {
+                $sql .= "{$column} {$direction}, ";
+            }
+            $sql = substr($sql, 0, -2);
         }
 
-        if ($this->limit !== null) {
+        if ($this->limit != null) {
             $sql .= " LIMIT {$this->limit}";
         }
 
-        if (count($this->union) > 0) {
-            $sql = '('.$sql.implode(') UNION (', $this->union).')';
+        if (!empty($this->union)) {
+            $sql = "({$sql}";
+            foreach ($this->union as $union) {
+                $sql .= ") UNION ({$union}";
+            }
+            $sql .= ')';
         }
 
         return $sql;

@@ -20,7 +20,7 @@ class DatabaseException extends RuntimeException
      * @param string    $code
      * @param Exception $previous
      */
-    public function __construct($message = '', $code = 'database_error', Exception $previous = null)
+    public function __construct(string $message = '', string $code = 'database_error', Exception $previous = null)
     {
         parent::__construct($message, 0, $previous);
         $this->code = $code;

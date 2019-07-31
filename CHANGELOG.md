@@ -1,5 +1,10 @@
 ### Changelog
 
+##### v2.0.x
++ Complete rewrite focusing on objects
++ PHP 7.2 minimum version requirement
++ Adding unit testing via PHPUnit 8
+
 ##### v1.10.1
 + Updated `Database` class with:
   - Allow user provided PDO options to overwrite default values

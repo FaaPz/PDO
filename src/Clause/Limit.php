@@ -7,38 +7,36 @@
 
 namespace FaaPz\PDO\Clause;
 
-use FaaPz\PDO\StatementInterface;
+use FaaPz\PDO\QueryInterface;
 
-class Limit implements StatementInterface
+class Limit implements QueryInterface
 {
-    /** @var int $rowCount */
-    protected $rowCount;
+    /** @var int $size */
+    protected $size;
 
     /** @var int|null $offset */
     protected $offset;
 
     /**
-     * @param int      $rowCount
+     * @param int      $size
      * @param int|null $offset
      */
-    public function __construct($rowCount, $offset = null)
+    public function __construct(int $size, int $offset = null)
     {
-        $this->rowCount = $rowCount;
+        $this->size = $size;
         $this->offset = $offset;
     }
 
     /**
      * @return int[]
      */
-    public function getValues()
+    public function getValues() : array
     {
         $values = [];
-
         if (isset($this->offset)) {
             $values[] = $this->offset;
         }
-
-        $values[] = $this->rowCount;
+        $values[] = $this->size;
 
         return $values;
     }
@@ -46,15 +44,12 @@ class Limit implements StatementInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
-        $sql = '';
-
+        $sql = '?';
         if (isset($this->offset)) {
-            $sql = '?, ';
+            $sql .= ', ?';
         }
-
-        $sql .= '?';
 
         return $sql;
     }

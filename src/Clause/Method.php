@@ -7,40 +7,56 @@
 
 namespace FaaPz\PDO\Clause;
 
-use FaaPz\PDO\StatementInterface;
+use FaaPz\PDO\QueryInterface;
 
-class Method implements StatementInterface
+class Method implements QueryInterface
 {
-    /** @var string $expression */
+    /** @var string $name */
     protected $name;
 
-    /** @var array $values */
+    /** @var mixed[] $values */
     protected $values;
 
     /**
-     * @param string $name
-     * @param array  $values
+     * @param string  $name
+     * @param mixed[] $args
      */
-    public function __construct($name, ...$values)
+    public function __construct(string $name, ...$args)
     {
-        $this->name = strtoupper($name);
-        $this->values = $values;
+        $this->name = $name;
+        $this->values = $args;
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
-    public function getValues()
+    public function getValues() : array
     {
-        return $this->values;
+        $values = [];
+        foreach ($this->values as $value) {
+            if (!$value instanceof QueryInterface) {
+                $values[] = $value;
+            }
+        }
+
+        return $values;
     }
 
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
-        $placeholders = preg_replace('/, $/', '', str_repeat('?, ', count($this->values)));
+        $placeholders = '';
+        foreach ($this->values as $value) {
+            if (!$value instanceof QueryInterface) {
+                if (!empty($placeholders)) {
+                    $placeholders .= ', ';
+                }
+
+                $placeholders .= '?';
+            }
+        }
 
         return "{$this->name}({$placeholders})";
     }

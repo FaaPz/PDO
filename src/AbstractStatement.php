@@ -11,7 +11,7 @@ use PDO;
 use PDOException;
 use PDOStatement;
 
-abstract class AbstractStatement implements StatementInterface
+abstract class AbstractStatement implements QueryInterface
 {
     /** @var PDO $dbh */
     protected $dbh;
@@ -23,16 +23,6 @@ abstract class AbstractStatement implements StatementInterface
     {
         $this->dbh = $dbh;
     }
-
-    /**
-     * @return array
-     */
-    abstract public function getValues();
-
-    /**
-     * @return string
-     */
-    abstract public function __toString();
 
     /**
      * @throws DatabaseException
