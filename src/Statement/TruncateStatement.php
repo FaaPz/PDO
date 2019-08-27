@@ -1,8 +1,6 @@
 <?php
 
-
 namespace FaaPz\PDO\Statement;
-
 
 use FaaPz\PDO\Database;
 
