@@ -99,7 +99,6 @@ class Database extends \PDO
         return new TruncateStatement($this, $table);
     }
 
-
     /**
      * @param null $able
      *
