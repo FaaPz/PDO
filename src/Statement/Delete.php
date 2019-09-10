@@ -13,26 +13,28 @@ use PDO;
 
 class Delete extends AdvancedStatement
 {
-    /** @var string $table */
+    /** @var string|string[string] $table */
     protected $table;
 
     /**
-     * @param PDO    $dbh
-     * @param string $table
+     * @param PDO                        $dbh
+     * @param string|string[string]|null $table
      */
     public function __construct(PDO $dbh, $table = null)
     {
         parent::__construct($dbh);
 
-        $this->table = $table;
+        if (!empty($table)) {
+            $this->from($table);
+        }
     }
 
     /**
-     * @param $table
+     * @param string|string[string] $table
      *
      * @return $this
      */
-    public function from($table)
+    public function from($table) : self
     {
         $this->table = $table;
 
@@ -40,26 +42,70 @@ class Delete extends AdvancedStatement
     }
 
     /**
+     * @return mixed[]
+     */
+    public function getValues() : array
+    {
+        $values = [];
+        foreach ($this->join as $join) {
+            $values = array_merge($values, $join->getValues());
+        }
+
+        if ($this->where != null) {
+            $values = array_merge($values, $this->where->getValues());
+        }
+
+        if (!empty($this->orderBy)) {
+            $values = array_merge($values, $this->orderBy);
+        }
+
+        if ($this->limit != null) {
+            $values = array_merge($values, $this->limit->getValues());
+        }
+
+        return $values;
+    }
+
+    /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
-        if (!isset($this->table)) {
+        if (empty($this->table)) {
             throw new DatabaseException('No table is set for deletion');
         }
 
-        $sql = "DELETE FROM {$this->table}";
-        $sql .= implode(' ', $this->join);
+        $sql = 'DELETE';
+        if (is_array($this->table)) {
+            reset($this->table);
+            $alias = key($this->table);
 
-        if ($this->where !== null) {
+            $table = $this->table[$alias];
+            if (is_string($alias)) {
+                $table .= " AS {$alias}";
+            }
+        } else {
+            $table = "{$this->table}";
+        }
+        $sql .= " FROM {$table}";
+
+        if (!empty($this->join)) {
+            $sql .= ' '.implode(' ', $this->join);
+        }
+
+        if ($this->where != null) {
             $sql .= " WHERE {$this->where}";
         }
 
         if (!empty($this->orderBy)) {
-            $sql .= ' ORDER BY '.implode(', ', $this->orderBy);
+            $sql .= ' ORDER BY ';
+            foreach ($this->orderBy as $column => $direction) {
+                $sql .= "{$column} {$direction}, ";
+            }
+            $sql = substr($sql, 0, -2);
         }
 
-        if ($this->limit !== null) {
+        if ($this->limit != null) {
             $sql .= " LIMIT {$this->limit}";
         }
 
@@ -67,28 +113,12 @@ class Delete extends AdvancedStatement
     }
 
     /**
+     * @throws DatabaseException
+     *
      * @return int
      */
-    public function execute()
+    public function execute() : int
     {
         return parent::execute()->rowCount();
-    }
-
-    /**
-     * @return array
-     */
-    public function getValues()
-    {
-        $values = [];
-
-        if ($this->where !== null) {
-            $values = array_merge($values, $this->where->getValues());
-        }
-
-        if ($this->limit !== null) {
-            $values = array_merge($values, $this->limit->getValues());
-        }
-
-        return $values;
     }
 }

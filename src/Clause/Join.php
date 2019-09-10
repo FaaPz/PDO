@@ -7,36 +7,37 @@
 
 namespace FaaPz\PDO\Clause;
 
+use FaaPz\PDO\DatabaseException;
+use FaaPz\PDO\QueryInterface;
 use FaaPz\PDO\Statement\Select;
-use FaaPz\PDO\StatementInterface;
 
-class Join implements StatementInterface
+class Join implements QueryInterface
 {
-    /** @var string|string[string]|Select|Select[string] $table */
-    protected $table;
+    /** @var string|string[string]|Select[string] $subject */
+    protected $subject;
 
-    /** @var Conditional|Grouping $on */
+    /** @var Conditional $on */
     protected $on;
 
     /** @var string $type */
     protected $type;
 
     /**
-     * @param string|string[string]|Select|Select[string] $table
-     * @param Conditional|Grouping                        $on
-     * @param string                                      $type
+     * @param string|string[string]|Select[string] $subject
+     * @param Conditional                          $on
+     * @param string                               $type
      */
-    public function __construct($table, $on, $type = '')
+    public function __construct($subject, Conditional $on, string $type = '')
     {
-        $this->table = $table;
+        $this->subject = $subject;
         $this->on = $on;
-        $this->type = $type;
+        $this->type = strtoupper(trim($type));
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->on->getValues();
     }
@@ -44,23 +45,30 @@ class Join implements StatementInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
-        $table = $this->table;
-        if (is_array($this->table)) {
-            $alias = array_key_first($this->table);
-
-            if ($this->table[$alias] instanceof Select) {
-                $table = "({$this->table[$alias]})";
-            } else {
-                $table = $this->table[$alias];
+        $table = $this->subject;
+        if (is_array($this->subject)) {
+            reset($this->subject);
+            $alias = key($this->subject);
+            if (!is_string($alias)) {
+                throw new DatabaseException('Invalid subject array, use string keys for alias');
             }
 
-            if (is_string($alias)) {
-                $table .= " AS {$alias}";
+            $table = $this->subject[$alias];
+            if ($table instanceof Select) {
+                $table = "({$table})";
             }
+            $table .= " AS {$alias}";
+        } elseif (!is_string($this->subject)) {
+            throw new DatabaseException('Invalid subject value, use array with string key for alias');
         }
 
-        return ltrim("{$this->type} JOIN {$table} ON {$this->on}");
+        $sql = "JOIN {$table} ON {$this->on}";
+        if (!empty($this->type)) {
+            $sql = "{$this->type} {$sql}";
+        }
+
+        return $sql;
     }
 }

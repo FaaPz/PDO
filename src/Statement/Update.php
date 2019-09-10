@@ -9,6 +9,7 @@ namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
 use FaaPz\PDO\DatabaseException;
+use FaaPz\PDO\QueryInterface;
 use PDO;
 
 class Update extends AdvancedStatement
@@ -16,12 +17,12 @@ class Update extends AdvancedStatement
     /** @var string $table */
     protected $table;
 
-    /** @var array $pairs */
+    /** @var mixed[string] $pairs */
     protected $pairs;
 
     /**
-     * @param PDO   $dbh
-     * @param array $pairs
+     * @param PDO           $dbh
+     * @param mixed[string] $pairs
      */
     public function __construct(PDO $dbh, array $pairs = [])
     {
@@ -31,11 +32,11 @@ class Update extends AdvancedStatement
     }
 
     /**
-     * @param  $table
+     * @param string $table
      *
-     * @return $this
+     * @return self
      */
-    public function table($table)
+    public function table(string $table) : self
     {
         $this->table = $table;
 
@@ -43,11 +44,11 @@ class Update extends AdvancedStatement
     }
 
     /**
-     * @param array $pairs
+     * @param mixed[string] $pairs
      *
-     * @return $this
+     * @return self
      */
-    public function set(array $pairs)
+    public function pairs(array $pairs) : self
     {
         $this->pairs = array_merge($this->pairs, $pairs);
 
@@ -55,9 +56,22 @@ class Update extends AdvancedStatement
     }
 
     /**
-     * @return array
+     * @param string $column
+     * @param mixed  $value
+     *
+     * @return self
      */
-    public function getValues()
+    public function set(string $column, $value) : self
+    {
+        $this->pairs[$column] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getValues() : array
     {
         $values = array_values($this->pairs);
 
@@ -75,7 +89,28 @@ class Update extends AdvancedStatement
     /**
      * @return string
      */
-    public function __toString()
+    protected function getColumns() : string
+    {
+        $columns = '';
+        foreach ($this->pairs as $key => $value) {
+            if (!empty($columns)) {
+                $columns .= ', ';
+            }
+
+            if ($value instanceof QueryInterface) {
+                $columns .= "{$key} = ({$value})";
+            } else {
+                $columns .= "{$key} = ?";
+            }
+        }
+
+        return $columns;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() : string
     {
         if (!isset($this->table)) {
             throw new DatabaseException('No table is set for update');
@@ -86,25 +121,24 @@ class Update extends AdvancedStatement
         }
 
         $sql = "UPDATE {$this->table}";
-        $sql .= implode(' ', $this->join);
-
-        $columns = array_keys($this->pairs);
-        $column = array_shift($columns);
-        $sql .= " SET {$column} = ?";
-
-        while (($column = array_shift($columns)) !== null) {
-            $sql .= ", {$column} = ?";
+        if (!empty($this->join)) {
+            $sql .= ' '.implode(' ', $this->join);
         }
 
-        if ($this->where !== null) {
+        $sql .= ' SET '.$this->getColumns();
+        if ($this->where != null) {
             $sql .= " WHERE {$this->where}";
         }
 
         if (!empty($this->orderBy)) {
-            $sql .= ' ORDER BY '.implode(', ', $this->orderBy);
+            $sql .= ' ORDER BY ';
+            foreach ($this->orderBy as $column => $direction) {
+                $sql .= "{$column} {$direction}, ";
+            }
+            $sql = substr($sql, 0, -2);
         }
 
-        if ($this->limit !== null) {
+        if ($this->limit != null) {
             $sql .= " LIMIT {$this->limit}";
         }
 
@@ -112,9 +146,11 @@ class Update extends AdvancedStatement
     }
 
     /**
+     * @throws DatabaseException
+     *
      * @return int
      */
-    public function execute()
+    public function execute() : int
     {
         return parent::execute()->rowCount();
     }

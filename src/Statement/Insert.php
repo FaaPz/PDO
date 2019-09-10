@@ -9,7 +9,7 @@ namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AbstractStatement;
 use FaaPz\PDO\DatabaseException;
-use FaaPz\PDO\StatementInterface;
+use FaaPz\PDO\QueryInterface;
 use PDO;
 
 class Insert extends AbstractStatement
@@ -20,22 +20,21 @@ class Insert extends AbstractStatement
     /** @var string[] $columns */
     protected $columns = [];
 
-    /** @var array $values */
+    /** @var mixed[] $values */
     protected $values = [];
 
     /** @var bool $ignore */
     protected $ignore = false;
 
     /**
-     * @param PDO   $dbh
-     * @param array $pairs
+     * @param PDO           $dbh
+     * @param mixed[string] $pairs
      */
     public function __construct(PDO $dbh, array $pairs = [])
     {
         parent::__construct($dbh);
 
-        $this->columns(array_keys($pairs));
-        $this->values(array_values($pairs));
+        $this->pairs($pairs);
     }
 
     /**
@@ -43,7 +42,7 @@ class Insert extends AbstractStatement
      *
      * @return $this
      */
-    public function into($table)
+    public function into(string $table)
     {
         $this->table = $table;
 
@@ -51,11 +50,11 @@ class Insert extends AbstractStatement
     }
 
     /**
-     * @param array $columns
+     * @param string[] $columns
      *
      * @return $this
      */
-    public function columns(array $columns)
+    public function columns(...$columns)
     {
         $this->columns = $columns;
 
@@ -63,13 +62,26 @@ class Insert extends AbstractStatement
     }
 
     /**
-     * @param array $values
+     * @param mixed[] $values
      *
      * @return $this
      */
-    public function values(array $values)
+    public function values(...$values)
     {
         $this->values = $values;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed[string] $pairs
+     *
+     * @return $this
+     */
+    public function pairs(array $pairs)
+    {
+        $this->columns(...array_keys($pairs));
+        $this->values(...array_values($pairs));
 
         return $this;
     }
@@ -87,9 +99,9 @@ class Insert extends AbstractStatement
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
-        if (!isset($this->table)) {
+        if (empty($this->table)) {
             throw new DatabaseException('No table is set for insertion');
         }
 
@@ -103,13 +115,16 @@ class Insert extends AbstractStatement
 
         $placeholders = '';
         foreach ($this->values as $value) {
-            if ($value instanceof StatementInterface) {
-                $placeholders .= "{$value}, ";
+            if (!empty($placeholders)) {
+                $placeholders .= ', ';
+            }
+
+            if ($value instanceof QueryInterface) {
+                $placeholders .= "{$value}";
             } else {
-                $placeholders .= '?, ';
+                $placeholders .= '?';
             }
         }
-        $placeholders = preg_replace('/, $/', '', $placeholders);
 
         $columns = implode(', ', $this->columns);
 
@@ -126,11 +141,11 @@ class Insert extends AbstractStatement
     /**
      * @return array
      */
-    public function getValues()
+    public function getValues() : array
     {
         $values = [];
         foreach ($this->values as $value) {
-            if ($value instanceof StatementInterface) {
+            if ($value instanceof QueryInterface) {
                 $values = array_merge($values, $value->getValues());
             } else {
                 $values[] = $value;
@@ -143,7 +158,7 @@ class Insert extends AbstractStatement
     /**
      * @throws DatabaseException
      *
-     * @return string|int
+     * @return int|string
      */
     public function execute()
     {

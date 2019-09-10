@@ -18,22 +18,24 @@ class Call extends AbstractStatement
     protected $method;
 
     /**
-     * @param PDO           $dbh
-     * @param Clause\Method $procedure
+     * @param PDO                $dbh
+     * @param Clause\Method|null $procedure
      */
-    public function __construct(PDO $dbh, Clause\Method $procedure = null)
+    public function __construct(PDO $dbh, ?Clause\Method $procedure = null)
     {
         parent::__construct($dbh);
 
-        $this->method = $procedure;
+        if (isset($procedure)) {
+            $this->method($procedure);
+        }
     }
 
     /**
      * @param Clause\Method $procedure
      *
-     * @return $this
+     * @return self
      */
-    public function method(Clause\Method $procedure)
+    public function method(Clause\Method $procedure) : self
     {
         $this->method = $procedure;
 
@@ -41,24 +43,24 @@ class Call extends AbstractStatement
     }
 
     /**
-     * @return string
+     * @return mixed[]
      */
-    public function __toString()
+    public function getValues() : array
     {
-        if (!isset($this->method)) {
-            throw new DatabaseException('No method is set for stored procedure call');
-        }
-
-        $sql = "CALL {$this->method};";
-
-        return $sql;
+        return $this->method->getValues();
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getValues()
+    public function __toString() : string
     {
-        return $this->method->getValues();
+        if (!$this->method instanceof Clause\Method) {
+            throw new DatabaseException('No method is set for stored procedure call');
+        }
+
+        $sql = "CALL {$this->method}";
+
+        return $sql;
     }
 }
