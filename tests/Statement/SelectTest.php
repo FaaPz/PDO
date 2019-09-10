@@ -34,13 +34,38 @@ class SelectTest extends TestCase
         $this->assertEquals('SELECT id, name FROM test', $this->subject->__toString());
     }
 
-    public function testToStringWithAlias()
+    public function testToStringWithColumnAlias()
     {
         $this->subject
-            ->columns(['id', 'name'])
+            ->columns(['id' => 'pk'])
+            ->from('test');
+
+        $this->assertStringEndsWith('pk AS id FROM test', $this->subject->__toString());
+    }
+
+    public function testToStringWithColumnSubQuery()
+    {
+        $this->subject
+            ->columns(['sub' => (new Statement\Select($this->createMock(PDO::class)))->from('test2')])
+            ->from('test1');
+
+        $this->assertStringEndsWith('(SELECT * FROM test2) AS sub FROM test1', $this->subject->__toString());
+    }
+
+    public function testToStringWithTableAlias()
+    {
+        $this->subject
             ->from(['alias' => 'test']);
 
-        $this->assertStringEndsWith('test AS alias', $this->subject->__toString());
+        $this->assertStringEndsWith('FROM test AS alias', $this->subject->__toString());
+    }
+
+    public function testToStringWithTableSubQuery()
+    {
+        $this->subject
+            ->from(['sub' => (new Statement\Select($this->createMock(PDO::class)))->from('test')]);
+
+        $this->assertEquals('SELECT * FROM (SELECT * FROM test) AS sub', $this->subject->__toString());
     }
 
     public function testToStringWithDistinct()
@@ -50,6 +75,33 @@ class SelectTest extends TestCase
             ->from('test');
 
         $this->assertStringStartsWith('SELECT DISTINCT * FROM test', $this->subject->__toString());
+    }
+
+    public function testToStringWithColumns()
+    {
+        $this->subject
+            ->from('test')
+            ->columns(['col1', 'col2']);
+
+        $this->assertStringStartsWith('SELECT col1, col2 FROM test', $this->subject->__toString());
+    }
+
+    public function testToStringWithoutColumns()
+    {
+        $this->subject
+            ->from('test');
+
+        $this->assertStringStartsWith('SELECT * FROM test', $this->subject->__toString());
+    }
+
+    public function testToStringEmptyColumns()
+    {
+        $this->subject
+            ->from('test')
+            ->columns([])
+            ->columns();
+
+        $this->assertStringStartsWith('SELECT * FROM test', $this->subject->__toString());
     }
 
     public function testToStringWithJoin()
@@ -117,18 +169,33 @@ class SelectTest extends TestCase
         $this->subject->execute();
     }
 
-    public function testToStringWithoutColumns()
-    {
-        $this->subject
-            ->from('test');
-
-        $this->assertStringStartsWith('SELECT * FROM test', $this->subject->__toString());
-    }
-
     public function testGetValuesEmpty()
     {
         $this->assertIsArray($this->subject->getValues());
         $this->assertEmpty($this->subject->getValues());
+    }
+
+    public function testGetValuesWithJoin()
+    {
+        $this->subject
+            ->from('test1')
+            ->join(new Clause\Join(
+                'test2',
+                new Clause\Conditional('test1.id', '=', 'test2.id')
+            ));
+
+        $this->assertIsArray($this->subject->getValues());
+        $this->assertCount(1, $this->subject->getValues());
+    }
+
+    public function testGetValuesWithWhere()
+    {
+        $this->subject
+            ->from('test')
+            ->where(new Clause\Conditional('col', '<>', 5));
+
+        $this->assertIsArray($this->subject->getValues());
+        $this->assertCount(1, $this->subject->getValues());
     }
 
     public function testGetValuesWithUnion()
@@ -145,6 +212,15 @@ class SelectTest extends TestCase
         $this->assertStringMatchesFormat('(SELECT id, name FROM test1) UNION (SELECT id, name FROM test2)', $this->subject->__toString());
     }
 
+    public function testGetValuesWithHaving()
+    {
+        $this->subject
+            ->from('test')
+            ->having(new Clause\Conditional('id', '=', 1));
+
+        $this->assertCount(1, $this->subject->getValues());
+    }
+
     public function testGetValuesWithGroupBy()
     {
         $this->subject
@@ -154,12 +230,13 @@ class SelectTest extends TestCase
         $this->assertEmpty($this->subject->getValues());
     }
 
-    public function testGetValuesWithHaving()
+    public function testGetValuesWithLimit()
     {
         $this->subject
             ->from('test')
-            ->having(new Clause\Conditional('id', '=', 1));
+            ->limit(new Clause\Limit(25, 100));
 
-        $this->assertCount(1, $this->subject->getValues());
+        $this->assertIsArray($this->subject->getValues());
+        $this->assertCount(2, $this->subject->getValues());
     }
 }

@@ -15,19 +15,19 @@ use PDO;
 
 class Select extends AdvancedStatement
 {
-    /** @var string|string[string]|Select[string] $table */
-    protected $table;
+    /** @var string|array<string, string|Call|Select>|null $table */
+    protected $table = null;
 
-    /** @var array[int|string] $columns */
+    /** @var array<int|string, string> $columns */
     protected $columns = [];
 
     /** @var bool $distinct */
     protected $distinct = false;
 
-    /** @var Select[]|Call[] */
+    /** @var array<int, Call|Select> */
     private $union = [];
 
-    /** @var string[] $groupBy */
+    /** @var array<int, string> $groupBy */
     protected $groupBy = [];
 
     /** @var Clause\Conditional|null $having */
@@ -55,7 +55,7 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @param string[]|string[string] $columns
+     * @param array<int|string, string> $columns
      *
      * @return $this
      */
@@ -71,7 +71,7 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @param string|string[string]|Select[string] $table
+     * @param string|array<string, string|Call|Select> $table
      *
      * @return $this
      */
@@ -107,7 +107,7 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @param string[] $columns
+     * @param string ...$columns
      *
      * @return $this
      */
@@ -131,7 +131,7 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @return mixed[]
+     * @return array<int, mixed>
      */
     public function getValues() : array
     {

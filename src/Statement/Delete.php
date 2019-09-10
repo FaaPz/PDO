@@ -13,12 +13,12 @@ use PDO;
 
 class Delete extends AdvancedStatement
 {
-    /** @var string|string[string] $table */
+    /** @var string|array<string, string> $table */
     protected $table;
 
     /**
-     * @param PDO                        $dbh
-     * @param string|string[string]|null $table
+     * @param PDO                               $dbh
+     * @param string|array<string, string>|null $table
      */
     public function __construct(PDO $dbh, $table = null)
     {
@@ -30,7 +30,7 @@ class Delete extends AdvancedStatement
     }
 
     /**
-     * @param string|string[string] $table
+     * @param string|array<string, string> $table
      *
      * @return $this
      */
@@ -42,7 +42,7 @@ class Delete extends AdvancedStatement
     }
 
     /**
-     * @return mixed[]
+     * @return array<int, mixed>
      */
     public function getValues() : array
     {
@@ -117,7 +117,7 @@ class Delete extends AdvancedStatement
      *
      * @return int
      */
-    public function execute() : int
+    public function execute()
     {
         return parent::execute()->rowCount();
     }

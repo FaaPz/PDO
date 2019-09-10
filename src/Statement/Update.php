@@ -17,12 +17,12 @@ class Update extends AdvancedStatement
     /** @var string $table */
     protected $table;
 
-    /** @var mixed[string] $pairs */
+    /** @var array<string, mixed> $pairs */
     protected $pairs;
 
     /**
-     * @param PDO           $dbh
-     * @param mixed[string] $pairs
+     * @param PDO                  $dbh
+     * @param array<string, mixed> $pairs
      */
     public function __construct(PDO $dbh, array $pairs = [])
     {
@@ -44,7 +44,7 @@ class Update extends AdvancedStatement
     }
 
     /**
-     * @param mixed[string] $pairs
+     * @param array<string, mixed> $pairs
      *
      * @return self
      */
@@ -69,7 +69,7 @@ class Update extends AdvancedStatement
     }
 
     /**
-     * @return mixed[]
+     * @return array<int, mixed>
      */
     public function getValues() : array
     {
@@ -150,7 +150,7 @@ class Update extends AdvancedStatement
      *
      * @return int
      */
-    public function execute() : int
+    public function execute()
     {
         return parent::execute()->rowCount();
     }

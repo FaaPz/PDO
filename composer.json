@@ -28,6 +28,7 @@
         "ext-pdo": "*"
     },
     "require-dev": {
+        "phan/phan": "^2.2",
         "phpunit/phpunit": "^8"
     },
     "autoload": {

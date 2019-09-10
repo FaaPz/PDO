@@ -27,7 +27,7 @@ abstract class AbstractStatement implements QueryInterface
     /**
      * @throws DatabaseException
      *
-     * @return PDOStatement
+     * @return int|string|PDOStatement
      */
     public function execute()
     {

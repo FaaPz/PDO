@@ -13,8 +13,8 @@ class Grouping extends Conditional
     protected $value;
 
     /**
-     * @param string        $rule
-     * @param Conditional[] $clauses
+     * @param string      $rule
+     * @param Conditional ...$clauses
      */
     public function __construct(string $rule, Conditional ...$clauses)
     {
