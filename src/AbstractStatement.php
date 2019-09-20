@@ -9,7 +9,6 @@ namespace FaaPz\PDO;
 
 use PDO;
 use PDOException;
-use PDOStatement;
 
 abstract class AbstractStatement implements QueryInterface
 {
@@ -27,7 +26,7 @@ abstract class AbstractStatement implements QueryInterface
     /**
      * @throws DatabaseException
      *
-     * @return int|string|PDOStatement
+     * @return mixed
      */
     public function execute()
     {

@@ -12,7 +12,11 @@ use FaaPz\PDO\Clause;
 use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\QueryInterface;
 use PDO;
+use PDOStatement;
 
+/**
+ * @method PDOStatement execute()
+ */
 class Select extends AdvancedStatement
 {
     /** @var string|array<string, string|Call|Select>|null $table */

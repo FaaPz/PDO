@@ -11,7 +11,11 @@ use FaaPz\PDO\AbstractStatement;
 use FaaPz\PDO\Clause;
 use FaaPz\PDO\DatabaseException;
 use PDO;
+use PDOStatement;
 
+/**
+ * @method PDOStatement execute()
+ */
 class Call extends AbstractStatement
 {
     /** @var Clause\Method $method */
