@@ -61,7 +61,7 @@ class SelectStatement extends StatementContainer
         parent::__construct($dbh);
 
         if (empty($columns)) {
-            $columns = array('*');
+            $columns = ['*'];
         }
 
         $this->setColumns($columns);

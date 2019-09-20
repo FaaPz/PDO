@@ -17,5 +17,5 @@ abstract class ClauseContainer
     /**
      * @var array
      */
-    protected $container = array();
+    protected $container = [];
 }

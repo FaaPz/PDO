@@ -7,10 +7,12 @@
 
 namespace FaaPz\PDO;
 
-use FaaPz\PDO\Statement\SelectStatement;
-use FaaPz\PDO\Statement\InsertStatement;
-use FaaPz\PDO\Statement\UpdateStatement;
 use FaaPz\PDO\Statement\DeleteStatement;
+use FaaPz\PDO\Statement\DropStatement;
+use FaaPz\PDO\Statement\InsertStatement;
+use FaaPz\PDO\Statement\SelectStatement;
+use FaaPz\PDO\Statement\TruncateStatement;
+use FaaPz\PDO\Statement\UpdateStatement;
 
 /**
  * Class Database.
@@ -27,7 +29,7 @@ class Database extends \PDO
      * @param null  $pwd
      * @param array $options
      */
-    public function __construct($dsn, $usr = null, $pwd = null, array $options = array())
+    public function __construct($dsn, $usr = null, $pwd = null, array $options = [])
     {
         $options = $options + $this->getDefaultOptions();
 
@@ -39,12 +41,12 @@ class Database extends \PDO
      */
     protected function getDefaultOptions()
     {
-        return array(
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-            \PDO::ATTR_EMULATE_PREPARES => false,
-            \PDO::ATTR_STATEMENT_CLASS => array('FaaPz\\PDO\\Statement', array($this)),
-        );
+        return [
+            \PDO::ATTR_ERRMODE              => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_DEFAULT_FETCH_MODE   => \PDO::FETCH_ASSOC,
+            \PDO::ATTR_EMULATE_PREPARES     => false,
+            \PDO::ATTR_STATEMENT_CLASS      => [Statement::class, [$this]],
+        ];
     }
 
     /**
@@ -52,7 +54,7 @@ class Database extends \PDO
      *
      * @return SelectStatement
      */
-    public function select(array $columns = array('*'))
+    public function select(array $columns = ['*'])
     {
         return new SelectStatement($this, $columns);
     }
@@ -62,7 +64,7 @@ class Database extends \PDO
      *
      * @return InsertStatement
      */
-    public function insert(array $columnsOrPairs = array())
+    public function insert(array $columnsOrPairs = [])
     {
         return new InsertStatement($this, $columnsOrPairs);
     }
@@ -72,7 +74,7 @@ class Database extends \PDO
      *
      * @return UpdateStatement
      */
-    public function update(array $pairs = array())
+    public function update(array $pairs = [])
     {
         return new UpdateStatement($this, $pairs);
     }
@@ -85,5 +87,25 @@ class Database extends \PDO
     public function delete($table = null)
     {
         return new DeleteStatement($this, $table);
+    }
+
+    /**
+     * @param null $table
+     *
+     * @return TruncateStatement
+     */
+    public function truncate($table = null)
+    {
+        return new TruncateStatement($this, $table);
+    }
+
+    /**
+     * @param null $table
+     *
+     * @return DropStatement
+     */
+    public function drop($table = null)
+    {
+        return new DropStatement($this, $table);
     }
 }
