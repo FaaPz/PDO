@@ -68,7 +68,7 @@ class JoinClause extends ClauseContainer
             return '';
         }
 
-        $args = array();
+        $args = [];
 
         foreach ($this->container as $join) {
             $args[] = $join;

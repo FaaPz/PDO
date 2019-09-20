@@ -27,17 +27,17 @@ abstract class StatementContainer
     /**
      * @var array
      */
-    protected $columns = array();
+    protected $columns = [];
 
     /**
      * @var array
      */
-    protected $values = array();
+    protected $values = [];
 
     /**
      * @var array
      */
-    protected $placeholders = array();
+    protected $placeholders = [];
 
     /**
      * @var
@@ -435,8 +435,9 @@ abstract class StatementContainer
     /**
      * Bind values to their parameters in the given statement.
      *
-     * @param  \PDOStatement $statement
-     * @param  array  $bindings
+     * @param \PDOStatement $statement
+     * @param array         $bindings
+     *
      * @return void
      */
     protected function bindValues($statement, $bindings)
@@ -500,7 +501,7 @@ abstract class StatementContainer
     {
         $placeholders = $this->placeholders;
 
-        $this->placeholders = array();
+        $this->placeholders = [];
 
         return '( '.implode(' , ', $placeholders).' )';
     }
@@ -511,7 +512,7 @@ abstract class StatementContainer
     protected function setPlaceholders(array $values)
     {
         foreach ($values as $value) {
-            $this->placeholders[] = $this->setPlaceholder('?', is_null($value) ? 1 : (is_array($value) ? sizeof($value) : 1));
+            $this->placeholders[] = $this->setPlaceholder('?', is_null($value) ? 1 : (is_array($value) ? count($value) : 1));
         }
     }
 
@@ -536,7 +537,7 @@ abstract class StatementContainer
     }
 
     /**
-     * @param $text
+     * @param string $text
      * @param int    $count
      * @param string $separator
      *
@@ -544,10 +545,10 @@ abstract class StatementContainer
      */
     private function setPlaceholder($text, $count = 0, $separator = ' , ')
     {
-        $result = array();
+        $result = [];
 
         if ($count > 0) {
-            for ($x = 0; $x < $count; ++$x) {
+            for ($x = 0; $x < $count; $x++) {
                 $result[] = $text;
             }
         }
