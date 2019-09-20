@@ -16,9 +16,9 @@ class DatabaseException extends RuntimeException
     protected $code;
 
     /**
-     * @param string    $message
-     * @param string    $code
-     * @param Exception $previous
+     * @param string         $message
+     * @param string         $code
+     * @param Exception|null $previous
      */
     public function __construct(string $message = '', string $code = 'database_error', Exception $previous = null)
     {

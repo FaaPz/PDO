@@ -27,8 +27,8 @@ class Insert extends AbstractStatement
     protected $ignore = false;
 
     /**
-     * @param PDO           $dbh
-     * @param mixed[string] $pairs
+     * @param PDO                  $dbh
+     * @param array<string, mixed> $pairs
      */
     public function __construct(PDO $dbh, array $pairs = [])
     {
@@ -50,7 +50,7 @@ class Insert extends AbstractStatement
     }
 
     /**
-     * @param string[] $columns
+     * @param string ...$columns
      *
      * @return $this
      */
@@ -62,7 +62,7 @@ class Insert extends AbstractStatement
     }
 
     /**
-     * @param mixed[] $values
+     * @param mixed ...$values
      *
      * @return $this
      */
@@ -74,7 +74,7 @@ class Insert extends AbstractStatement
     }
 
     /**
-     * @param mixed[string] $pairs
+     * @param array<string, mixed> $pairs
      *
      * @return $this
      */
@@ -139,7 +139,7 @@ class Insert extends AbstractStatement
     }
 
     /**
-     * @return array
+     * @return array<int, mixed>
      */
     public function getValues() : array
     {

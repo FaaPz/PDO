@@ -13,7 +13,7 @@ use FaaPz\PDO\Statement\Select;
 
 class Join implements QueryInterface
 {
-    /** @var string|string[string]|Select[string] $subject */
+    /** @var string|array<string,string|Select> $subject */
     protected $subject;
 
     /** @var Conditional $on */
@@ -23,9 +23,9 @@ class Join implements QueryInterface
     protected $type;
 
     /**
-     * @param string|string[string]|Select[string] $subject
-     * @param Conditional                          $on
-     * @param string                               $type
+     * @param string|array<string,string|Select> $subject
+     * @param Conditional                        $on
+     * @param string                             $type
      */
     public function __construct($subject, Conditional $on, string $type = '')
     {

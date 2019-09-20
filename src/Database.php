@@ -14,10 +14,10 @@ class Database extends PDO
     /**
      * @codeCoverageIgnore
      *
-     * @param string  $dsn
-     * @param string  $username
-     * @param string  $password
-     * @param mixed[] $options
+     * @param string            $dsn
+     * @param string|null       $username
+     * @param string|null       $password
+     * @param array<int, mixed> $options
      */
     public function __construct(string $dsn, string $username = null, string $password = null, array $options = [])
     {
@@ -27,7 +27,7 @@ class Database extends PDO
     /**
      * @codeCoverageIgnore
      *
-     * @return mixed[int]
+     * @return array<int, mixed>
      */
     protected function getDefaultOptions() : array
     {
@@ -39,7 +39,7 @@ class Database extends PDO
     }
 
     /**
-     * @param Clause\Method $procedure
+     * @param Clause\Method|null $procedure
      *
      * @return Statement\Call
      */
@@ -49,7 +49,7 @@ class Database extends PDO
     }
 
     /**
-     * @param string[]|string[string] $columns
+     * @param array<int|string, string> $columns
      *
      * @return Statement\Select
      */
@@ -59,7 +59,7 @@ class Database extends PDO
     }
 
     /**
-     * @param mixed[string] $pairs
+     * @param array<int|string, mixed> $pairs
      *
      * @return Statement\Insert
      */
@@ -69,7 +69,7 @@ class Database extends PDO
     }
 
     /**
-     * @param mixed[string] $pairs
+     * @param array<string, mixed> $pairs
      *
      * @return Statement\Update
      */
@@ -79,7 +79,7 @@ class Database extends PDO
     }
 
     /**
-     * @param string|string[string] $table
+     * @param string|array<string, string> $table
      *
      * @return Statement\Delete
      */

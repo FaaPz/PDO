@@ -18,8 +18,8 @@ class Method implements QueryInterface
     protected $values;
 
     /**
-     * @param string  $name
-     * @param mixed[] $args
+     * @param string $name
+     * @param mixed  ...$args
      */
     public function __construct(string $name, ...$args)
     {
