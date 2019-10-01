@@ -89,7 +89,7 @@ class Select extends AdvancedStatement
     /**
      * @param Clause\Join $clause
      *
-     * @return self
+     * @return $this
      */
     public function join(Clause\Join $clause) : self
     {

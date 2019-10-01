@@ -34,7 +34,7 @@ class Update extends AdvancedStatement
     /**
      * @param string $table
      *
-     * @return self
+     * @return $this
      */
     public function table(string $table) : self
     {
@@ -46,7 +46,7 @@ class Update extends AdvancedStatement
     /**
      * @param array<string, mixed> $pairs
      *
-     * @return self
+     * @return $this
      */
     public function pairs(array $pairs) : self
     {
@@ -59,7 +59,7 @@ class Update extends AdvancedStatement
      * @param string $column
      * @param mixed  $value
      *
-     * @return self
+     * @return $this
      */
     public function set(string $column, $value) : self
     {

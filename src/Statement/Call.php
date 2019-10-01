@@ -37,7 +37,7 @@ class Call extends AbstractStatement
     /**
      * @param Clause\Method $procedure
      *
-     * @return self
+     * @return $this
      */
     public function method(Clause\Method $procedure) : self
     {
