@@ -24,7 +24,7 @@ abstract class AdvancedStatement extends AbstractStatement
     /**
      * @param Clause\Join $clause
      *
-     * @return self
+     * @return $this
      */
     public function join(Clause\Join $clause)
     {
@@ -36,7 +36,7 @@ abstract class AdvancedStatement extends AbstractStatement
     /**
      * @param Clause\Conditional $clause
      *
-     * @return self
+     * @return $this
      */
     public function where(Clause\Conditional $clause)
     {
@@ -49,7 +49,7 @@ abstract class AdvancedStatement extends AbstractStatement
      * @param string $column
      * @param string $direction
      *
-     * @return self
+     * @return $this
      */
     public function orderBy(string $column, string $direction = '')
     {
@@ -61,7 +61,7 @@ abstract class AdvancedStatement extends AbstractStatement
     /**
      * @param Clause\Limit|null $limit
      *
-     * @return self
+     * @return $this
      */
     public function limit(?Clause\Limit $limit)
     {
