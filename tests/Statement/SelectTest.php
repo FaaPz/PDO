@@ -209,7 +209,10 @@ class SelectTest extends TestCase
                     ->from('test2')
             );
 
-        $this->assertStringMatchesFormat('(SELECT id, name FROM test1) UNION (SELECT id, name FROM test2)', $this->subject->__toString());
+        $this->assertStringMatchesFormat(
+            '(SELECT id, name FROM test1) UNION (SELECT id, name FROM test2)',
+            $this->subject->__toString()
+        );
     }
 
     public function testGetValuesWithHaving()

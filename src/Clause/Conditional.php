@@ -36,7 +36,7 @@ class Conditional implements QueryInterface
     /**
      * @return mixed[]
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         $values = $this->value;
         if (!is_array($values)) {
@@ -51,7 +51,7 @@ class Conditional implements QueryInterface
      *
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $sql = "{$this->column} {$this->operator}";
         switch ($this->operator) {
@@ -70,7 +70,7 @@ class Conditional implements QueryInterface
                     throw new DatabaseException('Conditional operator "IN" requires at least one argument');
                 }
 
-                $sql .= ' ('.substr(str_repeat('?, ', count($this->getValues())), 0, -2).')';
+                $sql .= ' (' . substr(str_repeat('?, ', count($this->getValues())), 0, -2) . ')';
                 break;
 
             default:

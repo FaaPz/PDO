@@ -38,11 +38,11 @@ class Insert extends AbstractStatement
     }
 
     /**
-     * @param $table
+     * @param string $table
      *
      * @return $this
      */
-    public function into(string $table)
+    public function into(string $table): self
     {
         $this->table = $table;
 
@@ -54,7 +54,7 @@ class Insert extends AbstractStatement
      *
      * @return $this
      */
-    public function columns(...$columns)
+    public function columns(string ...$columns): self
     {
         $this->columns = $columns;
 
@@ -66,7 +66,7 @@ class Insert extends AbstractStatement
      *
      * @return $this
      */
-    public function values(...$values)
+    public function values(...$values): self
     {
         $this->values = $values;
 
@@ -78,7 +78,7 @@ class Insert extends AbstractStatement
      *
      * @return $this
      */
-    public function pairs(array $pairs)
+    public function pairs(array $pairs): self
     {
         $this->columns(...array_keys($pairs));
         $this->values(...array_values($pairs));
@@ -89,7 +89,7 @@ class Insert extends AbstractStatement
     /**
      * @return $this
      */
-    public function ignore()
+    public function ignore(): self
     {
         $this->ignore = true;
 
@@ -98,8 +98,9 @@ class Insert extends AbstractStatement
 
     /**
      * @return string
+     * @throws DatabaseException
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         if (empty($this->table)) {
             throw new DatabaseException('No table is set for insertion');
@@ -141,7 +142,7 @@ class Insert extends AbstractStatement
     /**
      * @return array<int, mixed>
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         $values = [];
         foreach ($this->values as $value) {

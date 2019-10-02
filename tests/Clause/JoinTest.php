@@ -19,7 +19,8 @@ class JoinTest extends TestCase
     {
         $subject = new Clause\Join(
             'table',
-            new Clause\Conditional('column', '=', 'value'));
+            new Clause\Conditional('column', '=', 'value')
+        );
 
         $this->assertEquals('JOIN table ON column = ?', $subject->__toString());
     }
@@ -95,7 +96,8 @@ class JoinTest extends TestCase
     {
         $subject = new Clause\Join(
             'table',
-            new Clause\Conditional('column', '=', 'value'));
+            new Clause\Conditional('column', '=', 'value')
+        );
 
         $this->assertIsArray($subject->getValues());
         $this->assertCount(1, $subject->getValues());

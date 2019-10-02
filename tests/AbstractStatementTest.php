@@ -40,13 +40,13 @@ class AbstractStatementTest extends TestCase
             ->with($this->equalTo('toString'))
             ->willReturn($this->mock);
 
-        $this->subject = new class($pdo) extends AbstractStatement {
-            public function getValues() : array
+        $this->subject = new class ($pdo) extends AbstractStatement {
+            public function getValues(): array
             {
                 return [];
             }
 
-            public function __toString() : string
+            public function __toString(): string
             {
                 return 'toString';
             }

@@ -51,7 +51,7 @@ class Select extends AdvancedStatement
     /**
      * @return $this
      */
-    public function distinct()
+    public function distinct(): self
     {
         $this->distinct = true;
 
@@ -63,7 +63,7 @@ class Select extends AdvancedStatement
      *
      * @return $this
      */
-    public function columns(array $columns = ['*']) : self
+    public function columns(array $columns = ['*']): self
     {
         if (empty($columns)) {
             $this->columns = ['*'];
@@ -79,7 +79,7 @@ class Select extends AdvancedStatement
      *
      * @return $this
      */
-    public function from($table) : self
+    public function from($table): self
     {
         $this->table = $table;
 
@@ -91,7 +91,7 @@ class Select extends AdvancedStatement
      *
      * @return $this
      */
-    public function join(Clause\Join $clause) : self
+    public function join(Clause\Join $clause): self
     {
         $this->join[] = $clause;
 
@@ -103,7 +103,7 @@ class Select extends AdvancedStatement
      *
      * @return $this
      */
-    public function union(self $query) : self
+    public function union(self $query): self
     {
         $this->union[] = $query;
 
@@ -115,7 +115,7 @@ class Select extends AdvancedStatement
      *
      * @return $this
      */
-    public function groupBy(...$columns) : self
+    public function groupBy(string ...$columns): self
     {
         $this->groupBy = array_merge($this->groupBy, $columns);
 
@@ -127,7 +127,7 @@ class Select extends AdvancedStatement
      *
      * @return $this
      */
-    public function having(Clause\Conditional $clause) : self
+    public function having(Clause\Conditional $clause): self
     {
         $this->having = $clause;
 
@@ -137,7 +137,7 @@ class Select extends AdvancedStatement
     /**
      * @return array<int, mixed>
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         $values = [];
         foreach ($this->join as $join) {
@@ -162,7 +162,7 @@ class Select extends AdvancedStatement
     /**
      * @return string
      */
-    protected function getColumns() : string
+    protected function getColumns(): string
     {
         $columns = '';
         foreach ($this->columns as $key => $value) {
@@ -188,8 +188,9 @@ class Select extends AdvancedStatement
 
     /**
      * @return string
+     * @throws DatabaseException
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         if (empty($this->table)) {
             throw new DatabaseException('No table is set for selection');
@@ -221,7 +222,7 @@ class Select extends AdvancedStatement
         $sql .= " FROM {$table}";
 
         if (!empty($this->join)) {
-            $sql .= ' '.implode(' ', $this->join);
+            $sql .= ' ' . implode(' ', $this->join);
         }
 
         if ($this->where != null) {
@@ -229,7 +230,7 @@ class Select extends AdvancedStatement
         }
 
         if (!empty($this->groupBy)) {
-            $sql .= ' GROUP BY '.implode(', ', $this->groupBy);
+            $sql .= ' GROUP BY ' . implode(', ', $this->groupBy);
         }
 
         if ($this->having != null) {
