@@ -34,7 +34,7 @@ class Delete extends AdvancedStatement
      *
      * @return $this
      */
-    public function from($table) : self
+    public function from($table): self
     {
         $this->table = $table;
 
@@ -44,7 +44,7 @@ class Delete extends AdvancedStatement
     /**
      * @return array<int, mixed>
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         $values = [];
         foreach ($this->join as $join) {
@@ -67,9 +67,11 @@ class Delete extends AdvancedStatement
     }
 
     /**
+     * @throws DatabaseException
+     *
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         if (empty($this->table)) {
             throw new DatabaseException('No table is set for deletion');
@@ -90,7 +92,7 @@ class Delete extends AdvancedStatement
         $sql .= " FROM {$table}";
 
         if (!empty($this->join)) {
-            $sql .= ' '.implode(' ', $this->join);
+            $sql .= ' ' . implode(' ', $this->join);
         }
 
         if ($this->where != null) {

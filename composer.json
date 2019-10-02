@@ -29,7 +29,8 @@
     },
     "require-dev": {
         "phan/phan": "^2.2",
-        "phpunit/phpunit": "^8"
+        "phpunit/phpunit": "^8",
+        "squizlabs/php_codesniffer": "3.*"
     },
     "autoload": {
         "psr-4": {
@@ -43,6 +44,10 @@
     },
     "minimum-stability": "stable",
     "scripts": {
+        "lint": [
+            "phpcs -s --standard=phpcs.xml",
+            "phan"
+        ],
         "test": "phpunit -v --coverage-html build/coverage tests/"
     }
 }

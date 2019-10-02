@@ -1,7 +1,6 @@
 on:
-  push:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, reopened, edited, synchronize]
 
 jobs:
   run:
@@ -19,12 +18,18 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php-versions }}
-          extension-csv: mbstring, xdebug #optional
+          extension-csv: ast, mbstring, pdo, xdebug #optional
           ini-values-csv: "post_max_size=256M, short_open_tag=On" #optional
           coverage: xdebug #optional
       - name: Check PHP Version
         run: php -v
-      - name: Check Composer Version
-        run: composer -V
       - name: Check PHP Extensions
         run: php -m
+      - name: Check Composer Version
+        run: composer -V
+      - name: Install Project Dependencies
+        run: composer install --dev --prefer-dist --optimize-autoloader
+      - name: Lint Source
+        run: composer lint
+      - name: Test Source
+        run: composer test

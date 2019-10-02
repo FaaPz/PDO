@@ -24,7 +24,7 @@ class Grouping extends Conditional
     /**
      * @return array
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         $values = [];
         foreach ($this->value as $clause) {
@@ -37,7 +37,7 @@ class Grouping extends Conditional
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $sql = '';
         foreach ($this->value as $clause) {
@@ -48,6 +48,6 @@ class Grouping extends Conditional
             $sql .= "{$clause} {$this->operator} ";
         }
 
-        return preg_replace('/'.preg_quote(" $this->operator ", '/').'$/', '', $sql);
+        return preg_replace('/' . preg_quote(" $this->operator ", '/') . '$/', '', $sql);
     }
 }

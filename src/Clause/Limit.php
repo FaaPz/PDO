@@ -30,7 +30,7 @@ class Limit implements QueryInterface
     /**
      * @return int[]
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         $values = [];
         if (isset($this->offset)) {
@@ -44,7 +44,7 @@ class Limit implements QueryInterface
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $sql = '?';
         if (isset($this->offset)) {

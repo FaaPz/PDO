@@ -37,15 +37,17 @@ class Join implements QueryInterface
     /**
      * @return mixed[]
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         return $this->on->getValues();
     }
 
     /**
+     * @throws DatabaseException
+     *
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $table = $this->subject;
         if (is_array($this->subject)) {
