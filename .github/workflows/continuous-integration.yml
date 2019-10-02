@@ -33,3 +33,8 @@ jobs:
         run: composer lint
       - name: Test Source
         run: composer test
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@master
+        with:
+          name: coverage-report
+          path: build/coverage
