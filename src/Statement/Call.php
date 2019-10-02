@@ -39,7 +39,7 @@ class Call extends AbstractStatement
      *
      * @return $this
      */
-    public function method(Clause\Method $procedure) : self
+    public function method(Clause\Method $procedure): self
     {
         $this->method = $procedure;
 
@@ -49,15 +49,17 @@ class Call extends AbstractStatement
     /**
      * @return mixed[]
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         return $this->method->getValues();
     }
 
     /**
+     * @throws DatabaseException
+     *
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         if (!$this->method instanceof Clause\Method) {
             throw new DatabaseException('No method is set for stored procedure call');

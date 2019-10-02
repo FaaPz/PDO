@@ -30,7 +30,7 @@ class Method implements QueryInterface
     /**
      * @return mixed[]
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         $values = [];
         foreach ($this->values as $value) {
@@ -45,7 +45,7 @@ class Method implements QueryInterface
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $placeholders = '';
         foreach ($this->values as $value) {

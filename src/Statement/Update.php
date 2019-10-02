@@ -36,7 +36,7 @@ class Update extends AdvancedStatement
      *
      * @return $this
      */
-    public function table(string $table) : self
+    public function table(string $table): self
     {
         $this->table = $table;
 
@@ -48,7 +48,7 @@ class Update extends AdvancedStatement
      *
      * @return $this
      */
-    public function pairs(array $pairs) : self
+    public function pairs(array $pairs): self
     {
         $this->pairs = array_merge($this->pairs, $pairs);
 
@@ -61,7 +61,7 @@ class Update extends AdvancedStatement
      *
      * @return $this
      */
-    public function set(string $column, $value) : self
+    public function set(string $column, $value): self
     {
         $this->pairs[$column] = $value;
 
@@ -71,7 +71,7 @@ class Update extends AdvancedStatement
     /**
      * @return array<int, mixed>
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         $values = array_values($this->pairs);
 
@@ -89,7 +89,7 @@ class Update extends AdvancedStatement
     /**
      * @return string
      */
-    protected function getColumns() : string
+    protected function getColumns(): string
     {
         $columns = '';
         foreach ($this->pairs as $key => $value) {
@@ -108,9 +108,11 @@ class Update extends AdvancedStatement
     }
 
     /**
+     * @throws DatabaseException
+     *
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         if (!isset($this->table)) {
             throw new DatabaseException('No table is set for update');
@@ -122,10 +124,10 @@ class Update extends AdvancedStatement
 
         $sql = "UPDATE {$this->table}";
         if (!empty($this->join)) {
-            $sql .= ' '.implode(' ', $this->join);
+            $sql .= ' ' . implode(' ', $this->join);
         }
 
-        $sql .= ' SET '.$this->getColumns();
+        $sql .= " SET {$this->getColumns()}";
         if ($this->where != null) {
             $sql .= " WHERE {$this->where}";
         }

@@ -12,12 +12,12 @@ use PDO;
 class Database extends PDO
 {
     /**
-     * @codeCoverageIgnore
-     *
      * @param string            $dsn
      * @param string|null       $username
      * @param string|null       $password
      * @param array<int, mixed> $options
+     *
+     * @codeCoverageIgnore
      */
     public function __construct(string $dsn, string $username = null, string $password = null, array $options = [])
     {
@@ -29,7 +29,7 @@ class Database extends PDO
      *
      * @return array<int, mixed>
      */
-    protected function getDefaultOptions() : array
+    protected function getDefaultOptions(): array
     {
         return [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
@@ -43,7 +43,7 @@ class Database extends PDO
      *
      * @return Statement\Call
      */
-    public function call(Clause\Method $procedure = null) : Statement\Call
+    public function call(Clause\Method $procedure = null): Statement\Call
     {
         return new Statement\Call($this, $procedure);
     }
@@ -53,7 +53,7 @@ class Database extends PDO
      *
      * @return Statement\Select
      */
-    public function select(array $columns = ['*']) : Statement\Select
+    public function select(array $columns = ['*']): Statement\Select
     {
         return new Statement\Select($this, $columns);
     }
@@ -63,7 +63,7 @@ class Database extends PDO
      *
      * @return Statement\Insert
      */
-    public function insert(array $pairs = []) : Statement\Insert
+    public function insert(array $pairs = []): Statement\Insert
     {
         return new Statement\Insert($this, $pairs);
     }
@@ -73,7 +73,7 @@ class Database extends PDO
      *
      * @return Statement\Update
      */
-    public function update(array $pairs = []) : Statement\Update
+    public function update(array $pairs = []): Statement\Update
     {
         return new Statement\Update($this, $pairs);
     }
@@ -83,7 +83,7 @@ class Database extends PDO
      *
      * @return Statement\Delete
      */
-    public function delete($table = null) : Statement\Delete
+    public function delete($table = null): Statement\Delete
     {
         return new Statement\Delete($this, $table);
     }

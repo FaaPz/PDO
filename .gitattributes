@@ -1,4 +1,4 @@
 * text=auto
-
+*.php text eol=lf
 .gitattributes export-ignore
 .gitignore export-ignore

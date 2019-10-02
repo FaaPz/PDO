@@ -25,7 +25,7 @@ class Raw implements QueryInterface
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->sql;
     }
@@ -33,7 +33,7 @@ class Raw implements QueryInterface
     /**
      * @return mixed[]
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         return [];
     }
