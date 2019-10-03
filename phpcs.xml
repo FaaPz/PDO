@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Bulk Move">
-    <description>Bulk Move coding standard</description>
+<ruleset name="FaaPz PDO">
+    <description>Just another PDO database library</description>
 
     <file>src/</file>
     <file>tests/</file>
