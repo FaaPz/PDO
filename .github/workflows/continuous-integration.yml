@@ -18,9 +18,9 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php-versions }}
-          extension-csv: ast, mbstring, pdo, xdebug #optional
-          ini-values-csv: "post_max_size=256M, short_open_tag=On" #optional
-          coverage: xdebug #optional
+          extension-csv: ast, mbstring, pdo
+          ini-values-csv: "date.timezone=UTC"
+          coverage: PCOV
       - name: Check PHP Version
         run: php -v
       - name: Check PHP Extensions
@@ -28,7 +28,7 @@ jobs:
       - name: Check Composer Version
         run: composer -V
       - name: Install Project Dependencies
-        run: composer install --dev --prefer-dist --optimize-autoloader
+        run: composer install --dev --prefer-dist --optimize-autoloader --no-progress
       - name: Lint Source
         run: composer lint
       - name: Test Source
