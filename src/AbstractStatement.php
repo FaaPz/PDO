@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO;
 
 use PDO;
@@ -24,7 +26,7 @@ abstract class AbstractStatement implements QueryInterface
     }
 
     /**
-     * @throws DatabaseException
+     * @throws PDOException
      *
      * @return mixed
      */
@@ -37,10 +39,12 @@ abstract class AbstractStatement implements QueryInterface
             if (!$success) {
                 list($state, $code, $message) = $stmt->errorInfo();
 
-                throw new DatabaseException($message, $state);
+                // We are not in exception mode, raise error.
+                trigger_error("SQLSTATE[{$state}] [{$code}] {$message}", E_USER_ERROR);
             }
         } catch (PDOException $e) {
-            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+            // We are in exception mode, carry on.
+            throw $e;
         }
 
         return $stmt;

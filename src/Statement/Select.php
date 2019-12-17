@@ -5,11 +5,12 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
 use FaaPz\PDO\Clause;
-use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\QueryInterface;
 use PDO;
 use PDOStatement;
@@ -28,8 +29,8 @@ class Select extends AdvancedStatement
     /** @var bool $distinct */
     protected $distinct = false;
 
-    /** @var array<int, Call|Select> */
-    private $union = [];
+    /** @var array<int, Call|Select> $union */
+    protected $union = [];
 
     /** @var array<int, string> $groupBy */
     protected $groupBy = [];
@@ -144,15 +145,15 @@ class Select extends AdvancedStatement
             $values = array_merge($values, $join->getValues());
         }
 
-        if ($this->where != null) {
+        if ($this->where !== null) {
             $values = array_merge($values, $this->where->getValues());
         }
 
-        if ($this->having != null) {
+        if ($this->having !== null) {
             $values = array_merge($values, $this->having->getValues());
         }
 
-        if ($this->limit != null) {
+        if ($this->limit !== null) {
             $values = array_merge($values, $this->limit->getValues());
         }
 
@@ -188,12 +189,11 @@ class Select extends AdvancedStatement
 
     /**
      * @return string
-     * @throws DatabaseException
      */
     public function __toString(): string
     {
         if (empty($this->table)) {
-            throw new DatabaseException('No table set for select statement');
+            trigger_error('No table set for select statement', E_USER_ERROR);
         }
 
         $sql = 'SELECT';
