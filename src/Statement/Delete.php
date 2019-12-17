@@ -107,7 +107,7 @@ class Delete extends AdvancedStatement
         }
 
         if ($this->limit != null) {
-            $sql .= " LIMIT {$this->limit}";
+            $sql .= " {$this->limit}";
         }
 
         return $sql;
