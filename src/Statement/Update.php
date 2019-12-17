@@ -5,10 +5,11 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
-use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\QueryInterface;
 use PDO;
 
@@ -108,18 +109,16 @@ class Update extends AdvancedStatement
     }
 
     /**
-     * @throws DatabaseException
-     *
      * @return string
      */
     public function __toString(): string
     {
         if (!isset($this->table)) {
-            throw new DatabaseException('No table is set for update');
+            trigger_error('No table set for update statement', E_USER_ERROR);
         }
 
         if (empty($this->pairs)) {
-            throw new DatabaseException('Missing columns and values for update');
+            trigger_error('No column / value pairs set for update statement', E_USER_ERROR);
         }
 
         $sql = "UPDATE {$this->table}";
@@ -148,8 +147,6 @@ class Update extends AdvancedStatement
     }
 
     /**
-     * @throws DatabaseException
-     *
      * @return int
      */
     public function execute()

@@ -5,11 +5,12 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
 use FaaPz\PDO\Clause;
-use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\QueryInterface;
 use PDO;
 use PDOStatement;
@@ -187,14 +188,12 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @throws DatabaseException
-     *
      * @return string
      */
     public function __toString(): string
     {
         if (empty($this->table)) {
-            throw new DatabaseException('No table is set for selection');
+            trigger_error('No table set for select statement', E_USER_ERROR);
         }
 
         $sql = 'SELECT';

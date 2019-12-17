@@ -5,11 +5,12 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AbstractStatement;
 use FaaPz\PDO\Clause;
-use FaaPz\PDO\DatabaseException;
 use PDO;
 use PDOStatement;
 
@@ -55,18 +56,14 @@ class Call extends AbstractStatement
     }
 
     /**
-     * @throws DatabaseException
-     *
      * @return string
      */
     public function __toString(): string
     {
         if (!$this->method instanceof Clause\Method) {
-            throw new DatabaseException('No method is set for stored procedure call');
+            trigger_error('No method set for call statement', E_USER_ERROR);
         }
 
-        $sql = "CALL {$this->method}";
-
-        return $sql;
+        return "CALL {$this->method}";
     }
 }

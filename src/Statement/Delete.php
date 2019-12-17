@@ -5,10 +5,11 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
-use FaaPz\PDO\DatabaseException;
 use PDO;
 
 class Delete extends AdvancedStatement
@@ -67,14 +68,12 @@ class Delete extends AdvancedStatement
     }
 
     /**
-     * @throws DatabaseException
-     *
      * @return string
      */
     public function __toString(): string
     {
         if (empty($this->table)) {
-            throw new DatabaseException('No table is set for deletion');
+            trigger_error('No table set for delete statement', E_USER_ERROR);
         }
 
         $sql = 'DELETE';
@@ -115,8 +114,6 @@ class Delete extends AdvancedStatement
     }
 
     /**
-     * @throws DatabaseException
-     *
      * @return int
      */
     public function execute()
