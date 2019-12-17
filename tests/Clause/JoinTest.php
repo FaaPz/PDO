@@ -5,10 +5,11 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
-use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\Statement;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -53,7 +54,9 @@ class JoinTest extends TestCase
             new Clause\Conditional('column1', '=', 'value1')
         );
 
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^Invalid subject value/');
+
         $subject->__toString();
     }
 
@@ -74,7 +77,9 @@ class JoinTest extends TestCase
             new Clause\Conditional('column1', '=', 'value1')
         );
 
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^Invalid subject array/');
+
         $subject->__toString();
     }
 

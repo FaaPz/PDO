@@ -5,10 +5,11 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
-use FaaPz\PDO\DatabaseException;
 use PHPUnit\Framework\TestCase;
 
 class ConditionalTest extends TestCase
@@ -31,7 +32,9 @@ class ConditionalTest extends TestCase
     {
         $subject = new Clause\Conditional('col', 'IN', []);
 
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/Conditional operator "IN" requires at least one argument/');
+
         $subject->__toString();
     }
 
@@ -46,7 +49,9 @@ class ConditionalTest extends TestCase
     {
         $subject = new Clause\Conditional('col', 'BETWEEN', [1, 2, 3]);
 
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessage('Conditional operator "BETWEEN" requires two arguments');
+
         $subject->__toString();
     }
 
