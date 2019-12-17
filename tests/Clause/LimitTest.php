@@ -18,14 +18,14 @@ class LimitTest extends TestCase
     {
         $subject = new Clause\Limit(10, 25);
 
-        $this->assertEquals('?, ?', $subject->__toString());
+        $this->assertEquals('LIMIT ?, ?', $subject->__toString());
     }
 
     public function testToStringWithoutOffset()
     {
         $subject = new Clause\Limit(10);
 
-        $this->assertEquals('?', $subject->__toString());
+        $this->assertEquals('LIMIT ?', $subject->__toString());
     }
 
     public function testGetValuesWithOffset()

@@ -40,7 +40,7 @@ abstract class AbstractStatement implements QueryInterface
                 list($state, $code, $message) = $stmt->errorInfo();
 
                 // We are not in exception mode, raise error.
-                user_error("SQLSTATE[{$state}] [{$code}] {$message}", E_USER_ERROR);
+                trigger_error("SQLSTATE[{$state}] [{$code}] {$message}", E_USER_ERROR);
             }
         } catch (PDOException $e) {
             // We are in exception mode, carry on.

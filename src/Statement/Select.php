@@ -246,7 +246,7 @@ class Select extends AdvancedStatement
         }
 
         if ($this->limit != null) {
-            $sql .= " LIMIT {$this->limit}";
+            $sql .= " {$this->limit}";
         }
 
         if (!empty($this->union)) {
