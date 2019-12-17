@@ -9,7 +9,7 @@ namespace FaaPz\PDO;
 
 abstract class AdvancedStatement extends AbstractStatement
 {
-    /** @var Clause\Join[] */
+    /** @var Clause\Join[] $join */
     protected $join = [];
 
     /** @var Clause\Conditional $where */
