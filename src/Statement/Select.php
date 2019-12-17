@@ -29,7 +29,7 @@ class Select extends AdvancedStatement
     protected $distinct = false;
 
     /** @var array<int, Call|Select> */
-    private $union = [];
+    protected $union = [];
 
     /** @var array<int, string> $groupBy */
     protected $groupBy = [];
