@@ -5,10 +5,11 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AbstractStatement;
-use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\QueryInterface;
 use PDO;
 
@@ -97,22 +98,20 @@ class Insert extends AbstractStatement
     }
 
     /**
-     * @throws DatabaseException
-     *
      * @return string
      */
     public function __toString(): string
     {
         if (empty($this->table)) {
-            throw new DatabaseException('No table is set for insertion');
+            trigger_error('No table set for insert statement', E_USER_ERROR);
         }
 
         if (empty($this->columns)) {
-            throw new DatabaseException('Missing columns for insertion');
+            trigger_error('No columns set for insert statement', E_USER_ERROR);
         }
 
         if (empty($this->values) || count($this->columns) != count($this->values)) {
-            throw new DatabaseException('Missing values for insertion');
+            trigger_error('No values set for insert statement', E_USER_ERROR);
         }
 
         $placeholders = '';
@@ -158,8 +157,6 @@ class Insert extends AbstractStatement
     }
 
     /**
-     * @throws DatabaseException
-     *
      * @return int|string
      */
     public function execute()

@@ -5,10 +5,11 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\AbstractStatement;
-use FaaPz\PDO\DatabaseException;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -68,7 +69,7 @@ class AbstractStatementTest extends TestCase
             ->method('execute')
             ->willThrowException(new PDOException('message', 100));
 
-        $this->expectException(DatabaseException::class);
+        $this->expectException(PDOException::class);
         $this->expectExceptionCode(100);
         $this->expectExceptionMessage('message');
 
@@ -81,9 +82,8 @@ class AbstractStatementTest extends TestCase
             ->method('execute')
             ->willReturn(false);
 
-        $this->expectException(DatabaseException::class);
-        $this->expectExceptionCode('HY100');
-        $this->expectExceptionMessage('near "bogus": syntax error');
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^SQLSTATE\[HY100\] \[100\] .* syntax error$/');
 
         $this->subject->execute();
     }

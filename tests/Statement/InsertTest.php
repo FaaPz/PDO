@@ -5,10 +5,11 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
-use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\Statement;
 use PDO;
 use PDOStatement;
@@ -50,7 +51,8 @@ class InsertTest extends TestCase
 
     public function testToStringWithoutTable()
     {
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/insert statement$/');
 
         $this->subject
             ->columns('one', 'two')
@@ -60,7 +62,8 @@ class InsertTest extends TestCase
 
     public function testToStringWithoutColumns()
     {
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/insert statement$/');
 
         $this->subject
             ->into('test')
@@ -70,7 +73,8 @@ class InsertTest extends TestCase
 
     public function testToStringWithoutValues()
     {
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/insert statement$/');
 
         $this->subject
             ->into('test')
