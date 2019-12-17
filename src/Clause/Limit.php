@@ -47,7 +47,7 @@ class Limit implements QueryInterface
     public function __toString(): string
     {
         $sql = '?';
-        if (isset($this->offset)) {
+        if ($this->offset !== null) {
             $sql .= ', ?';
         }
 
