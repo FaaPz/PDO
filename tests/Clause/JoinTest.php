@@ -55,7 +55,7 @@ class JoinTest extends TestCase
         );
 
         $this->expectError();
-        $this->expectErrorMessageMatches('//');
+        $this->expectErrorMessageMatches('/^Invalid subject value/');
 
         $subject->__toString();
     }
@@ -78,7 +78,7 @@ class JoinTest extends TestCase
         );
 
         $this->expectError();
-        $this->expectErrorMessageMatches('//');
+        $this->expectErrorMessageMatches('/^Invalid subject array/');
 
         $subject->__toString();
     }
