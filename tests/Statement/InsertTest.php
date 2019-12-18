@@ -46,7 +46,7 @@ class InsertTest extends TestCase
             ->columns('one', 'two')
             ->values(1, 2);
 
-        $this->assertStringStartsWith('INSERT INTO test', $this->subject->__toString());
+        $this->assertEquals('INSERT INTO test (one, two) VALUES (?, ?)', $this->subject->__toString());
     }
 
     public function testToStringWithoutTable()
@@ -62,13 +62,11 @@ class InsertTest extends TestCase
 
     public function testToStringWithoutColumns()
     {
-        $this->expectError();
-        $this->expectErrorMessageMatches('/insert statement$/');
-
         $this->subject
             ->into('test')
-            ->values(1, 2)
-            ->execute();
+            ->values(1, 2);
+
+        $this->assertEquals('INSERT INTO test VALUES (?, ?)', $this->subject->__toString());
     }
 
     public function testToStringWithoutValues()
