@@ -5,10 +5,11 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AbstractStatement;
-use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\QueryInterface;
 use PDO;
 
@@ -98,40 +99,60 @@ class Insert extends AbstractStatement
 
     /**
      * @return string
-     * @throws DatabaseException
      */
     public function __toString(): string
     {
         if (empty($this->table)) {
-            throw new DatabaseException('No table is set for insertion');
+            trigger_error('No table set for insert statement', E_USER_ERROR);
         }
 
         $size = count($this->values);
         if ($size < 1) {
-            throw new DatabaseException('Missing columns for insertion');
+            trigger_error('No values set for insert statement', E_USER_ERROR);
         }
 
         if (count($this->columns) > 0 && count($this->columns) != count($this->values)) {
-            throw new DatabaseException('Missing values for insertion');
+            trigger_error('No values set for insert statement', E_USER_ERROR);
         }
 
         if ($this->values[0] instanceof Select) {
             if (count($this->values) > 1) {
-                throw new DatabaseException('Ignoring additional values after select for insert statement');
+                trigger_error('Ignoring additional values after select for insert statement', E_USER_WARNING);
             }
 
             $placeholders = " {$this->values[0]}";
-        } else {
-            $plug = '';
-            foreach ($this->values as $value) {
-                if (!empty($plug)) {
-                    $plug .= ', ';
+        } elseif (is_array($this->values[0])) {
+            $plug = substr(str_repeat('?, ', count($this->values[0])), 0, -2);
+            $placeholders = " VALUES ({$plug})";
+
+            for ($i = 1; $i < $size; $i++) {
+                if (!is_array($this->values[$i])) {
+                    trigger_error('Invalid nested value for insert statement', E_USER_ERROR);
                 }
 
-                if ($value instanceof QueryInterface) {
-                    $plug .= "{$value}";
+                if (count($this->values[0]) != count($this->values[$i])) {
+                    trigger_error('Invalid nested value count for insert statement', E_USER_ERROR);
+                }
+
+                $plug = substr(str_repeat('?, ', count($this->values[$i])), 0, -2);
+                $placeholders .= ", ({$plug})";
+            }
+        } else {
+            if ($this->values[0] instanceof Raw) {
+                $plug = "{$this->values[0]}";
+            } elseif (is_scalar($this->values[0])) {
+                $plug = '?';
+            } else {
+                trigger_error('Invalid value for insert statement', E_USER_ERROR);
+            }
+
+            for ($i = 1; $i < $size; $i++) {
+                if ($this->values[$i] instanceof Raw) {
+                    $plug .= ", {$this->values[$i]}";
+                } elseif (is_scalar($this->values[$i])) {
+                    $plug .= ', ?';
                 } else {
-                    $plug .= '?';
+                    trigger_error('Invalid value for insert statement', E_USER_ERROR);
                 }
             }
 
@@ -170,7 +191,6 @@ class Insert extends AbstractStatement
 
     /**
      * @return int|string
-     * @throws DatabaseException
      */
     public function execute()
     {
