@@ -28,6 +28,9 @@ class Insert extends AbstractStatement
     /** @var bool $ignore */
     protected $ignore = false;
 
+    /** @var array<string, mixed> $update */
+    protected $update = [];
+
     /**
      * @param PDO                  $dbh
      * @param array<string, mixed> $pairs
@@ -94,6 +97,18 @@ class Insert extends AbstractStatement
     public function ignore(): self
     {
         $this->ignore = true;
+
+        return $this;
+    }
+
+    /**
+     * @param array<string, mixed> $paris
+     *
+     * @return $this
+     */
+    public function onDuplicateUpdate(array $paris = []): self
+    {
+        $this->update = $paris;
 
         return $this;
     }
@@ -170,6 +185,18 @@ class Insert extends AbstractStatement
         }
         $sql .= "{$placeholders}";
 
+        if (!empty($this->update)) {
+            $sql .= ' ON DUPLICATE KEY UPDATE';
+            foreach ($this->update as $column => $value) {
+                if (!$value instanceof QueryInterface) {
+                    $value = '?';
+                }
+
+                $sql .= " {$column} = {$value}, ";
+            }
+            $sql = substr($sql, 0, -2);
+        }
+
         return $sql;
     }
 
@@ -180,6 +207,14 @@ class Insert extends AbstractStatement
     {
         $values = [];
         foreach ($this->values as $value) {
+            if ($value instanceof QueryInterface) {
+                $values = array_merge($values, $value->getValues());
+            } else {
+                $values[] = $value;
+            }
+        }
+
+        foreach ($this->update as $value) {
             if ($value instanceof QueryInterface) {
                 $values = array_merge($values, $value->getValues());
             } else {

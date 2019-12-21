@@ -139,6 +139,20 @@ class InsertTest extends TestCase
         $this->assertCount(0, $this->subject->getValues());
     }
 
+    public function testGetValuesWithDuplicate()
+    {
+        $this->subject
+            ->columns('one')
+            ->values(1)
+            ->onDuplicateUpdate([
+                'one' => 2,
+                'two' => new Clause\Raw('1'),
+            ]);
+
+        $this->assertIsArray($this->subject->getValues());
+        $this->assertCount(2, $this->subject->getValues());
+    }
+
     public function testExecute()
     {
         $this->subject
