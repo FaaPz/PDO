@@ -34,11 +34,10 @@ class Limit implements QueryInterface
      */
     public function getValues(): array
     {
-        $values = [];
+        $values = [$this->size];
         if ($this->offset !== null) {
             $values[] = $this->offset;
         }
-        $values[] = $this->size;
 
         return $values;
     }
