@@ -19,7 +19,7 @@ class Grouping extends Conditional
      * @param Conditional $clause
      * @param Conditional ...$clauses
      */
-    public function __construct(string $rule, Conditional $clause, Conditional ...$clauses)
+    public function __construct(string $rule, Conditional $clause, Conditional ...$_)
     {
         array_unshift($clauses, $clause);
         parent::__construct('', $rule, $clauses);
