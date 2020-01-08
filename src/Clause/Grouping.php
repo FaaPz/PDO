@@ -18,9 +18,10 @@ class Grouping extends Conditional
      * @param string      $rule
      * @param Conditional ...$clauses
      */
-    public function __construct(string $rule, Conditional ...$clauses)
+    public function __construct(string $rule, Conditional $clause, Conditional ...$_)
     {
-        parent::__construct('', strtoupper(trim($rule)), $clauses);
+        $_[] = $clause;
+        parent::__construct('', $rule, $_);
     }
 
     /**
