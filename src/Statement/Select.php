@@ -145,15 +145,15 @@ class Select extends AdvancedStatement
             $values = array_merge($values, $join->getValues());
         }
 
-        if ($this->where !== null) {
+        if ($this->where != null) {
             $values = array_merge($values, $this->where->getValues());
         }
 
-        if ($this->having !== null) {
+        if ($this->having != null) {
             $values = array_merge($values, $this->having->getValues());
         }
 
-        if ($this->limit !== null) {
+        if ($this->limit != null) {
             $values = array_merge($values, $this->limit->getValues());
         }
 
