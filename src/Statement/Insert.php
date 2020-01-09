@@ -137,6 +137,7 @@ class Insert extends AbstractStatement
 
             $placeholders = " {$this->values[0]}";
         } elseif (is_array($this->values[0])) {
+            // FIXME this plug to use a loop instead of str_rep.
             $plug = substr(str_repeat('?, ', count($this->values[0])), 0, -2);
             $placeholders = " VALUES ({$plug})";
 
