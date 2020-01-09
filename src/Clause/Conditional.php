@@ -5,9 +5,10 @@
  * @license http://opensource.org/licenses/MIT
  */
 
+declare(strict_types=1);
+
 namespace FaaPz\PDO\Clause;
 
-use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\QueryInterface;
 
 class Conditional implements QueryInterface
@@ -59,7 +60,6 @@ class Conditional implements QueryInterface
      * @param mixed $value
      *
      * @return string
-     * @throws DatabaseException
      */
     protected function getPlaceholder($value): string
     {
@@ -73,7 +73,6 @@ class Conditional implements QueryInterface
 
     /**
      * @return string
-     * @throws DatabaseException
      */
     public function __toString(): string
     {
@@ -82,7 +81,7 @@ class Conditional implements QueryInterface
             case 'BETWEEN':
             case 'NOT BETWEEN':
                 if (count($this->value) != 2) {
-                    throw new DatabaseException('Conditional operator "BETWEEN" requires two arguments');
+                    trigger_error("Conditional operator \"{$this->operator}\" requires two arguments", E_USER_ERROR);
                 }
 
                 $sql .= "({$this->getPlaceholder($this->value[0])} AND {$this->getPlaceholder($this->value[0])})";
@@ -91,7 +90,7 @@ class Conditional implements QueryInterface
             case 'IN':
             case 'NOT IN':
                 if (count($this->value) < 1) {
-                    throw new DatabaseException('Conditional operator "IN" requires at least one argument');
+                    trigger_error("Conditional operator \"{$this->operator}\" requires at least one argument", E_USER_ERROR);
                 }
 
                 $placeholders = '';

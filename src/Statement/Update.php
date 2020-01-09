@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace FaaPz\PDO\Statement;
 
+use FaaPz\PDO\AbstractStatement;
 use FaaPz\PDO\AdvancedStatement;
 use FaaPz\PDO\QueryInterface;
 use PDO;
