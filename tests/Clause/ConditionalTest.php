@@ -33,7 +33,7 @@ class ConditionalTest extends TestCase
         $subject = new Clause\Conditional('col', 'IN', []);
 
         $this->expectError();
-        $this->expectErrorMessageMatches('/Conditional operator "IN" requires at least one argument/');
+        $this->expectErrorMessageMatches("/Conditional operator 'IN' requires at least one argument/");
 
         $subject->__toString();
     }
@@ -50,7 +50,7 @@ class ConditionalTest extends TestCase
         $subject = new Clause\Conditional('col', 'BETWEEN', [1, 2, 3]);
 
         $this->expectError();
-        $this->expectErrorMessage('Conditional operator "BETWEEN" requires two arguments');
+        $this->expectErrorMessage("Conditional operator 'BETWEEN' requires two arguments");
 
         $subject->__toString();
     }
