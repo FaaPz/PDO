@@ -56,7 +56,11 @@ class Method implements QueryInterface
                     $placeholders .= ', ';
                 }
 
-                $placeholders .= '?';
+                if ($value instanceof QueryInterface) {
+                    $placeholders .= $value;
+                } else {
+                    $placeholders .= '?';
+                }
             }
         }
 
