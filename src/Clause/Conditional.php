@@ -81,16 +81,22 @@ class Conditional implements QueryInterface
             case 'BETWEEN':
             case 'NOT BETWEEN':
                 if (count($this->value) != 2) {
-                    trigger_error("Conditional operator \"{$this->operator}\" requires two arguments", E_USER_ERROR);
+                    trigger_error(
+                        "Conditional operator '{$this->operator}' requires two arguments",
+                        E_USER_ERROR
+                    );
                 }
 
-                $sql .= "({$this->getPlaceholder($this->value[0])} AND {$this->getPlaceholder($this->value[0])})";
+                $sql .= "({$this->getPlaceholder($this->value[0])} AND {$this->getPlaceholder($this->value[1])})";
                 break;
 
             case 'IN':
             case 'NOT IN':
                 if (count($this->value) < 1) {
-                    trigger_error("Conditional operator \"{$this->operator}\" requires at least one argument", E_USER_ERROR);
+                    trigger_error(
+                        "Conditional operator '{$this->operator}' requires at least one argument",
+                        E_USER_ERROR
+                    );
                 }
 
                 $placeholders = '';
