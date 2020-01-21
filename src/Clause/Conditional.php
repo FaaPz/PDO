@@ -43,38 +43,70 @@ class Conditional implements QueryInterface
             $values = [$values];
         }
 
+        $count = count($values);
+        for ($i = 0; $i < $count; $i++) {
+            if ($values[$i] instanceof QueryInterface) {
+                $value = $values[$i]->getValues();
+                array_splice($values, $i, 1, $value);
+                $i += count($value);
+            }
+        }
+
         return $values;
     }
 
     /**
-     * @throws DatabaseException
+     * @param mixed $value
      *
      * @return string
+     * @throws DatabaseException
+     */
+    protected function getPlaceholder($value): string
+    {
+        $placeholder = '?';
+        if ($value instanceof QueryInterface) {
+            $placeholder = "{$value}";
+        }
+
+        return $placeholder;
+    }
+
+    /**
+     * @return string
+     * @throws DatabaseException
      */
     public function __toString(): string
     {
-        $sql = "{$this->column} {$this->operator}";
+        $sql = "{$this->column} {$this->operator} ";
         switch ($this->operator) {
             case 'BETWEEN':
             case 'NOT BETWEEN':
-                if (count($this->getValues()) != 2) {
+                if (count($this->value) != 2) {
                     throw new DatabaseException('Conditional operator "BETWEEN" requires two arguments');
                 }
 
-                $sql .= ' (? AND ?)';
+                $sql .= "({$this->getPlaceholder($this->value[0])} AND {$this->getPlaceholder($this->value[0])})";
                 break;
 
             case 'IN':
             case 'NOT IN':
-                if (count($this->getValues()) < 1) {
+                if (count($this->value) < 1) {
                     throw new DatabaseException('Conditional operator "IN" requires at least one argument');
                 }
 
-                $sql .= ' (' . substr(str_repeat('?, ', count($this->getValues())), 0, -2) . ')';
+                $placeholders = '';
+                foreach ($this->value as $value) {
+                    if (!empty($placeholders)) {
+                        $placeholders .= ', ';
+                    }
+
+                    $placeholders .= $this->getPlaceholder($value);
+                }
+                $sql .= "({$placeholders})";
                 break;
 
             default:
-                $sql .= ' ?';
+                $sql .= $this->getPlaceholder($this->value);
         }
 
         return $sql;

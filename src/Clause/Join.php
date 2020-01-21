@@ -43,9 +43,8 @@ class Join implements QueryInterface
     }
 
     /**
-     * @throws DatabaseException
-     *
      * @return string
+     * @throws DatabaseException
      */
     public function __toString(): string
     {

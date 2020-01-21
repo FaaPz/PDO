@@ -50,11 +50,42 @@ class ConditionalTest extends TestCase
         $subject->__toString();
     }
 
+    public function testToStringWithQuery()
+    {
+        $subject = new Clause\Conditional('col', '=', new Clause\Raw(1));
+
+        $this->assertEquals('col = 1', $subject->__toString());
+    }
+
+    public function testToStringWithQueryAndArgs()
+    {
+        $subject = new Clause\Conditional('col', '=', new Clause\Method('test', 1, 2));
+
+        $this->assertEquals('col = test(?, ?)', $subject->__toString());
+    }
+
     public function testGetValues()
     {
         $subject = new Clause\Conditional('col', '=', 'val');
 
         $this->assertIsArray($subject->getValues());
         $this->assertCount(1, $subject->getValues());
+    }
+
+    public function testGetValuesWithQuery()
+    {
+        $subject = new Clause\Conditional('col', '=', new Clause\Raw(1));
+
+        $this->assertIsArray($subject->getValues());
+        $this->assertCount(0, $subject->getValues());
+        $this->assertEquals('col = 1', $subject->__toString());
+    }
+
+    public function testGetValuesWithQueryAndArgs()
+    {
+        $subject = new Clause\Conditional('col', '=', new Clause\Method('test', 1, 2));
+
+        $this->assertIsArray($subject->getValues());
+        $this->assertCount(2, $subject->getValues());
     }
 }

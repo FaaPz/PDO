@@ -8,8 +8,8 @@ jobs:
     strategy:
       max-parallel: 15
       matrix:
-        operating-system: [ubuntu-latest, windows-latest, macOS-latest]
-        php-versions: ['7.2', '7.3']
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.2', '7.3', '7.4']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
       - name: Checkout
@@ -18,9 +18,10 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php-versions }}
-          extension-csv: ast, mbstring, pdo
-          ini-values-csv: "date.timezone=UTC"
+          extensions: ast, mbstring, pdo
+          ini-values: "date.timezone=UTC"
           coverage: PCOV
+          pecl: true
       - name: Check PHP Version
         run: php -v
       - name: Check PHP Extensions
