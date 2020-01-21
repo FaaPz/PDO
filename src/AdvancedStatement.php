@@ -5,13 +5,11 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-declare(strict_types=1);
-
 namespace FaaPz\PDO;
 
 abstract class AdvancedStatement extends AbstractStatement
 {
-    /** @var Clause\Join[] $join */
+    /** @var Clause\Join[] */
     protected $join = [];
 
     /** @var Clause\Conditional $where */

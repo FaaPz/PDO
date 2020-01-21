@@ -5,11 +5,10 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-declare(strict_types=1);
-
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
+use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\Statement;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -35,8 +34,7 @@ class CallTest extends TestCase
 
     public function testToStringWithoutMethod()
     {
-        $this->expectError();
-        $this->expectErrorMessageMatches('/^No method .* call statement$/');
+        $this->expectException(DatabaseException::class);
 
         $this->subject->__toString();
     }

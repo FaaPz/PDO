@@ -5,10 +5,9 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-declare(strict_types=1);
-
 namespace FaaPz\PDO\Clause;
 
+use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\QueryInterface;
 
 class Conditional implements QueryInterface
@@ -48,6 +47,8 @@ class Conditional implements QueryInterface
     }
 
     /**
+     * @throws DatabaseException
+     *
      * @return string
      */
     public function __toString(): string
@@ -57,7 +58,7 @@ class Conditional implements QueryInterface
             case 'BETWEEN':
             case 'NOT BETWEEN':
                 if (count($this->getValues()) != 2) {
-                    trigger_error('Conditional operator "BETWEEN" requires two arguments', E_USER_ERROR);
+                    throw new DatabaseException('Conditional operator "BETWEEN" requires two arguments');
                 }
 
                 $sql .= ' (? AND ?)';
@@ -66,7 +67,7 @@ class Conditional implements QueryInterface
             case 'IN':
             case 'NOT IN':
                 if (count($this->getValues()) < 1) {
-                    trigger_error('Conditional operator "IN" requires at least one argument', E_USER_ERROR);
+                    throw new DatabaseException('Conditional operator "IN" requires at least one argument');
                 }
 
                 $sql .= ' (' . substr(str_repeat('?, ', count($this->getValues())), 0, -2) . ')';

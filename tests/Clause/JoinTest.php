@@ -5,11 +5,10 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-declare(strict_types=1);
-
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
+use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\Statement;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -54,9 +53,7 @@ class JoinTest extends TestCase
             new Clause\Conditional('column1', '=', 'value1')
         );
 
-        $this->expectError();
-        $this->expectErrorMessageMatches('//');
-
+        $this->expectException(DatabaseException::class);
         $subject->__toString();
     }
 
@@ -77,9 +74,7 @@ class JoinTest extends TestCase
             new Clause\Conditional('column1', '=', 'value1')
         );
 
-        $this->expectError();
-        $this->expectErrorMessageMatches('//');
-
+        $this->expectException(DatabaseException::class);
         $subject->__toString();
     }
 

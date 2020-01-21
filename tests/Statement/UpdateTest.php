@@ -5,11 +5,10 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-declare(strict_types=1);
-
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
+use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\Statement;
 use PDO;
 use PDOStatement;
@@ -118,16 +117,14 @@ class UpdateTest extends TestCase
 
     public function testToStringWithoutTable()
     {
-        $this->expectError();
-        $this->expectErrorMessageMatches('/^No table .* update statement$/');
+        $this->expectException(DatabaseException::class);
 
         $this->subject->execute();
     }
 
     public function testToStringWithoutPairs()
     {
-        $this->expectError();
-        $this->expectErrorMessageMatches('/^No column \/ value pairs .* update statement$/');
+        $this->expectException(DatabaseException::class);
 
         $this->subject
             ->table('test')

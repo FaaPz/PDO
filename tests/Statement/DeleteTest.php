@@ -5,11 +5,10 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-declare(strict_types=1);
-
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
+use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\Statement;
 use PDO;
 use PDOStatement;
@@ -66,8 +65,7 @@ class DeleteTest extends TestCase
 
     public function testToStringWithoutTable()
     {
-        $this->expectError();
-        $this->expectErrorMessageMatches('/delete statement$/');
+        $this->expectException(DatabaseException::class);
 
         $this->subject->__toString();
     }

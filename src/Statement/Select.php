@@ -5,12 +5,11 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-declare(strict_types=1);
-
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
 use FaaPz\PDO\Clause;
+use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\QueryInterface;
 use PDO;
 use PDOStatement;
@@ -29,8 +28,8 @@ class Select extends AdvancedStatement
     /** @var bool $distinct */
     protected $distinct = false;
 
-    /** @var array<int, Call|Select> $union */
-    protected $union = [];
+    /** @var array<int, Call|Select> */
+    private $union = [];
 
     /** @var array<int, string> $groupBy */
     protected $groupBy = [];
@@ -188,12 +187,14 @@ class Select extends AdvancedStatement
     }
 
     /**
+     * @throws DatabaseException
+     *
      * @return string
      */
     public function __toString(): string
     {
         if (empty($this->table)) {
-            trigger_error('No table set for select statement', E_USER_ERROR);
+            throw new DatabaseException('No table is set for selection');
         }
 
         $sql = 'SELECT';
@@ -246,7 +247,7 @@ class Select extends AdvancedStatement
         }
 
         if ($this->limit != null) {
-            $sql .= " {$this->limit}";
+            $sql .= " LIMIT {$this->limit}";
         }
 
         if (!empty($this->union)) {

@@ -5,11 +5,10 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-declare(strict_types=1);
-
 namespace FaaPz\PDO\Test;
 
 use FaapZ\PDO\Clause;
+use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\Statement;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -165,8 +164,7 @@ class SelectTest extends TestCase
 
     public function testToStringWithoutTable()
     {
-        $this->expectError();
-        $this->expectErrorMessageMatches('/^No table .* select statement/');
+        $this->expectException(DatabaseException::class);
 
         $this->subject->execute();
     }

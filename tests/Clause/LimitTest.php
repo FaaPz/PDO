@@ -5,8 +5,6 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-declare(strict_types=1);
-
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
@@ -18,14 +16,14 @@ class LimitTest extends TestCase
     {
         $subject = new Clause\Limit(10, 25);
 
-        $this->assertEquals('LIMIT ?, ?', $subject->__toString());
+        $this->assertEquals('?, ?', $subject->__toString());
     }
 
     public function testToStringWithoutOffset()
     {
         $subject = new Clause\Limit(10);
 
-        $this->assertEquals('LIMIT ?', $subject->__toString());
+        $this->assertEquals('?', $subject->__toString());
     }
 
     public function testGetValuesWithOffset()
