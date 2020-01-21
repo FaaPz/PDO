@@ -21,7 +21,7 @@ class Limit implements QueryInterface
      * @param int      $size
      * @param int|null $offset
      */
-    public function __construct(int $size, int $offset = null)
+    public function __construct(int $size, ?int $offset = null)
     {
         $this->size = $size;
         $this->offset = $offset;
@@ -32,11 +32,11 @@ class Limit implements QueryInterface
      */
     public function getValues(): array
     {
-        $values = [];
-        if (isset($this->offset)) {
-            $values[] = $this->offset;
+        if ($this->offset !== null) {
+            $values = [$this->offset, $this->size];
+        } else {
+            $values = [$this->size];
         }
-        $values[] = $this->size;
 
         return $values;
     }
@@ -46,8 +46,8 @@ class Limit implements QueryInterface
      */
     public function __toString(): string
     {
-        $sql = '?';
-        if (isset($this->offset)) {
+        $sql = 'LIMIT ?';
+        if ($this->offset !== null) {
             $sql .= ', ?';
         }
 

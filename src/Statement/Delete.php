@@ -67,9 +67,8 @@ class Delete extends AdvancedStatement
     }
 
     /**
-     * @throws DatabaseException
-     *
      * @return string
+     * @throws DatabaseException
      */
     public function __toString(): string
     {
@@ -95,7 +94,7 @@ class Delete extends AdvancedStatement
             $sql .= ' ' . implode(' ', $this->join);
         }
 
-        if ($this->where != null) {
+        if ($this->where !== null) {
             $sql .= " WHERE {$this->where}";
         }
 
@@ -107,8 +106,8 @@ class Delete extends AdvancedStatement
             $sql = substr($sql, 0, -2);
         }
 
-        if ($this->limit != null) {
-            $sql .= " LIMIT {$this->limit}";
+        if ($this->limit !== null) {
+            $sql .= " {$this->limit}";
         }
 
         return $sql;

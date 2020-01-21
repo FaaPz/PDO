@@ -144,15 +144,15 @@ class Select extends AdvancedStatement
             $values = array_merge($values, $join->getValues());
         }
 
-        if ($this->where !== null) {
+        if ($this->where != null) {
             $values = array_merge($values, $this->where->getValues());
         }
 
-        if ($this->having !== null) {
+        if ($this->having != null) {
             $values = array_merge($values, $this->having->getValues());
         }
 
-        if ($this->limit !== null) {
+        if ($this->limit != null) {
             $values = array_merge($values, $this->limit->getValues());
         }
 
@@ -187,14 +187,13 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @throws DatabaseException
-     *
      * @return string
+     * @throws DatabaseException
      */
     public function __toString(): string
     {
         if (empty($this->table)) {
-            throw new DatabaseException('No table is set for selection');
+            throw new DatabaseException('No table set for select statement');
         }
 
         $sql = 'SELECT';
@@ -226,7 +225,7 @@ class Select extends AdvancedStatement
             $sql .= ' ' . implode(' ', $this->join);
         }
 
-        if ($this->where != null) {
+        if ($this->where !== null) {
             $sql .= " WHERE {$this->where}";
         }
 
@@ -234,7 +233,7 @@ class Select extends AdvancedStatement
             $sql .= ' GROUP BY ' . implode(', ', $this->groupBy);
         }
 
-        if ($this->having != null) {
+        if ($this->having !== null) {
             $sql .= " HAVING {$this->having}";
         }
 
@@ -246,8 +245,8 @@ class Select extends AdvancedStatement
             $sql = substr($sql, 0, -2);
         }
 
-        if ($this->limit != null) {
-            $sql .= " LIMIT {$this->limit}";
+        if ($this->limit !== null) {
+            $sql .= " {$this->limit}";
         }
 
         if (!empty($this->union)) {

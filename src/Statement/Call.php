@@ -55,18 +55,15 @@ class Call extends AbstractStatement
     }
 
     /**
-     * @throws DatabaseException
-     *
      * @return string
+     * @throws DatabaseException
      */
     public function __toString(): string
     {
         if (!$this->method instanceof Clause\Method) {
-            throw new DatabaseException('No method is set for stored procedure call');
+            throw new DatabaseException('No method set for call statement');
         }
 
-        $sql = "CALL {$this->method}";
-
-        return $sql;
+        return "CALL {$this->method}";
     }
 }

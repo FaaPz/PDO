@@ -34,7 +34,9 @@ class Method implements QueryInterface
     {
         $values = [];
         foreach ($this->values as $value) {
-            if (!$value instanceof QueryInterface) {
+            if ($value instanceof QueryInterface) {
+                $values = array_merge($values, $value->getValues());
+            } else {
                 $values[] = $value;
             }
         }
@@ -49,11 +51,13 @@ class Method implements QueryInterface
     {
         $placeholders = '';
         foreach ($this->values as $value) {
-            if (!$value instanceof QueryInterface) {
-                if (!empty($placeholders)) {
-                    $placeholders .= ', ';
-                }
+            if (!empty($placeholders)) {
+                $placeholders .= ', ';
+            }
 
+            if ($value instanceof QueryInterface) {
+                $placeholders .= "{$value}";
+            } else {
                 $placeholders .= '?';
             }
         }

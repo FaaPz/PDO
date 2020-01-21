@@ -45,7 +45,7 @@ class InsertTest extends TestCase
             ->columns('one', 'two')
             ->values(1, 2);
 
-        $this->assertStringStartsWith('INSERT INTO test', $this->subject->__toString());
+        $this->assertEquals('INSERT INTO test (one, two) VALUES (?, ?)', $this->subject->__toString());
     }
 
     public function testToStringWithoutTable()
@@ -58,14 +58,34 @@ class InsertTest extends TestCase
             ->execute();
     }
 
-    public function testToStringWithoutColumns()
+    public function testToStringWithColumns()
     {
-        $this->expectException(DatabaseException::class);
-
         $this->subject
             ->into('test')
-            ->values(1, 2)
-            ->execute();
+            ->columns('col1', 'col2')
+            ->values(1, 2);
+
+        $this->assertEquals('INSERT INTO test (col1, col2) VALUES (?, ?)', $this->subject->__toString());
+    }
+
+    public function testToStringWithColumnMismatch()
+    {
+        $this->subject
+            ->into('test')
+            ->columns('col2')
+            ->values(1, 2);
+
+        $this->expectException(DatabaseException::class);
+        $this->subject->__toString();
+    }
+
+    public function testToStringWithoutColumns()
+    {
+        $this->subject
+            ->into('test')
+            ->values(1, 2);
+
+        $this->assertEquals('INSERT INTO test VALUES (?, ?)', $this->subject->__toString());
     }
 
     public function testToStringWithoutValues()
@@ -75,6 +95,32 @@ class InsertTest extends TestCase
         $this->subject
             ->into('test')
             ->columns('one', 'two')
+            ->execute();
+    }
+
+    public function testToStringWithSelect()
+    {
+        $select = new Statement\Select($this->createMock(PDO::class));
+        $select->from('table');
+
+        $this->subject
+            ->into('test')
+            ->values($select)
+            ->execute();
+
+        $this->assertEquals('INSERT INTO test SELECT * FROM table', $this->subject->__toString());
+    }
+
+    public function testToStringWithSelectAndArgs()
+    {
+        $this->expectException(DatabaseException::class);
+
+        $select = new Statement\Select($this->createMock(PDO::class));
+        $select->from('table');
+
+        $this->subject
+            ->into('test')
+            ->values($select, 2)
             ->execute();
     }
 
