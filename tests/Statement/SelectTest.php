@@ -8,7 +8,6 @@
 namespace FaaPz\PDO\Test;
 
 use FaapZ\PDO\Clause;
-use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\Statement;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -164,7 +163,8 @@ class SelectTest extends TestCase
 
     public function testToStringWithoutTable()
     {
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^No table set for select statement/');
 
         $this->subject->execute();
     }

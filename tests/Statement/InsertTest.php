@@ -5,8 +5,6 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-declare(strict_types=1);
-
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
@@ -77,7 +75,9 @@ class InsertTest extends TestCase
             ->columns('col2')
             ->values(1, 2);
 
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^No values set for insert statement/');
+
         $this->subject->__toString();
     }
 
@@ -116,7 +116,8 @@ class InsertTest extends TestCase
 
     public function testToStringWithSelectAndArgs()
     {
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^Ignoring additional values after select for insert statement/');
 
         $select = new Statement\Select($this->createMock(PDO::class));
         $select->from('table');

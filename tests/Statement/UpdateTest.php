@@ -8,7 +8,6 @@
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
-use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\Statement;
 use PDO;
 use PDOStatement;
@@ -117,14 +116,16 @@ class UpdateTest extends TestCase
 
     public function testToStringWithoutTable()
     {
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^No table set for update statement/');
 
         $this->subject->execute();
     }
 
     public function testToStringWithoutPairs()
     {
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^No column \/ value pairs set for update statement/');
 
         $this->subject
             ->table('test')

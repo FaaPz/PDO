@@ -8,7 +8,6 @@
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
-use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\Statement;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -34,7 +33,8 @@ class CallTest extends TestCase
 
     public function testToStringWithoutMethod()
     {
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^No method set for call statement/');
 
         $this->subject->__toString();
     }

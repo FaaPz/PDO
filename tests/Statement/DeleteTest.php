@@ -8,7 +8,6 @@
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
-use FaaPz\PDO\DatabaseException;
 use FaaPz\PDO\Statement;
 use PDO;
 use PDOStatement;
@@ -65,7 +64,8 @@ class DeleteTest extends TestCase
 
     public function testToStringWithoutTable()
     {
-        $this->expectException(DatabaseException::class);
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^No table set for delete statement/');
 
         $this->subject->__toString();
     }

@@ -5,11 +5,10 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-declare(strict_types=1);
-
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AbstractStatement;
+use FaaPz\PDO\Clause\Raw;
 use FaaPz\PDO\QueryInterface;
 use PDO;
 
