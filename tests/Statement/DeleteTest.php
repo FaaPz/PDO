@@ -102,18 +102,6 @@ class DeleteTest extends TestCase
         $this->assertStringEndsWith('test ORDER BY id ASC, name DESC', $this->subject->__toString());
     }
 
-    public function testToStringWithLimit()
-    {
-        $this->subject
-            ->from('test')
-            ->limit(new Clause\Limit(
-                25,
-                100
-            ));
-
-        $this->assertStringEndsWith('test LIMIT ?, ?', $this->subject->__toString());
-    }
-
     public function testGetValues()
     {
         $this->assertIsArray($this->subject->getValues());
@@ -151,19 +139,6 @@ class DeleteTest extends TestCase
             ->orderBy('name', 'DESC');
 
         // FIXME This seems broken...
-        $this->assertIsArray($this->subject->getValues());
-        $this->assertCount(2, $this->subject->getValues());
-    }
-
-    public function testGetValuesWithLimit()
-    {
-        $this->subject
-            ->from('test1')
-            ->limit(new Clause\Limit(
-                25,
-                100
-            ));
-
         $this->assertIsArray($this->subject->getValues());
         $this->assertCount(2, $this->subject->getValues());
     }

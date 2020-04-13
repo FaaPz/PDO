@@ -152,15 +152,6 @@ class SelectTest extends TestCase
         $this->assertStringEndsWith('test ORDER BY id ASC, name DESC', $this->subject->__toString());
     }
 
-    public function testToStringWithLimit()
-    {
-        $this->subject
-            ->from('test')
-            ->limit(new Clause\Limit(5, 25));
-
-        $this->assertStringEndsWith('test LIMIT ?, ?', $this->subject->__toString());
-    }
-
     public function testToStringWithoutTable()
     {
         $this->expectError();
@@ -231,15 +222,5 @@ class SelectTest extends TestCase
             ->groupBy('id', 'name');
 
         $this->assertEmpty($this->subject->getValues());
-    }
-
-    public function testGetValuesWithLimit()
-    {
-        $this->subject
-            ->from('test')
-            ->limit(new Clause\Limit(25, 100));
-
-        $this->assertIsArray($this->subject->getValues());
-        $this->assertCount(2, $this->subject->getValues());
     }
 }

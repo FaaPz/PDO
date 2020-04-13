@@ -18,9 +18,6 @@ abstract class AdvancedStatement extends AbstractStatement
     /** @var string[] $orderBy */
     protected $orderBy = [];
 
-    /** @var Clause\Limit $limit */
-    protected $limit = null;
-
     /**
      * @param Clause\Join $clause
      *
@@ -54,18 +51,6 @@ abstract class AdvancedStatement extends AbstractStatement
     public function orderBy(string $column, string $direction = '')
     {
         $this->orderBy[$column] = $direction;
-
-        return $this;
-    }
-
-    /**
-     * @param Clause\Limit|null $limit
-     *
-     * @return $this
-     */
-    public function limit(?Clause\Limit $limit)
-    {
-        $this->limit = $limit;
 
         return $this;
     }

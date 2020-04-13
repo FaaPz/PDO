@@ -58,10 +58,6 @@ class Delete extends AdvancedStatement
             $values = array_merge($values, $this->orderBy);
         }
 
-        if ($this->limit != null) {
-            $values = array_merge($values, $this->limit->getValues());
-        }
-
         return $values;
     }
 
@@ -102,10 +98,6 @@ class Delete extends AdvancedStatement
                 $sql .= "{$column} {$direction}, ";
             }
             $sql = substr($sql, 0, -2);
-        }
-
-        if ($this->limit !== null) {
-            $sql .= " {$this->limit}";
         }
 
         return $sql;

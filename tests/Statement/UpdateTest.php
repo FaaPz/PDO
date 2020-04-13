@@ -101,19 +101,6 @@ class UpdateTest extends TestCase
         $this->assertStringEndsWith(' ORDER BY id ASC, name DESC', $this->subject->__toString());
     }
 
-    public function testToStringWithLimit()
-    {
-        $this->subject
-            ->table('test')
-            ->set('col', 'value')
-            ->limit(new Clause\Limit(
-                25,
-                100
-            ));
-
-        $this->assertStringEndsWith(' LIMIT ?, ?', $this->subject->__toString());
-    }
-
     public function testToStringWithoutTable()
     {
         $this->expectError();
@@ -177,20 +164,6 @@ class UpdateTest extends TestCase
         // FIXME This seems broken...
         $this->assertIsArray($this->subject->getValues());
         $this->assertCount(1, $this->subject->getValues());
-    }
-
-    public function testGetValuesWithLimit()
-    {
-        $this->subject
-            ->table('test')
-            ->set('col', 'value')
-            ->limit(new Clause\Limit(
-                25,
-                100
-            ));
-
-        $this->assertIsArray($this->subject->getValues());
-        $this->assertCount(3, $this->subject->getValues());
     }
 
     public function testGetValuesEmpty()

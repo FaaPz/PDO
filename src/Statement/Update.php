@@ -78,10 +78,6 @@ class Update extends AdvancedStatement
             $values = array_merge($values, $this->where->getValues());
         }
 
-        if ($this->limit !== null) {
-            $values = array_merge($values, $this->limit->getValues());
-        }
-
         return $values;
     }
 
@@ -135,10 +131,6 @@ class Update extends AdvancedStatement
                 $sql .= "{$column} {$direction}, ";
             }
             $sql = substr($sql, 0, -2);
-        }
-
-        if ($this->limit !== null) {
-            $sql .= " {$this->limit}";
         }
 
         return $sql;

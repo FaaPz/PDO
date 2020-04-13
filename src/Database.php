@@ -39,16 +39,6 @@ class Database extends PDO
     }
 
     /**
-     * @param Clause\Method|null $procedure
-     *
-     * @return Statement\Call
-     */
-    public function call(Clause\Method $procedure = null): Statement\Call
-    {
-        return new Statement\Call($this, $procedure);
-    }
-
-    /**
      * @param array<int|string, string> $columns
      *
      * @return Statement\Select

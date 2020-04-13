@@ -26,22 +26,6 @@ class DatabaseTest extends TestCase
         $this->subject = $ref->newInstanceWithoutConstructor();
     }
 
-    public function testCall()
-    {
-        $this->assertInstanceOf(
-            Statement\Call::class,
-            $this->subject->call()
-        );
-    }
-
-    public function testCallWithArgs()
-    {
-        $this->assertInstanceOf(
-            Statement\Call::class,
-            $this->subject->call(new Clause\Method('COUNT'))
-        );
-    }
-
     public function testSelect()
     {
         $this->assertInstanceOf(

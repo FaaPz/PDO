@@ -18,7 +18,7 @@ use PDOStatement;
  */
 class Select extends AdvancedStatement
 {
-    /** @var string|array<string, string|Call|Select>|null $table */
+    /** @var string|array<string, string|Select>|null $table */
     protected $table = null;
 
     /** @var array<int|string, string> $columns */
@@ -27,7 +27,7 @@ class Select extends AdvancedStatement
     /** @var bool $distinct */
     protected $distinct = false;
 
-    /** @var array<int, Call|Select> $union */
+    /** @var array<int, Select> $union */
     protected $union = [];
 
     /** @var array<int, string> $groupBy */
@@ -37,8 +37,8 @@ class Select extends AdvancedStatement
     protected $having = null;
 
     /**
-     * @param PDO                      $dbh
-     * @param string[]|Clause\Method[] $columns
+     * @param PDO      $dbh
+     * @param string[] $columns
      */
     public function __construct(PDO $dbh, array $columns = ['*'])
     {
@@ -74,7 +74,7 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @param string|array<string, string|Call|Select> $table
+     * @param string|array<string, string|Select> $table
      *
      * @return $this
      */
@@ -149,10 +149,6 @@ class Select extends AdvancedStatement
 
         if ($this->having != null) {
             $values = array_merge($values, $this->having->getValues());
-        }
-
-        if ($this->limit != null) {
-            $values = array_merge($values, $this->limit->getValues());
         }
 
         return $values;
@@ -241,10 +237,6 @@ class Select extends AdvancedStatement
                 $sql .= "{$column} {$direction}, ";
             }
             $sql = substr($sql, 0, -2);
-        }
-
-        if ($this->limit !== null) {
-            $sql .= " {$this->limit}";
         }
 
         if (!empty($this->union)) {
