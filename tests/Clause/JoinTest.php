@@ -5,7 +5,7 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace FaaPz\PDO\Test;
+namespace FaaPz\PDO\Test\Clause;
 
 use FaaPz\PDO\Clause;
 use FaaPz\PDO\Statement;

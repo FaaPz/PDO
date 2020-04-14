@@ -8,6 +8,10 @@
 namespace FaaPz\PDO;
 
 use PDO;
+use FaaPz\PDO\Statement\Delete;
+use FaaPz\PDO\Statement\Insert;
+use FaaPz\PDO\Statement\Select;
+use FaaPz\PDO\Statement\Update;
 
 class Database extends PDO
 {
@@ -39,42 +43,42 @@ class Database extends PDO
     }
 
     /**
-     * @param array<int|string, string> $columns
+     * @param string|array<string, string> $table
      *
-     * @return Statement\Select
+     * @return Delete
      */
-    public function select(array $columns = ['*']): Statement\Select
+    public function delete($table = null): Delete
     {
-        return new Statement\Select($this, $columns);
+        return new Delete($this, $table);
     }
 
     /**
      * @param array<int|string, mixed> $pairs
      *
-     * @return Statement\Insert
+     * @return Insert
      */
-    public function insert(array $pairs = []): Statement\Insert
+    public function insert(array $pairs = []): Insert
     {
-        return new Statement\Insert($this, $pairs);
+        return new Insert($this, $pairs);
+    }
+
+    /**
+     * @param array<int|string, string> $columns
+     *
+     * @return Select
+     */
+    public function select(array $columns = ['*']): Select
+    {
+        return new Select($this, $columns);
     }
 
     /**
      * @param array<string, mixed> $pairs
      *
-     * @return Statement\Update
+     * @return Update
      */
-    public function update(array $pairs = []): Statement\Update
+    public function update(array $pairs = []): Update
     {
-        return new Statement\Update($this, $pairs);
-    }
-
-    /**
-     * @param string|array<string, string> $table
-     *
-     * @return Statement\Delete
-     */
-    public function delete($table = null): Statement\Delete
-    {
-        return new Statement\Delete($this, $table);
+        return new Update($this, $pairs);
     }
 }

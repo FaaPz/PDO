@@ -30,6 +30,9 @@ class Select extends AdvancedStatement
     /** @var array<int, Select> $union */
     protected $union = [];
 
+    /** @var array<int, Select> $unionAll */
+    protected $unionAll = [];
+
     /** @var array<int, string> $groupBy */
     protected $groupBy = [];
 
@@ -97,6 +100,11 @@ class Select extends AdvancedStatement
         return $this;
     }
 
+    protected function getUnionCount(): int
+    {
+        return count($this->union) + count($this->unionAll);
+    }
+
     /**
      * @param self $query
      *
@@ -104,7 +112,19 @@ class Select extends AdvancedStatement
      */
     public function union(self $query): self
     {
-        $this->union[] = $query;
+        $this->union[$this->getUnionCount()] = $query;
+
+        return $this;
+    }
+
+    /**
+     * @param self $query
+     *
+     * @return $this
+     */
+    public function unionAll(self $query): self
+    {
+        $this->unionAll[$this->getUnionCount()] = $query;
 
         return $this;
     }
@@ -198,15 +218,12 @@ class Select extends AdvancedStatement
         $sql .= " {$this->getColumns()}";
 
         if (is_array($this->table)) {
-            reset($this->table);
-            $alias = key($this->table);
-
-            if ($this->table[$alias] instanceof QueryInterface) {
-                $table = "({$this->table[$alias]})";
-            } else {
-                $table = $this->table[$alias];
+            $table = reset($this->table);
+            if ($table instanceof QueryInterface) {
+                $table = "({$table})";
             }
 
+            $alias = key($this->table);
             if (is_string($alias)) {
                 $table .= " AS {$alias}";
             }
@@ -219,7 +236,7 @@ class Select extends AdvancedStatement
             $sql .= ' ' . implode(' ', $this->join);
         }
 
-        if ($this->where !== null) {
+        if ($this->where != null) {
             $sql .= " WHERE {$this->where}";
         }
 
@@ -227,24 +244,27 @@ class Select extends AdvancedStatement
             $sql .= ' GROUP BY ' . implode(', ', $this->groupBy);
         }
 
-        if ($this->having !== null) {
+        if ($this->having != null) {
             $sql .= " HAVING {$this->having}";
         }
 
-        if (!empty($this->orderBy)) {
-            $sql .= ' ORDER BY ';
-            foreach ($this->orderBy as $column => $direction) {
-                $sql .= "{$column} {$direction}, ";
+        if ($direction = reset($this->orderBy)) {
+            $column = key($this->orderBy);
+            $sql .= " ORDER BY {$column} {$direction}";
+
+            while ($direction = next($this->orderBy)) {
+                $column = key($this->orderBy);
+                $sql .= ", {$column} {$direction}";
             }
-            $sql = substr($sql, 0, -2);
         }
 
-        if (!empty($this->union)) {
-            $sql = "({$sql}";
-            foreach ($this->union as $union) {
-                $sql .= ") UNION ({$union}";
+        for ($i = 0; $i < $this->getUnionCount(); $i++) {
+            if (isset($this->union[$i])) {
+                $union = "{$this->union[$i]}";
+            } else {
+                $union = "ALL {$this->unionAll[$i]}";
             }
-            $sql .= ')';
+            $sql .= " UNION {$union}";
         }
 
         return $sql;

@@ -125,12 +125,14 @@ class Update extends AdvancedStatement
             $sql .= " WHERE {$this->where}";
         }
 
-        if (!empty($this->orderBy)) {
-            $sql .= ' ORDER BY ';
-            foreach ($this->orderBy as $column => $direction) {
-                $sql .= "{$column} {$direction}, ";
+        if ($direction = reset($this->orderBy)) {
+            $column = key($this->orderBy);
+            $sql .= " ORDER BY {$column} {$direction}";
+
+            while ($direction = next($this->orderBy)) {
+                $column = key($this->orderBy);
+                $sql .= ", {$column} {$direction}";
             }
-            $sql = substr($sql, 0, -2);
         }
 
         return $sql;

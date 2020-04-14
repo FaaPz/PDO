@@ -5,7 +5,7 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace FaaPz\PDO\Test;
+namespace FaaPz\PDO\Test\Statement;
 
 use FaapZ\PDO\Clause;
 use FaaPz\PDO\Statement;
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 class SelectTest extends TestCase
 {
     /** @var Statement\Select $subject */
-    private $subject;
+    protected $subject;
 
     public function setUp(): void
     {
@@ -201,7 +201,46 @@ class SelectTest extends TestCase
             );
 
         $this->assertStringMatchesFormat(
-            '(SELECT id, name FROM test1) UNION (SELECT id, name FROM test2)',
+            'SELECT id, name FROM test1 UNION SELECT id, name FROM test2',
+            $this->subject->__toString()
+        );
+    }
+
+    public function testGetValuesWithUnionAll()
+    {
+        $this->subject
+            ->columns(['id', 'name'])
+            ->from('test1')
+            ->unionAll(
+                (new Statement\Select($this->createMock(PDO::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test2')
+            );
+
+        $this->assertStringMatchesFormat(
+            'SELECT id, name FROM test1 UNION ALL SELECT id, name FROM test2',
+            $this->subject->__toString()
+        );
+    }
+
+    public function testGetValuesWithUnionAndUnionAll()
+    {
+        $this->subject
+            ->columns(['id', 'name'])
+            ->from('test1')
+            ->union(
+                (new Statement\Select($this->createMock(PDO::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test2')
+            )
+            ->unionAll(
+                (new Statement\Select($this->createMock(PDO::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test3')
+            );
+
+        $this->assertStringMatchesFormat(
+            'SELECT id, name FROM test1 UNION SELECT id, name FROM test2 UNION ALL SELECT id, name FROM test3',
             $this->subject->__toString()
         );
     }
