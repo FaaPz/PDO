@@ -42,7 +42,7 @@ Returns the primary key for the inserted record
 // INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
 $insertStatement = $pdo->insert(array(
                                "id" => 1234,
-                               "usr" => "your_username"",
+                               "usr" => "your_username",
                                "pwd" => "your_password"
                            ))
                            ->into("users");
