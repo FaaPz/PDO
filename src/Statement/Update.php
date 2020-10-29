@@ -72,7 +72,14 @@ class Update extends AdvancedStatement
      */
     public function getValues(): array
     {
-        $values = array_values($this->pairs);
+        $values = [];
+        foreach ($this->pairs as $value) {
+            if ($value instanceof QueryInterface) {
+                $values = array_merge($values, $value->getValues());
+            } else {
+                $values[] = $value;
+            }
+        }
 
         if ($this->where !== null) {
             $values = array_merge($values, $this->where->getValues());
@@ -142,13 +149,5 @@ class Update extends AdvancedStatement
         }
 
         return $sql;
-    }
-
-    /**
-     * @return int
-     */
-    public function execute()
-    {
-        return parent::execute()->rowCount();
     }
 }
