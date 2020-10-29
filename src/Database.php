@@ -19,7 +19,7 @@ class Database extends PDO
      *
      * @codeCoverageIgnore
      */
-    public function __construct(string $dsn, string $username = null, string $password = null, array $options = [])
+    public function __construct(string $dsn, ?string $username = null, ?string $password = null, array $options = [])
     {
         parent::__construct($dsn, $username, $password, $options + $this->getDefaultOptions());
     }

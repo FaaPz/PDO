@@ -167,12 +167,4 @@ class DeleteTest extends TestCase
         $this->assertIsArray($this->subject->getValues());
         $this->assertCount(2, $this->subject->getValues());
     }
-
-    public function testExecute()
-    {
-        $this->subject
-            ->from('test');
-
-        $this->assertEquals(1, $this->subject->execute());
-    }
 }

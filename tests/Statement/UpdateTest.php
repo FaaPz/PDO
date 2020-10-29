@@ -198,13 +198,4 @@ class UpdateTest extends TestCase
         $this->assertIsArray($this->subject->getValues());
         $this->assertEmpty($this->subject->getValues());
     }
-
-    public function testExecute()
-    {
-        $this->subject
-            ->table('test')
-            ->set('col', 'value');
-
-        $this->assertEquals(1, $this->subject->execute());
-    }
 }

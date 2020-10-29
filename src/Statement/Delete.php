@@ -110,12 +110,4 @@ class Delete extends AdvancedStatement
 
         return $sql;
     }
-
-    /**
-     * @return int
-     */
-    public function execute()
-    {
-        return parent::execute()->rowCount();
-    }
 }

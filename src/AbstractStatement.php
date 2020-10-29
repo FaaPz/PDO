@@ -9,6 +9,7 @@ namespace FaaPz\PDO;
 
 use PDO;
 use PDOException;
+use PDOStatement;
 
 abstract class AbstractStatement implements QueryInterface
 {
@@ -28,22 +29,10 @@ abstract class AbstractStatement implements QueryInterface
      *
      * @return mixed
      */
-    public function execute()
+    public function execute(): PDOStatement
     {
         $stmt = $this->dbh->prepare($this->__toString());
-
-        try {
-            $success = $stmt->execute($this->getValues());
-            if (!$success) {
-                list($state, $code, $message) = $stmt->errorInfo();
-
-                // We are not in exception mode, raise error.
-                trigger_error("SQLSTATE[{$state}] [{$code}] {$message}", E_USER_ERROR);
-            }
-        } catch (PDOException $e) {
-            // We are in exception mode, carry on.
-            throw $e;
-        }
+        $stmt->execute($this->getValues());
 
         return $stmt;
     }

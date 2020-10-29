@@ -52,37 +52,12 @@ class AbstractStatementTest extends TestCase
         };
     }
 
-    public function testExecuteSuccess()
+    public function testExecute()
     {
         $this->mock
             ->method('execute')
             ->willReturn(true);
 
         $this->assertEquals($this->mock, $this->subject->execute());
-    }
-
-    public function testExecuteException()
-    {
-        $this->mock
-            ->method('execute')
-            ->willThrowException(new PDOException('message', 100));
-
-        $this->expectException(PDOException::class);
-        $this->expectExceptionCode(100);
-        $this->expectExceptionMessage('message');
-
-        $this->subject->execute();
-    }
-
-    public function testExecuteFailure()
-    {
-        $this->mock
-            ->method('execute')
-            ->willReturn(false);
-
-        $this->expectError();
-        $this->expectErrorMessage('SQLSTATE[HY100] [100] near "bogus": syntax error');
-
-        $this->subject->execute();
     }
 }

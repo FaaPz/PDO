@@ -200,14 +200,4 @@ class InsertTest extends TestCase
         $this->assertIsArray($this->subject->getValues());
         $this->assertCount(2, $this->subject->getValues());
     }
-
-    public function testExecute()
-    {
-        $this->subject
-            ->into('test')
-            ->columns('id')
-            ->values(1);
-
-        $this->assertEquals(1, $this->subject->execute());
-    }
 }
