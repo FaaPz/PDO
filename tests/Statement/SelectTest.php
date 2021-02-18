@@ -158,7 +158,7 @@ class SelectTest extends TestCase
             ->from('test')
             ->limit(new Clause\Limit(5, 25));
 
-        $this->assertStringEndsWith('test LIMIT ?, ?', $this->subject->__toString());
+        $this->assertStringEndsWith('test LIMIT ? OFFSET ?', $this->subject->__toString());
     }
 
     public function testToStringWithoutTable()
