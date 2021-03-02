@@ -10,6 +10,7 @@ namespace FaaPz\PDO\Test;
 use FaaPz\PDO\Clause;
 use FaaPz\PDO\Database;
 use FaaPz\PDO\Statement;
+use FaaPz\PDO\UserManager;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
@@ -72,5 +73,19 @@ class DatabaseTest extends TestCase
             Statement\Delete::class,
             $this->subject->delete()
         );
+    }
+
+    public function testUserManagerIfInstanceIsFromUserManagerMariaDB()
+    {
+        $this->assertInstanceOf(
+            UserManager\MariaDB\UserManagerMariaDB::class,
+            $this->subject->userManager('mariadb')
+        );
+    }
+
+    public function testDatabaseNotSupportedException()
+    {
+        $this->expectException(\Exception::class);
+        $this->subject->userManager('mongodb');
     }
 }
