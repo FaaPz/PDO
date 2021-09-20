@@ -155,7 +155,7 @@ class Insert extends AbstractStatement
         } else {
             if ($this->values[0] instanceof Raw) {
                 $plug = "{$this->values[0]}";
-            } elseif (is_scalar($this->values[0])) {
+            } elseif (is_scalar($this->values[0]) || is_null($this->values[0])) {
                 $plug = '?';
             } else {
                 trigger_error('Invalid value for insert statement', E_USER_ERROR);
@@ -164,7 +164,7 @@ class Insert extends AbstractStatement
             for ($i = 1; $i < $size; $i++) {
                 if ($this->values[$i] instanceof Raw) {
                     $plug .= ", {$this->values[$i]}";
-                } elseif (is_scalar($this->values[$i])) {
+                } elseif (is_scalar($this->values[$i]) || is_null($this->values[$i])) {
                     $plug .= ', ?';
                 } else {
                     trigger_error('Invalid value for insert statement', E_USER_ERROR);
