@@ -8,9 +8,6 @@
     <!-- Include the whole PSR-1 standard -->
     <rule ref="PSR1"/>
 
-    <!-- Include the whole PSR-2 standard -->
-    <rule ref="PSR2"/>
-
     <!-- Include the whole PSR-12 standard -->
     <rule ref="PSR12"/>
 
@@ -21,6 +18,8 @@
         <exclude name="Generic.Commenting.DocComment.ContentBeforeClose"/>
         <exclude name="Generic.Commenting.DocComment.MissingShort"/>
         <exclude name="Generic.Formatting.MultipleStatementAlignment.NotSame"/>
+        <exclude name="PEAR.ControlStructures.MultiLineCondition.StartWithBoolean"/>
+        <exclude name="PEAR.ControlStructures.MultiLineCondition.SpacingAfterOpenBrace"/>
         <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine"/>
         <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket"/>
         <exclude name="Squiz.Arrays.ArrayDeclaration.SingleLineNotAllowed"/>
@@ -48,6 +47,7 @@
         <exclude name="Squiz.Objects.ObjectInstantiation.NotAssigned"/>
         <exclude name="Squiz.Operators.ComparisonOperatorUsage.ImplicitTrue"/>
         <exclude name="Squiz.Operators.ComparisonOperatorUsage.NotAllowed"/>
+        <exclude name="Squiz.PHP.DisallowMultipleAssignments.FoundInControlStructure"/>
         <exclude name="Squiz.Strings.ConcatenationSpacing.PaddingFound"/>
         <exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar"/>
         <exclude name="Squiz.WhiteSpace.FunctionClosingBraceSpace.SpacingBeforeClose"/>
@@ -57,5 +57,7 @@
         <exclude name="Squiz.WhiteSpace.FunctionSpacing.BeforeFirst"/>
         <exclude name="Squiz.WhiteSpace.MemberVarSpacing.FirstIncorrect"/>
         <exclude name="Squiz.WhiteSpace.ObjectOperatorSpacing.Before"/>
+
+        <exclude name="Squiz.Commenting.FunctionComment.TypeHintMissing"/>
     </rule>
 </ruleset>
