@@ -7,19 +7,17 @@
 
 namespace FaaPz\PDO\Clause;
 
-use FaaPz\PDO\QueryInterface;
-
-class Limit implements QueryInterface
+class Limit implements LimitInterface
 {
     /** @var int $size */
     protected $size;
 
-    /** @var int|null $offset */
+    /** @var ?int $offset */
     protected $offset;
 
     /**
-     * @param int      $size
-     * @param int|null $offset
+     * @param int  $size
+     * @param ?int $offset
      */
     public function __construct(int $size, ?int $offset = null)
     {
@@ -28,14 +26,13 @@ class Limit implements QueryInterface
     }
 
     /**
-     * @return int[]
+     * @return array<int>
      */
     public function getValues(): array
     {
+        $values = [$this->size];
         if ($this->offset !== null) {
-            $values = [$this->offset, $this->size];
-        } else {
-            $values = [$this->size];
+            $values[] = $this->offset;
         }
 
         return $values;
@@ -48,7 +45,7 @@ class Limit implements QueryInterface
     {
         $sql = 'LIMIT ?';
         if ($this->offset !== null) {
-            $sql .= ', ?';
+            $sql .= ' OFFSET ?';
         }
 
         return $sql;

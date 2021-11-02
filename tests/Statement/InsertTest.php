@@ -7,15 +7,16 @@
 
 namespace FaaPz\PDO\Test;
 
-use FaaPz\PDO\Clause;
-use FaaPz\PDO\Statement;
-use PDO;
+use FaaPz\PDO\Clause\Raw;
+use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Insert;
+use FaaPz\PDO\Statement\Select;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;
 
 class InsertTest extends TestCase
 {
-    /** @var Statement\Insert $subject */
+    /** @var Insert $subject */
     private $subject;
 
     public function setUp(): void
@@ -27,14 +28,14 @@ class InsertTest extends TestCase
             ->with($this->anything())
             ->willReturn($stmt);
 
-        $pdo = $this->createMock(PDO::class);
+        $pdo = $this->createMock(Database::class);
         $pdo->method('prepare')
             ->with($this->anything())
             ->willReturn($stmt);
         $pdo->method('lastInsertId')
             ->willReturn(1);
 
-        $this->subject = new Statement\Insert($pdo);
+        $this->subject = new Insert($pdo);
     }
 
     public function testToString()
@@ -76,7 +77,7 @@ class InsertTest extends TestCase
             ->values(1, 2);
 
         $this->expectError();
-        $this->expectErrorMessageMatches('/^No values set for insert statement/');
+        $this->expectErrorMessageMatches('/^Column value count mismatch for insert statement/');
 
         $this->subject->__toString();
     }
@@ -103,7 +104,7 @@ class InsertTest extends TestCase
 
     public function testToStringWithSelect()
     {
-        $select = new Statement\Select($this->createMock(PDO::class));
+        $select = new Select($this->createMock(Database::class));
         $select->from('table');
 
         $this->subject
@@ -119,13 +120,52 @@ class InsertTest extends TestCase
         $this->expectError();
         $this->expectErrorMessageMatches('/^Ignoring additional values after select for insert statement/');
 
-        $select = new Statement\Select($this->createMock(PDO::class));
+        $select = new Select($this->createMock(Database::class));
         $select->from('table');
 
         $this->subject
             ->into('test')
             ->values($select, 2)
             ->execute();
+    }
+
+    public function testToStringWithLowPriority()
+    {
+        $this->subject
+            ->priority('low_priority')
+            ->into('test')
+            ->columns('one', 'two')
+            ->values(1, 2)
+            ->execute();
+
+        $this->assertStringStartsWith('INSERT LOW_PRIORITY INTO test', $this->subject->__toString());
+    }
+
+    public function testToStringWithHighPriority()
+    {
+        $this->subject
+            ->priority('high')
+            ->into('test')
+            ->columns('one', 'two')
+            ->values(1, 2)
+            ->execute();
+
+        $this->assertStringStartsWith('INSERT HIGH_PRIORITY INTO test', $this->subject->__toString());
+    }
+
+    public function testToStringWithInvalidPriority()
+    {
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^Invalid priority type/');
+
+        $this->subject
+            ->priority('invalid')
+            ->into('test')
+            ->columns('one', 'two')
+            ->values(1, 2)
+            ->execute();
+
+        $this->subject->__toString();
     }
 
     public function testToStringWithIgnore()
@@ -145,7 +185,7 @@ class InsertTest extends TestCase
         $this->subject
             ->into('test')
             ->columns('one')
-            ->values(new Clause\Raw('1'));
+            ->values(new Raw('1'));
 
         $this->assertStringStartsWith('INSERT INTO test (one) VALUES (1)', $this->subject->__toString());
     }
@@ -181,7 +221,7 @@ class InsertTest extends TestCase
     {
         $this->subject
             ->columns('one')
-            ->values(new Clause\Raw('1'));
+            ->values(new Raw('1'));
 
         $this->assertIsArray($this->subject->getValues());
         $this->assertCount(0, $this->subject->getValues());
@@ -194,7 +234,7 @@ class InsertTest extends TestCase
             ->values(1)
             ->onDuplicateUpdate([
                 'one' => 2,
-                'two' => new Clause\Raw('1'),
+                'two' => new Raw('1'),
             ]);
 
         $this->assertIsArray($this->subject->getValues());

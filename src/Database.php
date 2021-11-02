@@ -7,9 +7,21 @@
 
 namespace FaaPz\PDO;
 
+use FaaPz\PDO\Clause\MethodInterface;
+use FaaPz\PDO\Clause\RawInterface;
+use FaaPz\PDO\Statement\CallInterface;
+use FaaPz\PDO\Statement\Call;
+use FaaPz\PDO\Statement\Delete;
+use FaaPz\PDO\Statement\DeleteInterface;
+use FaaPz\PDO\Statement\Insert;
+use FaaPz\PDO\Statement\InsertInterface;
+use FaaPz\PDO\Statement\Select;
+use FaaPz\PDO\Statement\SelectInterface;
+use FaaPz\PDO\Statement\Update;
+use FaaPz\PDO\Statement\UpdateInterface;
 use PDO;
 
-class Database extends PDO
+class Database extends PDO implements DatabaseInterface
 {
     /**
      * @param string            $dsn
@@ -39,52 +51,52 @@ class Database extends PDO
     }
 
     /**
-     * @param Clause\Method|null $procedure
+     * @param ?MethodInterface $procedure
      *
-     * @return Statement\Call
+     * @return CallInterface
      */
-    public function call(Clause\Method $procedure = null): Statement\Call
+    public function call(?MethodInterface $procedure = null): CallInterface
     {
-        return new Statement\Call($this, $procedure);
+        return new Call($this, $procedure);
+    }
+
+    /**
+     * @param array<string> $columns
+     *
+     * @return InsertInterface
+     */
+    public function insert(array $columns = []): InsertInterface
+    {
+        return new Insert($this, $columns);
     }
 
     /**
      * @param array<int|string, string> $columns
      *
-     * @return Statement\Select
+     * @return SelectInterface
      */
-    public function select(array $columns = ['*']): Statement\Select
+    public function select(array $columns = ['*']): SelectInterface
     {
-        return new Statement\Select($this, $columns);
+        return new Select($this, $columns);
     }
 
     /**
-     * @param array<int|string, mixed> $pairs
+     * @param array<string, float|int|string|RawInterface|SelectInterface> $pairs
      *
-     * @return Statement\Insert
+     * @return UpdateInterface
      */
-    public function insert(array $pairs = []): Statement\Insert
+    public function update(array $pairs = []): UpdateInterface
     {
-        return new Statement\Insert($this, $pairs);
+        return new Update($this, $pairs);
     }
 
     /**
-     * @param array<string, mixed> $pairs
+     * @param ?string|?array<string, string> $table
      *
-     * @return Statement\Update
+     * @return DeleteInterface
      */
-    public function update(array $pairs = []): Statement\Update
+    public function delete($table = null): DeleteInterface
     {
-        return new Statement\Update($this, $pairs);
-    }
-
-    /**
-     * @param string|array<string, string> $table
-     *
-     * @return Statement\Delete
-     */
-    public function delete($table = null): Statement\Delete
-    {
-        return new Statement\Delete($this, $table);
+        return new Delete($this, $table);
     }
 }

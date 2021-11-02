@@ -31,7 +31,7 @@ $pdo = new \FaaPz\PDO\Database($dsn, $usr, $pwd);
 // SELECT * FROM users WHERE id = ?
 $selectStatement = $pdo->select()
                        ->from('users')
-                       ->where('id', '=', 1234);
+                       ->where(new Clause\Conditional("id", "=", 1234));
 
 $stmt = $selectStatement->execute();
 $data = $stmt->fetch();

@@ -7,26 +7,31 @@
 
 namespace FaaPz\PDO;
 
-abstract class AdvancedStatement extends AbstractStatement
+use FaaPz\PDO\Clause\ConditionalInterface;
+use FaaPz\PDO\Clause\JoinInterface;
+use FaaPz\PDO\Clause\LimitInterface;
+
+abstract class AdvancedStatement extends AbstractStatement implements StatementInterface
 {
-    /** @var Clause\Join[] $join */
+    /** @var array<JoinInterface> $join */
     protected $join = [];
 
-    /** @var Clause\Conditional $where */
+    /** @var ?ConditionalInterface $where */
     protected $where = null;
 
-    /** @var string[] $orderBy */
+    /** @var array<string, string> $orderBy */
     protected $orderBy = [];
 
-    /** @var Clause\Limit $limit */
+    /** @var ?LimitInterface $limit */
     protected $limit = null;
 
+
     /**
-     * @param Clause\Join $clause
+     * @param JoinInterface $clause
      *
-     * @return $this
+     * @return self
      */
-    public function join(Clause\Join $clause)
+    public function join(JoinInterface $clause): self
     {
         $this->join[] = $clause;
 
@@ -34,11 +39,24 @@ abstract class AdvancedStatement extends AbstractStatement
     }
 
     /**
-     * @param Clause\Conditional $clause
-     *
-     * @return $this
+     * @return string
      */
-    public function where(Clause\Conditional $clause)
+    protected function renderJoin(): string
+    {
+        $sql = '';
+        if (!empty($this->join)) {
+            $sql = ' ' . implode(' ', $this->join);
+        }
+
+        return $sql;
+    }
+
+    /**
+     * @param ConditionalInterface $clause
+     *
+     * @return self
+     */
+    public function where(ConditionalInterface $clause): self
     {
         $this->where = $clause;
 
@@ -46,27 +64,72 @@ abstract class AdvancedStatement extends AbstractStatement
     }
 
     /**
+     * @return string
+     */
+    protected function renderWhere(): string
+    {
+        $sql = '';
+        if ($this->where !== null) {
+            $sql = " WHERE {$this->where}";
+        }
+
+        return $sql;
+    }
+
+    /**
      * @param string $column
      * @param string $direction
      *
-     * @return $this
+     * @return self
      */
-    public function orderBy(string $column, string $direction = '')
+    public function orderBy(string $column, string $direction = ''): self
     {
-        $this->orderBy[$column] = $direction;
+        $this->orderBy[$column] = strtoupper(trim($direction));
 
         return $this;
     }
 
     /**
-     * @param Clause\Limit|null $limit
-     *
-     * @return $this
+     * @return string
      */
-    public function limit(?Clause\Limit $limit)
+    protected function renderOrderBy(): string
+    {
+        $sql = '';
+        if ($direction = reset($this->orderBy)) {
+            $column = key($this->orderBy);
+            $sql = " ORDER BY {$column} {$direction}";
+
+            while ($direction = next($this->orderBy)) {
+                $column = key($this->orderBy);
+                $sql .= ", {$column} {$direction}";
+            }
+        }
+
+        return $sql;
+    }
+
+    /**
+     * @param LimitInterface $limit
+     *
+     * @return self
+     */
+    public function limit(LimitInterface $limit): self
     {
         $this->limit = $limit;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function renderLimit(): string
+    {
+        $sql = '';
+        if ($this->limit != null) {
+            $sql = " {$this->limit}";
+        }
+
+        return $sql;
     }
 }

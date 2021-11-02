@@ -7,21 +7,24 @@
 
 namespace FaaPz\PDO\Test;
 
-use FaapZ\PDO\Clause;
-use FaaPz\PDO\Statement;
-use PDO;
+use FaaPz\PDO\Clause\Conditional;
+use FaaPz\PDO\Clause\Join;
+use FaaPz\PDO\Clause\Limit;
+use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Select;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 
 class SelectTest extends TestCase
 {
-    /** @var Statement\Select $subject */
+    /** @var Select $subject */
     private $subject;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->subject = new Statement\Select($this->createMock(PDO::class));
+        $this->subject = new Select($this->createMock(Database::class));
     }
 
     public function testToString()
@@ -45,7 +48,7 @@ class SelectTest extends TestCase
     public function testToStringWithColumnSubQuery()
     {
         $this->subject
-            ->columns(['sub' => (new Statement\Select($this->createMock(PDO::class)))->from('test2')])
+            ->columns(['sub' => (new Select($this->createMock(Database::class)))->from('test2')])
             ->from('test1');
 
         $this->assertStringEndsWith('(SELECT * FROM test2) AS sub FROM test1', $this->subject->__toString());
@@ -62,7 +65,7 @@ class SelectTest extends TestCase
     public function testToStringWithTableSubQuery()
     {
         $this->subject
-            ->from(['sub' => (new Statement\Select($this->createMock(PDO::class)))->from('test')]);
+            ->from(['sub' => (new Select($this->createMock(Database::class)))->from('test')]);
 
         $this->assertEquals('SELECT * FROM (SELECT * FROM test) AS sub', $this->subject->__toString());
     }
@@ -107,9 +110,9 @@ class SelectTest extends TestCase
     {
         $this->subject
             ->from('test1')
-            ->join(new Clause\Join(
+            ->join(new Join(
                 'test2',
-                new Clause\Conditional('test1.id', '=', 'test2.id')
+                new Conditional('test1.id', '=', 'test2.id')
             ));
 
         $this->assertStringEndsWith('FROM test1 JOIN test2 ON test1.id = ?', $this->subject->__toString());
@@ -119,7 +122,7 @@ class SelectTest extends TestCase
     {
         $this->subject
             ->from('test')
-            ->where(new Clause\Conditional('id', '=', 1));
+            ->where(new Conditional('id', '=', 1));
 
         $this->assertStringEndsWith('test WHERE id = ?', $this->subject->__toString());
     }
@@ -133,11 +136,45 @@ class SelectTest extends TestCase
         $this->assertStringEndsWith('test GROUP BY id, name', $this->subject->__toString());
     }
 
+    public function testToStringWithUnion()
+    {
+        $this->subject
+            ->columns(['id', 'name'])
+            ->from('test1')
+            ->union(
+                (new Select($this->createMock(Database::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test2')
+            );
+
+        $this->assertStringMatchesFormat(
+            '(SELECT id, name FROM test1) UNION (SELECT id, name FROM test2)',
+            $this->subject->__toString()
+        );
+    }
+
+    public function testToStringWithUnionAll()
+    {
+        $this->subject
+            ->columns(['id', 'name'])
+            ->from('test1')
+            ->unionAll(
+                (new Select($this->createMock(Database::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test2')
+            );
+
+        $this->assertStringMatchesFormat(
+            '(SELECT id, name FROM test1) UNION ALL (SELECT id, name FROM test2)',
+            $this->subject->__toString()
+        );
+    }
+
     public function testToStringWithHaving()
     {
         $this->subject
             ->from('test')
-            ->having(new Clause\Conditional('id', '=', 1));
+            ->having(new Conditional('id', '=', 1));
 
         $this->assertStringEndsWith('test HAVING id = ?', $this->subject->__toString());
     }
@@ -156,9 +193,9 @@ class SelectTest extends TestCase
     {
         $this->subject
             ->from('test')
-            ->limit(new Clause\Limit(5, 25));
+            ->limit(new Limit(5, 25));
 
-        $this->assertStringEndsWith('test LIMIT ?, ?', $this->subject->__toString());
+        $this->assertStringEndsWith('test LIMIT ? OFFSET ?', $this->subject->__toString());
     }
 
     public function testToStringWithoutTable()
@@ -167,6 +204,34 @@ class SelectTest extends TestCase
         $this->expectErrorMessageMatches('/^No table set for select statement/');
 
         $this->subject->execute();
+    }
+
+    public function testToStringWithUnionMismatch()
+    {
+        $this->subject
+            ->columns(['id', 'name'])
+            ->from('test1')
+            ->union(
+                (new Select($this->createMock(Database::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test2')
+            )
+            ->union(
+                (new Select($this->createMock(Database::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test2')
+            );
+
+        $property = new ReflectionProperty(Select::class, 'union');
+        $property->setAccessible(true);
+        $union = $property->getValue($this->subject);
+        unset($union[0]);
+        $property->setValue($this->subject, $union);
+
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^Union offset mismatch/');
+
+        $this->subject->__toString();
     }
 
     public function testGetValuesEmpty()
@@ -179,9 +244,9 @@ class SelectTest extends TestCase
     {
         $this->subject
             ->from('test1')
-            ->join(new Clause\Join(
+            ->join(new Join(
                 'test2',
-                new Clause\Conditional('test1.id', '=', 'test2.id')
+                new Conditional('test1.id', '=', 'test2.id')
             ));
 
         $this->assertIsArray($this->subject->getValues());
@@ -192,7 +257,7 @@ class SelectTest extends TestCase
     {
         $this->subject
             ->from('test')
-            ->where(new Clause\Conditional('col', '<>', 5));
+            ->where(new Conditional('col', '<>', 5));
 
         $this->assertIsArray($this->subject->getValues());
         $this->assertCount(1, $this->subject->getValues());
@@ -203,23 +268,40 @@ class SelectTest extends TestCase
         $this->subject
             ->columns(['id', 'name'])
             ->from('test1')
+            ->where(new Conditional('id', '=', 1))
             ->union(
-                (new Statement\Select($this->createMock(PDO::class)))
+                (new Select($this->createMock(Database::class)))
                     ->columns(['id', 'name'])
                     ->from('test2')
+                    ->where(new Conditional('id', '=', 2))
             );
 
-        $this->assertStringMatchesFormat(
-            '(SELECT id, name FROM test1) UNION (SELECT id, name FROM test2)',
-            $this->subject->__toString()
-        );
+        $this->assertIsArray($this->subject->getValues());
+        $this->assertCount(2, $this->subject->getValues());
+    }
+
+    public function testGetValuesWithUnionAll()
+    {
+        $this->subject
+            ->columns(['id', 'name'])
+            ->from('test1')
+            ->where(new Conditional('id', '=', 1))
+            ->unionAll(
+                (new Select($this->createMock(Database::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test2')
+                    ->where(new Conditional('id', '=', 2))
+            );
+
+        $this->assertIsArray($this->subject->getValues());
+        $this->assertCount(2, $this->subject->getValues());
     }
 
     public function testGetValuesWithHaving()
     {
         $this->subject
             ->from('test')
-            ->having(new Clause\Conditional('id', '=', 1));
+            ->having(new Conditional('id', '=', 1));
 
         $this->assertCount(1, $this->subject->getValues());
     }
@@ -237,7 +319,7 @@ class SelectTest extends TestCase
     {
         $this->subject
             ->from('test')
-            ->limit(new Clause\Limit(25, 100));
+            ->limit(new Limit(25, 100));
 
         $this->assertIsArray($this->subject->getValues());
         $this->assertCount(2, $this->subject->getValues());

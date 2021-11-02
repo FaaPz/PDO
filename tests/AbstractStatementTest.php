@@ -8,8 +8,7 @@
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\AbstractStatement;
-use PDO;
-use PDOException;
+use FaaPz\PDO\Database;
 use PDOStatement;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -34,7 +33,7 @@ class AbstractStatementTest extends TestCase
                 2 => 'near "bogus": syntax error',
             ]);
 
-        $pdo = $this->createMock(PDO::class);
+        $pdo = $this->createMock(Database::class);
         $pdo->method('prepare')
             ->with($this->equalTo('toString'))
             ->willReturn($this->mock);

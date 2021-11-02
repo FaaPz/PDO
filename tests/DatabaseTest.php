@@ -7,17 +7,27 @@
 
 namespace FaaPz\PDO\Test;
 
-use FaaPz\PDO\Clause;
+use FaaPz\PDO\Clause\Method;
 use FaaPz\PDO\Database;
-use FaaPz\PDO\Statement;
+use FaaPz\PDO\Statement\Call;
+use FaaPz\PDO\Statement\Delete;
+use FaaPz\PDO\Statement\Insert;
+use FaaPz\PDO\Statement\Select;
+use FaaPz\PDO\Statement\Update;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use ReflectionException;
 
 class DatabaseTest extends TestCase
 {
     /** @var Database $subject */
     private $subject;
 
+    /**
+     * @throws ReflectionException
+     *
+     * @return void
+     */
     public function setUp(): void
     {
         parent::setUp();
@@ -29,7 +39,7 @@ class DatabaseTest extends TestCase
     public function testCall()
     {
         $this->assertInstanceOf(
-            Statement\Call::class,
+            Call::class,
             $this->subject->call()
         );
     }
@@ -37,15 +47,15 @@ class DatabaseTest extends TestCase
     public function testCallWithArgs()
     {
         $this->assertInstanceOf(
-            Statement\Call::class,
-            $this->subject->call(new Clause\Method('COUNT'))
+            Call::class,
+            $this->subject->call(new Method('COUNT'))
         );
     }
 
     public function testSelect()
     {
         $this->assertInstanceOf(
-            Statement\Select::class,
+            Select::class,
             $this->subject->select()
         );
     }
@@ -53,7 +63,7 @@ class DatabaseTest extends TestCase
     public function testInsert()
     {
         $this->assertInstanceOf(
-            Statement\Insert::class,
+            Insert::class,
             $this->subject->insert()
         );
     }
@@ -61,7 +71,7 @@ class DatabaseTest extends TestCase
     public function testUpdate()
     {
         $this->assertInstanceOf(
-            Statement\Update::class,
+            Update::class,
             $this->subject->update()
         );
     }
@@ -69,7 +79,7 @@ class DatabaseTest extends TestCase
     public function testDelete()
     {
         $this->assertInstanceOf(
-            Statement\Delete::class,
+            Delete::class,
             $this->subject->delete()
         );
     }

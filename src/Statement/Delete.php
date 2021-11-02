@@ -8,22 +8,23 @@
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
-use PDO;
+use FaaPz\PDO\Database;
 
-class Delete extends AdvancedStatement
+class Delete extends AdvancedStatement implements DeleteInterface
 {
-    /** @var string|array<string, string> $table */
-    protected $table;
+    /** @var ?string|?array<string, string> $table */
+    protected $table = null;
+
 
     /**
-     * @param PDO                               $dbh
-     * @param string|array<string, string>|null $table
+     * @param Database                       $dbh
+     * @param ?string|?array<string, string> $table
      */
-    public function __construct(PDO $dbh, $table = null)
+    public function __construct(Database $dbh, $table = null)
     {
         parent::__construct($dbh);
 
-        if (!empty($table)) {
+        if ($table != null) {
             $this->from($table);
         }
     }
@@ -31,13 +32,35 @@ class Delete extends AdvancedStatement
     /**
      * @param string|array<string, string> $table
      *
-     * @return $this
+     * @return self
      */
     public function from($table): self
     {
         $this->table = $table;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function renderFrom(): string
+    {
+        if (empty($this->table)) {
+            trigger_error('No table set for delete statement', E_USER_ERROR);
+        }
+
+        if (is_array($this->table)) {
+            $table = reset($this->table);
+            $alias = key($this->table);
+            if (is_string($alias)) {
+                $table .= " AS {$alias}";
+            }
+        } else {
+            $table = $this->table;
+        }
+
+        return " FROM {$table}";
     }
 
     /**
@@ -70,44 +93,11 @@ class Delete extends AdvancedStatement
      */
     public function __toString(): string
     {
-        if (empty($this->table)) {
-            trigger_error('No table set for delete statement', E_USER_ERROR);
-        }
-
-        $sql = 'DELETE';
-        if (is_array($this->table)) {
-            reset($this->table);
-            $alias = key($this->table);
-
-            $table = $this->table[$alias];
-            if (is_string($alias)) {
-                $table .= " AS {$alias}";
-            }
-        } else {
-            $table = "{$this->table}";
-        }
-        $sql .= " FROM {$table}";
-
-        if (!empty($this->join)) {
-            $sql .= ' ' . implode(' ', $this->join);
-        }
-
-        if ($this->where !== null) {
-            $sql .= " WHERE {$this->where}";
-        }
-
-        if (!empty($this->orderBy)) {
-            $sql .= ' ORDER BY ';
-            foreach ($this->orderBy as $column => $direction) {
-                $sql .= "{$column} {$direction}, ";
-            }
-            $sql = substr($sql, 0, -2);
-        }
-
-        if ($this->limit !== null) {
-            $sql .= " {$this->limit}";
-        }
-
-        return $sql;
+        return 'DELETE'
+            . $this->renderFrom()
+            . $this->renderJoin()
+            . $this->renderWhere()
+            . $this->renderOrderBy()
+            . $this->renderLimit();
     }
 }

@@ -64,5 +64,5 @@ $deleteStatement = $pdo->delete()
                            ->from("users")
                            ->where(new Conditional("id", "=", 1234));
 
-$affectedRows = $deleteStatement->execute();
+$affectedRows = $deleteStatement->execute()->rowCount();
 ```

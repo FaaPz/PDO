@@ -9,17 +9,17 @@ namespace FaaPz\PDO\Clause;
 
 use FaaPz\PDO\QueryInterface;
 
-class Method implements QueryInterface
+class Method implements MethodInterface
 {
     /** @var string $name */
     protected $name;
 
-    /** @var mixed[] $values */
+    /** @var array<float|int|string> $values */
     protected $values;
 
     /**
-     * @param string $name
-     * @param mixed  ...$args
+     * @param string           $name
+     * @param float|int|string ...$args
      */
     public function __construct(string $name, ...$args)
     {
@@ -28,7 +28,7 @@ class Method implements QueryInterface
     }
 
     /**
-     * @return mixed[]
+     * @return array<mixed>
      */
     public function getValues(): array
     {

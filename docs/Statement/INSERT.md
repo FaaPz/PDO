@@ -50,5 +50,5 @@ $insertStatement = $pdo->insert()
                            ->columns(array("id", "usr", "pwd"))
                            ->values(array(1234, "your_username", "your_password"));
 
-$insertId = $insertStatement->execute(false);
+$insertId = $insertStatement->execute(false)->lastInsertId();
 ```

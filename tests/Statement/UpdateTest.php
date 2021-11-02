@@ -7,15 +7,19 @@
 
 namespace FaaPz\PDO\Test;
 
-use FaaPz\PDO\Clause;
-use FaaPz\PDO\Statement;
-use PDO;
+use FaaPz\PDO\Clause\Conditional;
+use FaaPz\PDO\Clause\Join;
+use FaaPz\PDO\Clause\Limit;
+use FaaPz\PDO\Clause\Raw;
+use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Select;
+use FaaPz\PDO\Statement\Update;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;
 
 class UpdateTest extends TestCase
 {
-    /** @var Statement\Update $subject */
+    /** @var Update $subject */
     private $subject;
 
     public function setUp(): void
@@ -29,12 +33,12 @@ class UpdateTest extends TestCase
         $stmt->method('rowCount')
             ->willReturn(1);
 
-        $pdo = $this->createMock(PDO::class);
+        $pdo = $this->createMock(Database::class);
         $pdo->method('prepare')
             ->with($this->anything())
             ->willReturn($stmt);
 
-        $this->subject = new Statement\Update($pdo);
+        $this->subject = new Update($pdo);
     }
 
     public function testToString()
@@ -62,9 +66,21 @@ class UpdateTest extends TestCase
     {
         $this->subject
             ->table('test')
-            ->set('col', new Clause\Raw('col + 1'));
+            ->set('col', new Raw('col + 1'));
 
-        $this->assertStringStartsWith('UPDATE test SET col = (col + 1)', $this->subject->__toString());
+        $this->assertStringStartsWith('UPDATE test SET col = col + 1', $this->subject->__toString());
+    }
+
+    public function testToStringWithSelect()
+    {
+        $select = new Select($this->createMock(Database::class), ['col2']);
+        $select->from('table');
+
+        $this->subject
+            ->table('test')
+            ->set('col1', $select);
+
+        $this->assertStringStartsWith('UPDATE test SET col1 = (SELECT col2 FROM table)', $this->subject->__toString());
     }
 
     public function testToStringWithJoin()
@@ -72,9 +88,9 @@ class UpdateTest extends TestCase
         $this->subject
             ->table('test1')
             ->set('col', 'value')
-            ->join(new Clause\Join(
+            ->join(new Join(
                 'test2',
-                new Clause\Conditional('test1.id', '=', 'test2.id')
+                new Conditional('test1.id', '=', 'test2.id')
             ));
 
         $this->assertStringStartsWith('UPDATE test1 JOIN test2 ON test1.id = ?', $this->subject->__toString());
@@ -85,7 +101,7 @@ class UpdateTest extends TestCase
         $this->subject
             ->table('test')
             ->set('col', 'value')
-            ->where(new Clause\Conditional('id', '=', 1));
+            ->where(new Conditional('id', '=', 1));
 
         $this->assertStringEndsWith('? WHERE id = ?', $this->subject->__toString());
     }
@@ -106,12 +122,25 @@ class UpdateTest extends TestCase
         $this->subject
             ->table('test')
             ->set('col', 'value')
-            ->limit(new Clause\Limit(
+            ->limit(new Limit(
                 25,
                 100
             ));
 
-        $this->assertStringEndsWith(' LIMIT ?, ?', $this->subject->__toString());
+        $this->assertStringEndsWith(' LIMIT ? OFFSET ?', $this->subject->__toString());
+    }
+
+    public function testToStringWithUnion()
+    {
+        $this->subject
+            ->table('test')
+            ->set('col', 'value')
+            ->limit(new Limit(
+                25,
+                100
+            ));
+
+        $this->assertStringEndsWith(' LIMIT ? OFFSET ?', $this->subject->__toString());
     }
 
     public function testToStringWithoutTable()
@@ -155,12 +184,40 @@ class UpdateTest extends TestCase
         $this->assertCount(2, $this->subject->getValues());
     }
 
+    public function testGetValuesWithSelect()
+    {
+        $select = new Select($this->createMock(Database::class), ['col2']);
+        $select->from('table')
+               ->where(new Conditional('col2', '=', 2));
+
+        $this->subject
+            ->table('test')
+            ->set('col1', $select);
+
+        $this->assertIsArray($this->subject->getValues());
+        $this->assertCount(1, $this->subject->getValues());
+    }
+
+    public function testGetValuesWithJoin()
+    {
+        $this->subject
+            ->table('test1')
+            ->set('col', 'value')
+            ->join(new Join(
+                'test2',
+                new Conditional('test1.id', '=', 1)
+            ));
+
+        $this->assertIsArray($this->subject->getValues());
+        $this->assertCount(2, $this->subject->getValues());
+    }
+
     public function testGetValuesWithWhere()
     {
         $this->subject
             ->table('test')
             ->set('col', 'value')
-            ->where(new Clause\Conditional('col', '<>', 5));
+            ->where(new Conditional('col', '<>', 5));
 
         $this->assertIsArray($this->subject->getValues());
         $this->assertCount(2, $this->subject->getValues());
@@ -184,7 +241,7 @@ class UpdateTest extends TestCase
         $this->subject
             ->table('test')
             ->set('col', 'value')
-            ->limit(new Clause\Limit(
+            ->limit(new Limit(
                 25,
                 100
             ));
