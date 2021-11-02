@@ -1,6 +1,6 @@
 # METHOD clause
 
-> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../Statement/UPDATE.md), [INSERT](../Statement/INSERT.md)  and [DELETE](../Statement/DELETE.md) statements.
+> Used in [CALL](../Statement/CALL.md) statement.
 
 ### Constructor
 
@@ -22,14 +22,5 @@ Returns the values to be escaped for this statement.
 ### Examples
 
 ```php
-$selectStatement = $pdo->select(array(
-                                new Clause\Method("MAX", "id")
-                            ))
-                           ->from("users");
-
-$selectStatement = $pdo->select(array(
-                                new Clause\Method("COUNT", "id")
-                            ))
-                           ->from("users")
-                           ->groupBy("account_id");
+$callStatement = $pdo->call(new Method("MyProcedure", "arg1", 2));
 ```

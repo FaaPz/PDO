@@ -48,9 +48,6 @@ Parameter | Type                     | Default  | Description
 --------- | ------------------------ | -------- | -----------
 `$clause` | [Limit](Clause/LIMIT.md) | required | A single limit conditional to be applied to this statement.
 
-##### `execute()`
-Returns Number of affected rows
-
 ### Clauses
 
 + [Conditional](Clause/CONDITIONAL.md)
@@ -65,7 +62,7 @@ Returns Number of affected rows
 // DELETE FROM users WHERE id = ?
 $deleteStatement = $pdo->delete()
                            ->from("users")
-                           ->where(new Clause\Conditional("id", "=", 1234));
+                           ->where(new Conditional("id", "=", 1234));
 
 $affectedRows = $deleteStatement->execute();
 ```
