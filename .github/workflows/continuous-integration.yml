@@ -9,11 +9,12 @@ jobs:
       max-parallel: 15
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.2', '7.3', '7.4', '8.0', '8.1']
+        php-versions: ['7.2', '7.3', '7.4', '8.0']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
       - name: Checkout
         uses: actions/checkout@master
+
       - name: Install PHP
         uses: shivammathur/setup-php@master
         with:
@@ -22,18 +23,25 @@ jobs:
           ini-values: "date.timezone=UTC"
           coverage: PCOV
           pecl: true
+
       - name: Check PHP Version
         run: php -v
+
       - name: Check PHP Extensions
         run: php -m
+
       - name: Check Composer Version
         run: composer -V
+
       - name: Install Project Dependencies
         run: composer install --dev --prefer-dist --optimize-autoloader --no-progress
+
       - name: Lint Source
         run: composer lint
+
       - name: Test Source
         run: composer test
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@master
         with:
