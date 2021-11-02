@@ -7,9 +7,20 @@
 
 namespace FaaPz\PDO;
 
+use FaaPz\PDO\Clause\MethodInterface;
+use FaaPz\PDO\Statement\CallInterface;
+use FaaPz\PDO\Statement\Call;
+use FaaPz\PDO\Statement\Delete;
+use FaaPz\PDO\Statement\DeleteInterface;
+use FaaPz\PDO\Statement\Insert;
+use FaaPz\PDO\Statement\InsertInterface;
+use FaaPz\PDO\Statement\Select;
+use FaaPz\PDO\Statement\SelectInterface;
+use FaaPz\PDO\Statement\Update;
+use FaaPz\PDO\Statement\UpdateInterface;
 use PDO;
 
-class Database extends PDO
+class Database extends PDO implements DatabaseInterface
 {
     /**
      * @param string            $dsn
@@ -39,52 +50,52 @@ class Database extends PDO
     }
 
     /**
-     * @param Clause\Method|null $procedure
+     * @param ?MethodInterface $procedure
      *
-     * @return Statement\Call
+     * @return CallInterface
      */
-    public function call(Clause\Method $procedure = null): Statement\Call
+    public function call(?MethodInterface $procedure = null): CallInterface
     {
-        return new Statement\Call($this, $procedure);
-    }
-
-    /**
-     * @param array<int|string, string> $columns
-     *
-     * @return Statement\Select
-     */
-    public function select(array $columns = ['*']): Statement\Select
-    {
-        return new Statement\Select($this, $columns);
+        return new Call($this, $procedure);
     }
 
     /**
      * @param array<int|string, mixed> $pairs
      *
-     * @return Statement\Insert
+     * @return InsertInterface
      */
-    public function insert(array $pairs = []): Statement\Insert
+    public function insert(array $pairs = []): InsertInterface
     {
-        return new Statement\Insert($this, $pairs);
+        return new Insert($this, $pairs);
+    }
+
+    /**
+     * @param array<int|string, string> $columns
+     *
+     * @return SelectInterface
+     */
+    public function select(array $columns = ['*']): SelectInterface
+    {
+        return new Select($this, $columns);
     }
 
     /**
      * @param array<string, mixed> $pairs
      *
-     * @return Statement\Update
+     * @return UpdateInterface
      */
-    public function update(array $pairs = []): Statement\Update
+    public function update(array $pairs = []): UpdateInterface
     {
-        return new Statement\Update($this, $pairs);
+        return new Update($this, $pairs);
     }
 
     /**
-     * @param string|array<string, string> $table
+     * @param ?string|?array<string, string> $table
      *
-     * @return Statement\Delete
+     * @return DeleteInterface
      */
-    public function delete($table = null): Statement\Delete
+    public function delete($table = null): DeleteInterface
     {
-        return new Statement\Delete($this, $table);
+        return new Delete($this, $table);
     }
 }

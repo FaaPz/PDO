@@ -7,9 +7,7 @@
 
 namespace FaaPz\PDO\Clause;
 
-use FaaPz\PDO\QueryInterface;
-
-class Raw implements QueryInterface
+class Raw implements RawInterface
 {
     /** @var string $sql */
     protected $sql;
@@ -23,18 +21,18 @@ class Raw implements QueryInterface
     }
 
     /**
+     * @return array<mixed>
+     */
+    public function getValues(): array
+    {
+        return [];
+    }
+
+    /**
      * @return string
      */
     public function __toString(): string
     {
         return $this->sql;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public function getValues(): array
-    {
-        return [];
     }
 }

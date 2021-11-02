@@ -7,34 +7,36 @@
 
 namespace FaaPz\PDO\Clause;
 
-use FaaPz\PDO\QueryInterface;
-use FaaPz\PDO\Statement\Select;
+use FaaPz\PDO\Statement\SelectInterface;
 
-class Join implements QueryInterface
+class Join implements JoinInterface
 {
-    /** @var string|array<string,string|Select> $subject */
+    /** @var string|array<string,string|SelectInterface> $subject */
     protected $subject;
 
-    /** @var Conditional $on */
+    /** @var ConditionalInterface $on */
     protected $on;
 
-    /** @var string $type */
+    /** @var ?string $type */
     protected $type;
 
+
     /**
-     * @param string|array<string,string|Select> $subject
-     * @param Conditional                        $on
-     * @param string                             $type
+     * @param string|array<string,string|SelectInterface> $subject
+     * @param ConditionalInterface                        $on
+     * @param ?string                                     $type
      */
-    public function __construct($subject, Conditional $on, string $type = '')
+    public function __construct($subject, ConditionalInterface $on, ?string $type = null)
     {
         $this->subject = $subject;
         $this->on = $on;
-        $this->type = strtoupper(trim($type));
+        if ($type !== null) {
+            $this->type = strtoupper(trim($type));
+        }
     }
 
     /**
-     * @return mixed[]
+     * @return array<mixed>
      */
     public function getValues(): array
     {
@@ -55,7 +57,7 @@ class Join implements QueryInterface
             }
 
             $table = $this->subject[$alias];
-            if ($table instanceof Select) {
+            if ($table instanceof SelectInterface) {
                 $table = "({$table})";
             }
             $table .= " AS {$alias}";

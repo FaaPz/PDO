@@ -7,42 +7,43 @@
 
 namespace FaaPz\PDO\Test;
 
-use FaaPz\PDO\Clause;
+use FaaPz\PDO\Clause\Method;
+use FaaPz\PDO\Clause\Raw;
 use PHPUnit\Framework\TestCase;
 
 class MethodTest extends TestCase
 {
     public function testToString()
     {
-        $subject = new Clause\Method('test');
+        $subject = new Method('test');
 
         $this->assertEquals('test()', $subject->__toString());
     }
 
     public function testToStringWithArgs()
     {
-        $subject = new Clause\Method('test', 1, 2);
+        $subject = new Method('test', 1, 2);
 
         $this->assertEquals('test(?, ?)', $subject->__toString());
     }
 
     public function testToStringWithQuery()
     {
-        $subject = new Clause\Method('test', new Clause\Raw(1));
+        $subject = new Method('test', new Raw(1));
 
         $this->assertEquals('test(1)', $subject->__toString());
     }
 
     public function testToStringWithQueryAndArgs()
     {
-        $subject = new Clause\Method('test', new Clause\Method('next', 1, 2));
+        $subject = new Method('test', new Method('next', 1, 2));
 
         $this->assertEquals('test(next(?, ?))', $subject->__toString());
     }
 
     public function testGetValues()
     {
-        $subject = new Clause\Method('test');
+        $subject = new Method('test');
 
         $this->assertIsArray($subject->getValues());
         $this->assertEmpty($subject->getValues());
@@ -50,7 +51,7 @@ class MethodTest extends TestCase
 
     public function testGetValuesWithArgs()
     {
-        $subject = new Clause\Method('test', 1, 2);
+        $subject = new Method('test', 1, 2);
 
         $this->assertIsArray($subject->getValues());
         $this->assertCount(2, $subject->getValues());
@@ -58,7 +59,7 @@ class MethodTest extends TestCase
 
     public function testGetValuesWithoutArgs()
     {
-        $subject = new Clause\Method('test');
+        $subject = new Method('test');
 
         $this->assertIsArray($subject->getValues());
         $this->assertEmpty($subject->getValues());
@@ -66,7 +67,7 @@ class MethodTest extends TestCase
 
     public function testGetValuesWithQueryAndArgs()
     {
-        $subject = new Clause\Method('test', new Clause\Method('next', 1, 2));
+        $subject = new Method('test', new Method('next', 1, 2));
 
         $this->assertIsArray($subject->getValues());
         $this->assertCount(2, $subject->getValues());

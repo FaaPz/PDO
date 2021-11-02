@@ -8,37 +8,34 @@
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AbstractStatement;
-use FaaPz\PDO\Clause;
-use PDO;
-use PDOStatement;
+use FaaPz\PDO\Clause\MethodInterface;
+use FaaPz\PDO\Database;
 
-/**
- * @method PDOStatement execute()
- */
-class Call extends AbstractStatement
+class Call extends AbstractStatement implements CallInterface
 {
-    /** @var Clause\Method $method */
-    protected $method;
+    /** @var ?MethodInterface $method */
+    protected $method = null;
+
 
     /**
-     * @param PDO                $dbh
-     * @param Clause\Method|null $procedure
+     * @param Database         $dbh
+     * @param ?MethodInterface $procedure
      */
-    public function __construct(PDO $dbh, ?Clause\Method $procedure = null)
+    public function __construct(Database $dbh, ?MethodInterface $procedure = null)
     {
         parent::__construct($dbh);
 
-        if (isset($procedure)) {
+        if ($procedure != null) {
             $this->method($procedure);
         }
     }
 
     /**
-     * @param Clause\Method $procedure
+     * @param MethodInterface $procedure
      *
-     * @return $this
+     * @return self
      */
-    public function method(Clause\Method $procedure): self
+    public function method(MethodInterface $procedure): self
     {
         $this->method = $procedure;
 
@@ -46,7 +43,19 @@ class Call extends AbstractStatement
     }
 
     /**
-     * @return mixed[]
+     * @return string
+     */
+    protected function renderMethod(): string
+    {
+        if ($this->method == null) {
+            trigger_error('No method set for call statement', E_USER_ERROR);
+        }
+
+        return " {$this->method}";
+    }
+
+    /**
+     * @return array<mixed>
      */
     public function getValues(): array
     {
@@ -58,10 +67,7 @@ class Call extends AbstractStatement
      */
     public function __toString(): string
     {
-        if (!$this->method instanceof Clause\Method) {
-            trigger_error('No method set for call statement', E_USER_ERROR);
-        }
-
-        return "CALL {$this->method}";
+        return 'CALL'
+            . $this->renderMethod();
     }
 }

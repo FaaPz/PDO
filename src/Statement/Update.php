@@ -8,36 +8,62 @@
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
+use FaaPz\PDO\Database;
 use FaaPz\PDO\QueryInterface;
-use PDO;
 
-class Update extends AdvancedStatement
+class Update extends AdvancedStatement implements UpdateInterface
 {
     /** @var string $table */
     protected $table;
 
     /** @var array<string, mixed> $pairs */
-    protected $pairs;
+    protected $pairs = [];
+
 
     /**
-     * @param PDO                  $dbh
+     * @param Database             $dbh
      * @param array<string, mixed> $pairs
      */
-    public function __construct(PDO $dbh, array $pairs = [])
+    public function __construct(Database $dbh, array $pairs = [])
     {
         parent::__construct($dbh);
 
-        $this->pairs = $pairs;
+        $this->pairs($pairs);
     }
 
     /**
      * @param string $table
      *
-     * @return $this
+     * @return self
      */
     public function table(string $table): self
     {
         $this->table = $table;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function renderTable(): string
+    {
+        if (empty($this->table)) {
+            trigger_error('No table set for update statement', E_USER_ERROR);
+        }
+
+        return " {$this->table}";
+    }
+
+    /**
+     * @param string $column
+     * @param mixed  $value
+     *
+     * @return $this
+     */
+    public function set(string $column, $value): self
+    {
+        $this->pairs[$column] = $value;
 
         return $this;
     }
@@ -55,16 +81,28 @@ class Update extends AdvancedStatement
     }
 
     /**
-     * @param string $column
-     * @param mixed  $value
-     *
-     * @return $this
+     * @return string
      */
-    public function set(string $column, $value): self
+    protected function renderPairs(): string
     {
-        $this->pairs[$column] = $value;
+        if (empty($this->pairs)) {
+            trigger_error('No column / value pairs set for update statement', E_USER_ERROR);
+        }
 
-        return $this;
+        $sql = '';
+        foreach ($this->pairs as $key => $value) {
+            if (!empty($sql)) {
+                $sql .= ', ';
+            }
+
+            if ($value instanceof QueryInterface) {
+                $sql .= "{$key} = ({$value})";
+            } else {
+                $sql .= "{$key} = ?";
+            }
+        }
+
+        return " SET {$sql}";
     }
 
     /**
@@ -73,6 +111,10 @@ class Update extends AdvancedStatement
     public function getValues(): array
     {
         $values = [];
+        foreach ($this->join as $join) {
+            $values = array_merge($values, $join->getValues());
+        }
+
         foreach ($this->pairs as $value) {
             if ($value instanceof QueryInterface) {
                 $values = array_merge($values, $value->getValues());
@@ -81,11 +123,11 @@ class Update extends AdvancedStatement
             }
         }
 
-        if ($this->where !== null) {
+        if ($this->where != null) {
             $values = array_merge($values, $this->where->getValues());
         }
 
-        if ($this->limit !== null) {
+        if ($this->limit != null) {
             $values = array_merge($values, $this->limit->getValues());
         }
 
@@ -95,59 +137,14 @@ class Update extends AdvancedStatement
     /**
      * @return string
      */
-    protected function getColumns(): string
-    {
-        $columns = '';
-        foreach ($this->pairs as $key => $value) {
-            if (!empty($columns)) {
-                $columns .= ', ';
-            }
-
-            if ($value instanceof QueryInterface) {
-                $columns .= "{$key} = ({$value})";
-            } else {
-                $columns .= "{$key} = ?";
-            }
-        }
-
-        return $columns;
-    }
-
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
-        if (!isset($this->table)) {
-            trigger_error('No table set for update statement', E_USER_ERROR);
-        }
-
-        if (empty($this->pairs)) {
-            trigger_error('No column / value pairs set for update statement', E_USER_ERROR);
-        }
-
-        $sql = "UPDATE {$this->table}";
-        if (!empty($this->join)) {
-            $sql .= ' ' . implode(' ', $this->join);
-        }
-
-        $sql .= " SET {$this->getColumns()}";
-        if ($this->where !== null) {
-            $sql .= " WHERE {$this->where}";
-        }
-
-        if (!empty($this->orderBy)) {
-            $sql .= ' ORDER BY ';
-            foreach ($this->orderBy as $column => $direction) {
-                $sql .= "{$column} {$direction}, ";
-            }
-            $sql = substr($sql, 0, -2);
-        }
-
-        if ($this->limit !== null) {
-            $sql .= " {$this->limit}";
-        }
-
-        return $sql;
+        return 'UPDATE'
+            . $this->renderTable()
+            . $this->renderJoin()
+            . $this->renderPairs()
+            . $this->renderWhere()
+            . $this->renderOrderBy()
+            . $this->renderLimit();
     }
 }

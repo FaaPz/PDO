@@ -7,19 +7,19 @@
 
 namespace FaaPz\PDO\Test;
 
-use FaaPz\PDO\Clause;
+use FaaPz\PDO\Clause\Raw;
 use PHPUnit\Framework\TestCase;
 
 class RawTest extends TestCase
 {
-    /** @var Clause\Raw $subject */
+    /** @var Raw $subject */
     private $subject;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->subject = new Clause\Raw('test');
+        $this->subject = new Raw('test');
     }
 
     public function testToString()

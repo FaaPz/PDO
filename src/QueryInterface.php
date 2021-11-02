@@ -10,7 +10,7 @@ namespace FaaPz\PDO;
 interface QueryInterface
 {
     /**
-     * @return mixed[]
+     * @return array<mixed>
      */
     public function getValues(): array;
 

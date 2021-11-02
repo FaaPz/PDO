@@ -16,7 +16,7 @@ class LimitTest extends TestCase
     {
         $subject = new Clause\Limit(10, 25);
 
-        $this->assertEquals('LIMIT ?, ?', $subject->__toString());
+        $this->assertEquals('LIMIT ? OFFSET ?', $subject->__toString());
     }
 
     public function testToStringWithoutOffset()

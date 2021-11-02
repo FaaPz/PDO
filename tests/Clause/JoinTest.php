@@ -7,18 +7,20 @@
 
 namespace FaaPz\PDO\Test;
 
-use FaaPz\PDO\Clause;
-use FaaPz\PDO\Statement;
-use PDO;
+use FaaPz\PDO\Clause\Conditional;
+use FaaPz\PDO\Clause\Grouping;
+use FaaPz\PDO\Clause\Join;
+use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Select;
 use PHPUnit\Framework\TestCase;
 
 class JoinTest extends TestCase
 {
     public function testToString()
     {
-        $subject = new Clause\Join(
+        $subject = new Join(
             'table',
-            new Clause\Conditional('column', '=', 'value')
+            new Conditional('column', '=', 'value')
         );
 
         $this->assertEquals('JOIN table ON column = ?', $subject->__toString());
@@ -26,9 +28,9 @@ class JoinTest extends TestCase
 
     public function testToStringWithType()
     {
-        $subject = new Clause\Join(
+        $subject = new Join(
             'table',
-            new Clause\Conditional('column', '=', 'value'),
+            new Conditional('column', '=', 'value'),
             'INNER'
         );
 
@@ -37,9 +39,9 @@ class JoinTest extends TestCase
 
     public function testToStringWithTableAlias()
     {
-        $subject = new Clause\Join(
+        $subject = new Join(
             ['alias' => 'table'],
-            new Clause\Conditional('column1', '=', 'value1')
+            new Conditional('column1', '=', 'value1')
         );
 
         $this->assertEquals('JOIN table AS alias ON column1 = ?', $subject->__toString());
@@ -47,9 +49,9 @@ class JoinTest extends TestCase
 
     public function testToStringWithTableAliasException()
     {
-        $subject = new Clause\Join(
+        $subject = new Join(
             false,
-            new Clause\Conditional('column1', '=', 'value1')
+            new Conditional('column1', '=', 'value1')
         );
 
         $this->expectError();
@@ -60,9 +62,9 @@ class JoinTest extends TestCase
 
     public function testToStringWithSelectTableAlias()
     {
-        $subject = new Clause\Join(
-            ['alias' => (new Statement\Select($this->createMock(PDO::class)))->from('table')],
-            new Clause\Conditional('column1', '=', 'value1')
+        $subject = new Join(
+            ['alias' => (new Select($this->createMock(Database::class)))->from('table')],
+            new Conditional('column1', '=', 'value1')
         );
 
         $this->assertStringMatchesFormat('JOIN (SELECT * FROM table) AS alias ON column1 = ?', $subject->__toString());
@@ -70,9 +72,9 @@ class JoinTest extends TestCase
 
     public function testToStringWithInvalidTableAlias()
     {
-        $subject = new Clause\Join(
+        $subject = new Join(
             ['alias', 'table'],
-            new Clause\Conditional('column1', '=', 'value1')
+            new Conditional('column1', '=', 'value1')
         );
 
         $this->expectError();
@@ -83,12 +85,12 @@ class JoinTest extends TestCase
 
     public function testToStringWithGrouping()
     {
-        $subject = new Clause\Join(
+        $subject = new Join(
             'table',
-            new Clause\Grouping(
+            new Grouping(
                 'AND',
-                new Clause\Conditional('column1', '=', 'value1'),
-                new Clause\Conditional('column2', '=', 'value2')
+                new Conditional('column1', '=', 'value1'),
+                new Conditional('column2', '=', 'value2')
             )
         );
 
@@ -97,9 +99,9 @@ class JoinTest extends TestCase
 
     public function testGetValues()
     {
-        $subject = new Clause\Join(
+        $subject = new Join(
             'table',
-            new Clause\Conditional('column', '=', 'value')
+            new Conditional('column', '=', 'value')
         );
 
         $this->assertIsArray($subject->getValues());

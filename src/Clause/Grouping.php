@@ -7,20 +7,25 @@
 
 namespace FaaPz\PDO\Clause;
 
-class Grouping extends Conditional
+class Grouping implements ConditionalInterface
 {
-    /** @var Conditional[] $value */
+    /** @var string $operator */
+    protected $operator;
+
+    /** @var array<ConditionalInterface> $value */
     protected $value;
 
     /**
-     * @param string      $rule
-     * @param Conditional $clause
-     * @param Conditional ...$clauses
+     * @param string               $operator
+     * @param ConditionalInterface $clause
+     * @param ConditionalInterface ...$clauses
      */
-    public function __construct(string $rule, Conditional $clause, Conditional ...$clauses)
+    public function __construct(string $operator, ConditionalInterface $clause, ConditionalInterface ...$clauses)
     {
         array_unshift($clauses, $clause);
-        parent::__construct('', $rule, $clauses);
+
+        $this->operator = strtoupper(trim($operator));
+        $this->value = $clauses;
     }
 
     /**

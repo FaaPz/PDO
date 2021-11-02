@@ -7,18 +7,21 @@
 
 namespace FaaPz\PDO\Test;
 
-use FaaPz\PDO\Clause;
-use FaaPz\PDO\Statement;
-use PDO;
+use FaaPz\PDO\Clause\Conditional;
+use FaaPz\PDO\Clause\Join;
+use FaaPz\PDO\Clause\Limit;
+use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Delete;
+use FaaPz\PDO\Statement\DeleteInterface;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;
 
 class DeleteTest extends TestCase
 {
-    /** @var PDO */
-    private $pdo;
+    /** @var Database */
+    private $db;
 
-    /** @var Statement\Delete $subject */
+    /** @var DeleteInterface $subject */
     private $subject;
 
     public function setUp(): void
@@ -32,12 +35,12 @@ class DeleteTest extends TestCase
         $stmt->method('rowCount')
             ->willReturn(1);
 
-        $this->pdo = $this->createMock(PDO::class);
-        $this->pdo->method('prepare')
+        $this->db = $this->createMock(Database::class);
+        $this->db->method('prepare')
             ->with($this->anything())
             ->willReturn($stmt);
 
-        $this->subject = new Statement\Delete($this->pdo);
+        $this->subject = new Delete($this->db);
     }
 
     public function testToString()
@@ -57,7 +60,7 @@ class DeleteTest extends TestCase
 
     public function testToStringWithConstructorTable()
     {
-        $this->subject = new Statement\Delete($this->pdo, ['alias' => 'test']);
+        $this->subject = new Delete($this->db, ['alias' => 'test']);
 
         $this->assertStringEndsWith('test AS alias', $this->subject->__toString());
     }
@@ -74,9 +77,9 @@ class DeleteTest extends TestCase
     {
         $this->subject
             ->from('test1')
-            ->join(new Clause\Join(
+            ->join(new Join(
                 'test2',
-                new Clause\Conditional('test1.id', '=', 'test2.id')
+                new Conditional('test1.id', '=', 'test2.id')
             ));
 
         $this->assertStringEndsWith('test1 JOIN test2 ON test1.id = ?', $this->subject->__toString());
@@ -86,7 +89,7 @@ class DeleteTest extends TestCase
     {
         $this->subject
             ->from('test')
-            ->where(new Clause\Conditional('id', '=', 1));
+            ->where(new Conditional('id', '=', 1));
 
         $this->assertStringEndsWith('WHERE id = ?', $this->subject->__toString());
     }
@@ -106,12 +109,12 @@ class DeleteTest extends TestCase
     {
         $this->subject
             ->from('test')
-            ->limit(new Clause\Limit(
+            ->limit(new Limit(
                 25,
                 100
             ));
 
-        $this->assertStringEndsWith('test LIMIT ?, ?', $this->subject->__toString());
+        $this->assertStringEndsWith('test LIMIT ? OFFSET ?', $this->subject->__toString());
     }
 
     public function testGetValues()
@@ -124,7 +127,7 @@ class DeleteTest extends TestCase
     {
         $this->subject
             ->from('test')
-            ->where(new Clause\Conditional('id', '=', 1));
+            ->where(new Conditional('id', '=', 1));
 
         $this->assertIsArray($this->subject->getValues());
         $this->assertCount(1, $this->subject->getValues());
@@ -134,9 +137,9 @@ class DeleteTest extends TestCase
     {
         $this->subject
             ->from('test1')
-            ->join(new Clause\Join(
+            ->join(new Join(
                 'test2',
-                new Clause\Conditional('test1.id', '=', 'test2.id')
+                new Conditional('test1.id', '=', 'test2.id')
             ));
 
         $this->assertIsArray($this->subject->getValues());
@@ -159,7 +162,7 @@ class DeleteTest extends TestCase
     {
         $this->subject
             ->from('test1')
-            ->limit(new Clause\Limit(
+            ->limit(new Limit(
                 25,
                 100
             ));

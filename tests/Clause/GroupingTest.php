@@ -7,17 +7,18 @@
 
 namespace FaaPz\PDO\Test;
 
-use FaaPz\PDO\Clause;
+use FaaPz\PDO\Clause\Conditional;
+use FaaPz\PDO\Clause\Grouping;
 use PHPUnit\Framework\TestCase;
 
 class GroupingTest extends TestCase
 {
     public function testToString()
     {
-        $subject = new Clause\Grouping(
+        $subject = new Grouping(
             'AND',
-            new Clause\Conditional('column1', '=', 'value1'),
-            new Clause\Conditional('column2', '=', 'value2')
+            new Conditional('column1', '=', 'value1'),
+            new Conditional('column2', '=', 'value2')
         );
 
         $this->assertEquals('column1 = ? AND column2 = ?', $subject->__toString());
@@ -25,13 +26,13 @@ class GroupingTest extends TestCase
 
     public function testToStringNestedSelf()
     {
-        $subject = new Clause\Grouping(
+        $subject = new Grouping(
             'AND',
-            new Clause\Conditional('column1', '=', 'value1'),
-            new Clause\Grouping(
+            new Conditional('column1', '=', 'value1'),
+            new Grouping(
                 'OR',
-                new Clause\Conditional('column2', '=', 'value2'),
-                new Clause\Conditional('column3', '=', 'value3')
+                new Conditional('column2', '=', 'value2'),
+                new Conditional('column3', '=', 'value3')
             )
         );
 
@@ -40,10 +41,10 @@ class GroupingTest extends TestCase
 
     public function testGetValues()
     {
-        $subject = new Clause\Grouping(
+        $subject = new Grouping(
             'AND',
-            new Clause\Conditional('column1', '=', 'value1'),
-            new Clause\Conditional('column2', '=', 'value2')
+            new Conditional('column1', '=', 'value1'),
+            new Conditional('column2', '=', 'value2')
         );
 
         $this->assertIsArray($subject->getValues());

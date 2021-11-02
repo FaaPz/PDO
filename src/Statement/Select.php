@@ -8,39 +8,39 @@
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
-use FaaPz\PDO\Clause;
+use FaaPz\PDO\Clause\ConditionalInterface;
+use FaaPz\PDO\Database;
 use FaaPz\PDO\QueryInterface;
-use PDO;
-use PDOStatement;
 
-/**
- * @method PDOStatement execute()
- */
-class Select extends AdvancedStatement
+class Select extends AdvancedStatement implements SelectInterface
 {
-    /** @var string|array<string, string|Call|Select>|null $table */
-    protected $table = null;
-
-    /** @var array<int|string, string> $columns */
-    protected $columns = [];
-
     /** @var bool $distinct */
     protected $distinct = false;
 
-    /** @var array<int, Call|Select> $union */
+    /** @var array<int|string, string|CallInterface|SelectInterface> $columns */
+    protected $columns = [];
+
+    /** @var ?string|?array<string, string|CallInterface|SelectInterface> $table */
+    protected $table = null;
+
+    /** @var array<int, CallInterface|SelectInterface> $union */
     protected $union = [];
+
+    /** @var array<int, CallInterface|SelectInterface> $unionAll */
+    protected $unionAll = [];
 
     /** @var array<int, string> $groupBy */
     protected $groupBy = [];
 
-    /** @var Clause\Conditional|null $having */
+    /** @var ?ConditionalInterface $having */
     protected $having = null;
 
+
     /**
-     * @param PDO                      $dbh
-     * @param string[]|Clause\Method[] $columns
+     * @param Database $dbh
+     * @param string[] $columns
      */
-    public function __construct(PDO $dbh, array $columns = ['*'])
+    public function __construct(Database $dbh, array $columns = ['*'])
     {
         parent::__construct($dbh);
 
@@ -48,7 +48,7 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @return $this
+     * @return self
      */
     public function distinct(): self
     {
@@ -58,9 +58,22 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @param array<int|string, string> $columns
+     * @return string
+     */
+    protected function renderDistinct(): string
+    {
+        $sql = '';
+        if ($this->distinct) {
+            $sql = ' DISTINCT';
+        }
+
+        return $sql;
+    }
+
+    /**
+     * @param array<int|string, string|CallInterface|SelectInterface> $columns
      *
-     * @return $this
+     * @return self
      */
     public function columns(array $columns = ['*']): self
     {
@@ -74,9 +87,38 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @param string|array<string, string|Call|Select> $table
+     * @return string
+     */
+    protected function renderColumns(): string
+    {
+        if (empty($this->columns)) {
+            trigger_error('No columns set for select statement', E_USER_ERROR);
+        }
+
+        $columns = '';
+        foreach ($this->columns as $alias => $column) {
+            if (!empty($columns)) {
+                $columns .= ', ';
+            }
+
+            if ($column instanceof QueryInterface) {
+                $columns .= "({$column})";
+            } else {
+                $columns .= $column;
+            }
+
+            if (is_string($alias)) {
+                $columns .= " AS {$alias}";
+            }
+        }
+
+        return " {$columns}";
+    }
+
+    /**
+     * @param string|array<string, string|CallInterface|SelectInterface> $table
      *
-     * @return $this
+     * @return self
      */
     public function from($table): self
     {
@@ -86,33 +128,89 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @param Clause\Join $clause
-     *
-     * @return $this
+     * @return string
      */
-    public function join(Clause\Join $clause): self
+    protected function renderFrom(): string
     {
-        $this->join[] = $clause;
+        if (empty($this->table)) {
+            trigger_error('No table set for select statement', E_USER_ERROR);
+        }
+
+        if (is_array($this->table)) {
+            $table = reset($this->table);
+            if ($table instanceof QueryInterface) {
+                $table = "({$table})";
+            }
+
+            $alias = key($this->table);
+            if (is_string($alias)) {
+                $table .= " AS {$alias}";
+            }
+        } else {
+            $table = "{$this->table}";
+        }
+
+        return " FROM {$table}";
+    }
+
+    /**
+     * @param SelectInterface $query
+     *
+     * @return self
+     */
+    public function union(SelectInterface $query): self
+    {
+        $this->union[$this->getUnionCount()] = $query;
 
         return $this;
     }
 
     /**
-     * @param self $query
+     * @param SelectInterface $query
      *
-     * @return $this
+     * @return self
      */
-    public function union(self $query): self
+    public function unionAll(SelectInterface $query): self
     {
-        $this->union[] = $query;
+        $this->unionAll[$this->getUnionCount()] = $query;
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    protected function getUnionCount(): int
+    {
+        return count($this->union) + count($this->unionAll);
+    }
+
+    /**
+     * @return string
+     */
+    protected function renderUnion(): string
+    {
+        $sql = '';
+        for ($i = 0; $i < $this->getUnionCount(); $i++) {
+            if (isset($this->union[$i])) {
+                $union = "({$this->union[$i]})";
+            } elseif (isset($this->unionAll[$i])) {
+                $union = "ALL ({$this->unionAll[$i]})";
+            } else {
+                trigger_error('Union offset mismatch', E_USER_ERROR);
+            }
+
+            $sql .= " UNION {$union}";
+        }
+
+        return $sql;
+    }
+
 
     /**
      * @param string ...$columns
      *
-     * @return $this
+     * @return self
      */
     public function groupBy(string ...$columns): self
     {
@@ -122,15 +220,41 @@ class Select extends AdvancedStatement
     }
 
     /**
-     * @param Clause\Conditional $clause
-     *
-     * @return $this
+     * @return string
      */
-    public function having(Clause\Conditional $clause): self
+    protected function renderGroupBy(): string
+    {
+        $sql = '';
+        if (!empty($this->groupBy)) {
+            $sql = ' GROUP BY ' . implode(', ', $this->groupBy);
+        }
+
+        return $sql;
+    }
+
+    /**
+     * @param ConditionalInterface $clause
+     *
+     * @return self
+     */
+    public function having(ConditionalInterface $clause): self
     {
         $this->having = $clause;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function renderHaving(): string
+    {
+        $sql = '';
+        if ($this->having != null) {
+            $sql = " HAVING {$this->having}";
+        }
+
+        return $sql;
     }
 
     /**
@@ -155,34 +279,17 @@ class Select extends AdvancedStatement
             $values = array_merge($values, $this->limit->getValues());
         }
 
-        return $values;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getColumns(): string
-    {
-        $columns = '';
-        foreach ($this->columns as $key => $value) {
-            if (!empty($columns)) {
-                $columns .= ', ';
-            }
-
-            if ($value instanceof QueryInterface) {
-                $column = "({$value})";
+        for ($i = 0; $i < $this->getUnionCount(); $i++) {
+            if (isset($this->union[$i])) {
+                $values = array_merge($values, $this->union[$i]->getValues());
+            } elseif (isset($this->unionAll[$i])) {
+                $values = array_merge($values, $this->unionAll[$i]->getValues());
             } else {
-                $column = $value;
+                trigger_error('Union offset mismatch', E_USER_ERROR);
             }
-
-            if (is_string($key)) {
-                $column .= " AS {$key}";
-            }
-
-            $columns .= $column;
         }
 
-        return $columns;
+        return $values;
     }
 
     /**
@@ -190,69 +297,19 @@ class Select extends AdvancedStatement
      */
     public function __toString(): string
     {
-        if (empty($this->table)) {
-            trigger_error('No table set for select statement', E_USER_ERROR);
-        }
+        $sql = 'SELECT'
+            . $this->renderDistinct()
+            . $this->renderColumns()
+            . $this->renderFrom()
+            . $this->renderJoin()
+            . $this->renderWhere()
+            . $this->renderGroupBy()
+            . $this->renderHaving()
+            . $this->renderOrderBy()
+            . $this->renderLimit();
 
-        $sql = 'SELECT';
-        if ($this->distinct) {
-            $sql .= ' DISTINCT';
-        }
-
-        $sql .= " {$this->getColumns()}";
-
-        if (is_array($this->table)) {
-            reset($this->table);
-            $alias = key($this->table);
-
-            if ($this->table[$alias] instanceof QueryInterface) {
-                $table = "({$this->table[$alias]})";
-            } else {
-                $table = $this->table[$alias];
-            }
-
-            if (is_string($alias)) {
-                $table .= " AS {$alias}";
-            }
-        } else {
-            $table = "{$this->table}";
-        }
-        $sql .= " FROM {$table}";
-
-        if (!empty($this->join)) {
-            $sql .= ' ' . implode(' ', $this->join);
-        }
-
-        if ($this->where !== null) {
-            $sql .= " WHERE {$this->where}";
-        }
-
-        if (!empty($this->groupBy)) {
-            $sql .= ' GROUP BY ' . implode(', ', $this->groupBy);
-        }
-
-        if ($this->having !== null) {
-            $sql .= " HAVING {$this->having}";
-        }
-
-        if (!empty($this->orderBy)) {
-            $sql .= ' ORDER BY ';
-            foreach ($this->orderBy as $column => $direction) {
-                $sql .= "{$column} {$direction}, ";
-            }
-            $sql = substr($sql, 0, -2);
-        }
-
-        if ($this->limit !== null) {
-            $sql .= " {$this->limit}";
-        }
-
-        if (!empty($this->union)) {
-            $sql = "({$sql}";
-            foreach ($this->union as $union) {
-                $sql .= ") UNION ({$union}";
-            }
-            $sql .= ')';
+        if ($this->getUnionCount() > 0) {
+            $sql = "({$sql})" . $this->renderUnion();
         }
 
         return $sql;

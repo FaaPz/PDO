@@ -8,8 +8,8 @@
 namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause;
+use FaaPz\PDO\Database;
 use FaaPz\PDO\Statement;
-use PDO;
 use PHPUnit\Framework\TestCase;
 
 class CallTest extends TestCase
@@ -21,7 +21,7 @@ class CallTest extends TestCase
     {
         parent::setUp();
 
-        $this->subject = new Statement\Call($this->createMock(PDO::class));
+        $this->subject = new Statement\Call($this->createMock(Database::class));
     }
 
     public function testToString()

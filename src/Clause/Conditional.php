@@ -9,7 +9,7 @@ namespace FaaPz\PDO\Clause;
 
 use FaaPz\PDO\QueryInterface;
 
-class Conditional implements QueryInterface
+class Conditional implements ConditionalInterface
 {
     /** @var string $column */
     protected $column;
@@ -17,13 +17,13 @@ class Conditional implements QueryInterface
     /** @var string $operator */
     protected $operator;
 
-    /** @var mixed $value */
+    /** @var float|int|string|array<float|int|string>|MethodInterface|RawInterface $value */
     protected $value;
 
     /**
-     * @param string $column
-     * @param string $operator
-     * @param mixed  $value
+     * @param string                                                                $column
+     * @param string                                                                $operator
+     * @param float|int|string|array<float|int|string>|MethodInterface|RawInterface $value
      */
     public function __construct(string $column, string $operator, $value)
     {
@@ -33,7 +33,7 @@ class Conditional implements QueryInterface
     }
 
     /**
-     * @return mixed[]
+     * @return array<mixed>
      */
     public function getValues(): array
     {
@@ -59,7 +59,7 @@ class Conditional implements QueryInterface
      *
      * @return string
      */
-    protected function getPlaceholder($value): string
+    protected function renderPlaceholder($value): string
     {
         $placeholder = '?';
         if ($value instanceof QueryInterface) {
@@ -78,21 +78,21 @@ class Conditional implements QueryInterface
         switch ($this->operator) {
             case 'BETWEEN':
             case 'NOT BETWEEN':
-                if (count($this->value) != 2) {
+                if (!is_array($this->value) || count($this->value) != 2) {
                     trigger_error(
-                        "Conditional operator '{$this->operator}' requires two arguments",
+                        "Conditional operator '{$this->operator}' requires an array with exactly two arguments",
                         E_USER_ERROR
                     );
                 }
 
-                $sql .= "({$this->getPlaceholder($this->value[0])} AND {$this->getPlaceholder($this->value[1])})";
+                $sql .= "({$this->renderPlaceholder($this->value[0])} AND {$this->renderPlaceholder($this->value[1])})";
                 break;
 
             case 'IN':
             case 'NOT IN':
-                if (count($this->value) < 1) {
+                if (!is_array($this->value) || count($this->value) < 1) {
                     trigger_error(
-                        "Conditional operator '{$this->operator}' requires at least one argument",
+                        "Conditional operator '{$this->operator}' requires an array with at least one argument",
                         E_USER_ERROR
                     );
                 }
@@ -103,13 +103,13 @@ class Conditional implements QueryInterface
                         $placeholders .= ', ';
                     }
 
-                    $placeholders .= $this->getPlaceholder($value);
+                    $placeholders .= $this->renderPlaceholder($value);
                 }
                 $sql .= "({$placeholders})";
                 break;
 
             default:
-                $sql .= $this->getPlaceholder($this->value);
+                $sql .= $this->renderPlaceholder($this->value);
         }
 
         return $sql;
