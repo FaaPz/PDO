@@ -11,7 +11,7 @@ use FaaPz\PDO\Statement\SelectInterface;
 
 class Join implements JoinInterface
 {
-    /** @var string|array<string,string|SelectInterface> $subject */
+    /** @var string|array<string, string|SelectInterface> $subject */
     protected $subject;
 
     /** @var ConditionalInterface $on */
@@ -22,17 +22,15 @@ class Join implements JoinInterface
 
 
     /**
-     * @param string|array<string,string|SelectInterface> $subject
-     * @param ConditionalInterface                        $on
-     * @param ?string                                     $type
+     * @param string|array<string, string|SelectInterface> $subject
+     * @param ConditionalInterface                         $on
+     * @param string                                       $type
      */
-    public function __construct($subject, ConditionalInterface $on, ?string $type = null)
+    public function __construct($subject, ConditionalInterface $on, string $type = '')
     {
         $this->subject = $subject;
         $this->on = $on;
-        if ($type !== null) {
-            $this->type = strtoupper(trim($type));
-        }
+        $this->type = strtoupper(trim($type));
     }
 
     /**

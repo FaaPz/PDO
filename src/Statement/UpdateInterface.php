@@ -7,6 +7,7 @@
 
 namespace FaaPz\PDO\Statement;
 
+use FaaPz\PDO\Clause\RawInterface;
 use FaaPz\PDO\StatementInterface;
 
 interface UpdateInterface extends StatementInterface
@@ -19,15 +20,15 @@ interface UpdateInterface extends StatementInterface
     public function table(string $table);
 
     /**
-     * @param string $column
-     * @param mixed  $value
+     * @param string                                        $column
+     * @param float|int|string|RawInterface|SelectInterface $value
      *
      * @return self
      */
     public function set(string $column, $value);
 
     /**
-     * @param array<string, mixed> $pairs
+     * @param array<string, float|int|string|RawInterface|SelectInterface> $pairs
      *
      * @return self
      */

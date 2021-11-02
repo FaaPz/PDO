@@ -26,9 +26,8 @@ abstract class AbstractStatement implements StatementInterface
     }
 
     /**
-     * @throws PDOException
-     *
      * @return PDOStatement|false
+     * @throws PDOException
      */
     public function execute()
     {

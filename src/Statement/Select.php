@@ -17,16 +17,16 @@ class Select extends AdvancedStatement implements SelectInterface
     /** @var bool $distinct */
     protected $distinct = false;
 
-    /** @var array<int|string, string|CallInterface|SelectInterface> $columns */
+    /** @var array<int|string, string|SelectInterface> $columns */
     protected $columns = [];
 
-    /** @var ?string|?array<string, string|CallInterface|SelectInterface> $table */
+    /** @var ?string|?array<string, string|SelectInterface> $table */
     protected $table = null;
 
-    /** @var array<int, CallInterface|SelectInterface> $union */
+    /** @var array<int, SelectInterface> $union */
     protected $union = [];
 
-    /** @var array<int, CallInterface|SelectInterface> $unionAll */
+    /** @var array<int, SelectInterface> $unionAll */
     protected $unionAll = [];
 
     /** @var array<int, string> $groupBy */
@@ -71,7 +71,7 @@ class Select extends AdvancedStatement implements SelectInterface
     }
 
     /**
-     * @param array<int|string, string|CallInterface|SelectInterface> $columns
+     * @param array<int|string, string|SelectInterface> $columns
      *
      * @return self
      */
@@ -116,7 +116,7 @@ class Select extends AdvancedStatement implements SelectInterface
     }
 
     /**
-     * @param string|array<string, string|CallInterface|SelectInterface> $table
+     * @param string|array<string, string|SelectInterface> $table
      *
      * @return self
      */

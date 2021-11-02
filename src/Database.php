@@ -8,6 +8,7 @@
 namespace FaaPz\PDO;
 
 use FaaPz\PDO\Clause\MethodInterface;
+use FaaPz\PDO\Clause\RawInterface;
 use FaaPz\PDO\Statement\CallInterface;
 use FaaPz\PDO\Statement\Call;
 use FaaPz\PDO\Statement\Delete;
@@ -60,13 +61,13 @@ class Database extends PDO implements DatabaseInterface
     }
 
     /**
-     * @param array<int|string, mixed> $pairs
+     * @param array<string> $columns
      *
      * @return InsertInterface
      */
-    public function insert(array $pairs = []): InsertInterface
+    public function insert(array $columns = []): InsertInterface
     {
-        return new Insert($this, $pairs);
+        return new Insert($this, $columns);
     }
 
     /**
@@ -80,7 +81,7 @@ class Database extends PDO implements DatabaseInterface
     }
 
     /**
-     * @param array<string, mixed> $pairs
+     * @param array<string, float|int|string|RawInterface|SelectInterface> $pairs
      *
      * @return UpdateInterface
      */

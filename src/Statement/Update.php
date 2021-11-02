@@ -8,6 +8,7 @@
 namespace FaaPz\PDO\Statement;
 
 use FaaPz\PDO\AdvancedStatement;
+use FaaPz\PDO\Clause\RawInterface;
 use FaaPz\PDO\Database;
 use FaaPz\PDO\QueryInterface;
 
@@ -16,13 +17,13 @@ class Update extends AdvancedStatement implements UpdateInterface
     /** @var string $table */
     protected $table;
 
-    /** @var array<string, mixed> $pairs */
+    /** @var array<string, float|int|string|RawInterface|SelectInterface> $pairs */
     protected $pairs = [];
 
 
     /**
-     * @param Database             $dbh
-     * @param array<string, mixed> $pairs
+     * @param Database                                                     $dbh
+     * @param array<string, float|int|string|RawInterface|SelectInterface> $pairs
      */
     public function __construct(Database $dbh, array $pairs = [])
     {
@@ -56,10 +57,10 @@ class Update extends AdvancedStatement implements UpdateInterface
     }
 
     /**
-     * @param string $column
-     * @param mixed  $value
+     * @param string                                        $column
+     * @param float|int|string|RawInterface|SelectInterface $value
      *
-     * @return $this
+     * @return self
      */
     public function set(string $column, $value): self
     {
@@ -69,9 +70,9 @@ class Update extends AdvancedStatement implements UpdateInterface
     }
 
     /**
-     * @param array<string, mixed> $pairs
+     * @param array<string, float|int|string|RawInterface|SelectInterface> $pairs
      *
-     * @return $this
+     * @return self
      */
     public function pairs(array $pairs): self
     {
@@ -95,8 +96,10 @@ class Update extends AdvancedStatement implements UpdateInterface
                 $sql .= ', ';
             }
 
-            if ($value instanceof QueryInterface) {
+            if ($value instanceof SelectInterface) {
                 $sql .= "{$key} = ({$value})";
+            } elseif ($value instanceof RawInterface) {
+                $sql .= "{$key} = {$value}";
             } else {
                 $sql .= "{$key} = ?";
             }

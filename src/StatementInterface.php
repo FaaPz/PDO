@@ -13,9 +13,8 @@ use PDOStatement;
 interface StatementInterface extends QueryInterface
 {
     /**
-     * @throws PDOException
-     *
      * @return PDOStatement|false
+     * @throws PDOException
      */
     public function execute();
 }

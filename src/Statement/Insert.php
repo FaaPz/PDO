@@ -34,8 +34,8 @@ class Insert extends AbstractStatement implements InsertInterface
 
 
     /**
-     * @param Database           $dbh
-     * @param array<int, string> $columns
+     * @param Database      $dbh
+     * @param array<string> $columns
      */
     public function __construct(Database $dbh, array $columns = [])
     {
