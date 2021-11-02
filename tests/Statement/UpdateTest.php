@@ -67,7 +67,7 @@ class UpdateTest extends TestCase
             ->table('test')
             ->set('col', new Raw('col + 1'));
 
-        $this->assertStringStartsWith('UPDATE test SET col = (col + 1)', $this->subject->__toString());
+        $this->assertStringStartsWith('UPDATE test SET col = col + 1', $this->subject->__toString());
     }
 
     public function testToStringWithJoin()
