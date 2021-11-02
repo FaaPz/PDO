@@ -62,14 +62,6 @@ Returns Number of affected rows
 ### Examples
 
 ```php
-// UPDATE users SET pwd = ? WHERE id = ?
-$updateStatement = $pdo->update(array(
-                               "usr" => "your_new_username",
-                               "pwd" => "your_new_password"
-                           ))
-                           ->table("users")
-                           ->where(new Clause\Conditional("id", "=", 1234));
-
 // UPDATE users SET usr = ? , pwd = ? WHERE id = ?
 $updateStatement = $pdo->update()
                            ->set(array(
@@ -79,5 +71,5 @@ $updateStatement = $pdo->update()
                            ->table("users")
                            ->where(new Clause\Conditional("id", "=", 1234));
 
-$affectedRows = $updateStatement->execute();
+$affectedRows = $updateStatement->execute()->rowCount();
 ```
