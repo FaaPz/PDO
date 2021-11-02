@@ -32,9 +32,6 @@ Parameter | Type    | Default  | Description
 ##### `getValues()`
 Returns the values to be escaped for this statement.
 
-##### `execute()`
-Returns the primary key for the inserted record
-
 
 ### Examples
 

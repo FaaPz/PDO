@@ -20,8 +20,8 @@ Returns the values to be escaped for this statement.
 ### Examples
 ```php
 // ... LIMIT 10
-$statement->limit(new Clause\Limit(10));
+$statement->limit(new Limit(10));
 
 // ... LIMIT 30, 10
-$statement->limit(new Clause\Limit(10, 30));
+$statement->limit(new Limit(10, 30));
 ```

@@ -23,30 +23,30 @@ Returns the values to be escaped for this statement.
 ```php
 // ... JOIN orders ON customers.id = orders.customer_id
 $selectStatement->join(new Clause\Join("orders",
-    new Clause\Conditional("customers.id",  "=", "orders.customer_id")
+    new Conditional("customers.id",  "=", new Raw("orders.customer_id"))
 );
 
 // ... INNER JOIN orders ON customers.id = orders.customer_id
 $selectStatement->join(new Clause\Join("orders",
-    new Clause\Conditional("customers.id",  "=", "orders.customer_id"),
+    new Conditional("customers.id",  "=", new Raw("orders.customer_id")),
     "INNER"
 );
 
 // ... LEFT OUTER JOIN orders ON customers.id = orders.customer_id
 $selectStatement->join(new Clause\Join("orders",
-    new Clause\Conditional("customers.id",  "=", "orders.customer_id"),
+    new Conditional("customers.id",  "=", new Raw("orders.customer_id")),
     "LEFT OUTER"
 );
 
 // ... RIGHT OUTER JOIN orders ON customers.id = orders.customer_id
 $selectStatement->join(new Clause\Join("orders",
-    new Clause\Conditional("customers.id",  "=", "orders.customer_id"),
+    new Conditional("customers.id",  "=", new Raw("orders.customer_id")),
     "RIGHT OUTER"
 );
 
 // ... FULL OUTER JOIN orders ON customers.id = orders.customer_id
 $selectStatement->join(new Clause\Join("orders",
-    new Clause\Conditional("customers.id",  "=", "orders.customer_id"),
+    new Conditional("customers.id",  "=", new Raw("orders.customer_id")),
     "FULL OUTER"
 );
 ```
