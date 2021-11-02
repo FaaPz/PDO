@@ -206,6 +206,34 @@ class SelectTest extends TestCase
         $this->subject->execute();
     }
 
+    public function testToStringWithUnionMismatch()
+    {
+        $this->subject
+            ->columns(['id', 'name'])
+            ->from('test1')
+            ->union(
+                (new Select($this->createMock(Database::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test2')
+            )
+            ->union(
+                (new Select($this->createMock(Database::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test2')
+            );
+
+        $property = new ReflectionProperty(Select::class, 'union');
+        $property->setAccessible(true);
+        $union = $property->getValue($this->subject);
+        unset($union[0]);
+        $property->setValue($this->subject, $union);
+
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^Union offset mismatch/');
+
+        $this->subject->__toString();
+    }
+
     public function testGetValuesEmpty()
     {
         $this->assertIsArray($this->subject->getValues());

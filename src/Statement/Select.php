@@ -192,6 +192,8 @@ class Select extends AdvancedStatement implements SelectInterface
                 $union = "({$this->union[$i]})";
             } elseif (isset($this->unionAll[$i])) {
                 $union = "ALL ({$this->unionAll[$i]})";
+            } else {
+                trigger_error('Union offset mismatch', E_USER_ERROR);
             }
 
             $sql .= " UNION {$union}";
