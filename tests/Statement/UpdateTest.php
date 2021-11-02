@@ -12,6 +12,7 @@ use FaaPz\PDO\Clause\Join;
 use FaaPz\PDO\Clause\Limit;
 use FaaPz\PDO\Clause\Raw;
 use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Select;
 use FaaPz\PDO\Statement\Update;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;
@@ -70,6 +71,18 @@ class UpdateTest extends TestCase
         $this->assertStringStartsWith('UPDATE test SET col = col + 1', $this->subject->__toString());
     }
 
+    public function testToStringWithSelect()
+    {
+        $select = new Select($this->createMock(Database::class), ['col2']);
+        $select->from('table');
+
+        $this->subject
+            ->table('test')
+            ->set('col1', $select);
+
+        $this->assertStringStartsWith('UPDATE test SET col1 = (SELECT col2 FROM table)', $this->subject->__toString());
+    }
+
     public function testToStringWithJoin()
     {
         $this->subject
@@ -105,6 +118,19 @@ class UpdateTest extends TestCase
     }
 
     public function testToStringWithLimit()
+    {
+        $this->subject
+            ->table('test')
+            ->set('col', 'value')
+            ->limit(new Limit(
+                25,
+                100
+            ));
+
+        $this->assertStringEndsWith(' LIMIT ? OFFSET ?', $this->subject->__toString());
+    }
+
+    public function testToStringWithUnion()
     {
         $this->subject
             ->table('test')
@@ -153,6 +179,34 @@ class UpdateTest extends TestCase
                 'col1' => 'value1',
                 'col2' => 'value2',
             ]);
+
+        $this->assertIsArray($this->subject->getValues());
+        $this->assertCount(2, $this->subject->getValues());
+    }
+
+    public function testGetValuesWithSelect()
+    {
+        $select = new Select($this->createMock(Database::class), ['col2']);
+        $select->from('table')
+               ->where(new Conditional('col2', '=', 2));
+
+        $this->subject
+            ->table('test')
+            ->set('col1', $select);
+
+        $this->assertIsArray($this->subject->getValues());
+        $this->assertCount(1, $this->subject->getValues());
+    }
+
+    public function testGetValuesWithJoin()
+    {
+        $this->subject
+            ->table('test1')
+            ->set('col', 'value')
+            ->join(new Join(
+                'test2',
+                new Conditional('test1.id', '=', 1)
+            ));
 
         $this->assertIsArray($this->subject->getValues());
         $this->assertCount(2, $this->subject->getValues());

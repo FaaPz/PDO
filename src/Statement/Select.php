@@ -91,10 +91,6 @@ class Select extends AdvancedStatement implements SelectInterface
      */
     protected function renderColumns(): string
     {
-        if (empty($this->columns)) {
-            trigger_error('No columns set for select statement', E_USER_ERROR);
-        }
-
         $columns = '';
         foreach ($this->columns as $alias => $column) {
             if (!empty($columns)) {
@@ -196,8 +192,6 @@ class Select extends AdvancedStatement implements SelectInterface
                 $union = "({$this->union[$i]})";
             } elseif (isset($this->unionAll[$i])) {
                 $union = "ALL ({$this->unionAll[$i]})";
-            } else {
-                trigger_error('Union offset mismatch', E_USER_ERROR);
             }
 
             $sql .= " UNION {$union}";
@@ -284,8 +278,6 @@ class Select extends AdvancedStatement implements SelectInterface
                 $values = array_merge($values, $this->union[$i]->getValues());
             } elseif (isset($this->unionAll[$i])) {
                 $values = array_merge($values, $this->unionAll[$i]->getValues());
-            } else {
-                trigger_error('Union offset mismatch', E_USER_ERROR);
             }
         }
 

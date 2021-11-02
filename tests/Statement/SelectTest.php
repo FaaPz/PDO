@@ -13,6 +13,7 @@ use FaaPz\PDO\Clause\Limit;
 use FaaPz\PDO\Database;
 use FaaPz\PDO\Statement\Select;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 
 class SelectTest extends TestCase
 {
@@ -135,6 +136,40 @@ class SelectTest extends TestCase
         $this->assertStringEndsWith('test GROUP BY id, name', $this->subject->__toString());
     }
 
+    public function testToStringWithUnion()
+    {
+        $this->subject
+            ->columns(['id', 'name'])
+            ->from('test1')
+            ->union(
+                (new Select($this->createMock(Database::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test2')
+            );
+
+        $this->assertStringMatchesFormat(
+            '(SELECT id, name FROM test1) UNION (SELECT id, name FROM test2)',
+            $this->subject->__toString()
+        );
+    }
+
+    public function testToStringWithUnionAll()
+    {
+        $this->subject
+            ->columns(['id', 'name'])
+            ->from('test1')
+            ->unionAll(
+                (new Select($this->createMock(Database::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test2')
+            );
+
+        $this->assertStringMatchesFormat(
+            '(SELECT id, name FROM test1) UNION ALL (SELECT id, name FROM test2)',
+            $this->subject->__toString()
+        );
+    }
+
     public function testToStringWithHaving()
     {
         $this->subject
@@ -205,16 +240,33 @@ class SelectTest extends TestCase
         $this->subject
             ->columns(['id', 'name'])
             ->from('test1')
+            ->where(new Conditional('id', '=', 1))
             ->union(
                 (new Select($this->createMock(Database::class)))
                     ->columns(['id', 'name'])
                     ->from('test2')
+                    ->where(new Conditional('id', '=', 2))
             );
 
-        $this->assertStringMatchesFormat(
-            '(SELECT id, name FROM test1) UNION (SELECT id, name FROM test2)',
-            $this->subject->__toString()
-        );
+        $this->assertIsArray($this->subject->getValues());
+        $this->assertCount(2, $this->subject->getValues());
+    }
+
+    public function testGetValuesWithUnionAll()
+    {
+        $this->subject
+            ->columns(['id', 'name'])
+            ->from('test1')
+            ->where(new Conditional('id', '=', 1))
+            ->unionAll(
+                (new Select($this->createMock(Database::class)))
+                    ->columns(['id', 'name'])
+                    ->from('test2')
+                    ->where(new Conditional('id', '=', 2))
+            );
+
+        $this->assertIsArray($this->subject->getValues());
+        $this->assertCount(2, $this->subject->getValues());
     }
 
     public function testGetValuesWithHaving()

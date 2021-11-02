@@ -9,13 +9,14 @@ namespace FaaPz\PDO\Test;
 
 use FaaPz\PDO\Clause\Raw;
 use FaaPz\PDO\Database;
-use FaaPz\PDO\Statement;
+use FaaPz\PDO\Statement\Insert;
+use FaaPz\PDO\Statement\Select;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;
 
 class InsertTest extends TestCase
 {
-    /** @var Statement\Insert $subject */
+    /** @var Insert $subject */
     private $subject;
 
     public function setUp(): void
@@ -34,7 +35,7 @@ class InsertTest extends TestCase
         $pdo->method('lastInsertId')
             ->willReturn(1);
 
-        $this->subject = new Statement\Insert($pdo);
+        $this->subject = new Insert($pdo);
     }
 
     public function testToString()
@@ -103,7 +104,7 @@ class InsertTest extends TestCase
 
     public function testToStringWithSelect()
     {
-        $select = new Statement\Select($this->createMock(Database::class));
+        $select = new Select($this->createMock(Database::class));
         $select->from('table');
 
         $this->subject
@@ -119,13 +120,52 @@ class InsertTest extends TestCase
         $this->expectError();
         $this->expectErrorMessageMatches('/^Ignoring additional values after select for insert statement/');
 
-        $select = new Statement\Select($this->createMock(Database::class));
+        $select = new Select($this->createMock(Database::class));
         $select->from('table');
 
         $this->subject
             ->into('test')
             ->values($select, 2)
             ->execute();
+    }
+
+    public function testToStringWithLowPriority()
+    {
+        $this->subject
+            ->priority('low_priority')
+            ->into('test')
+            ->columns('one', 'two')
+            ->values(1, 2)
+            ->execute();
+
+        $this->assertStringStartsWith('INSERT LOW_PRIORITY INTO test', $this->subject->__toString());
+    }
+
+    public function testToStringWithHighPriority()
+    {
+        $this->subject
+            ->priority('high')
+            ->into('test')
+            ->columns('one', 'two')
+            ->values(1, 2)
+            ->execute();
+
+        $this->assertStringStartsWith('INSERT HIGH_PRIORITY INTO test', $this->subject->__toString());
+    }
+
+    public function testToStringWithInvalidPriority()
+    {
+        $this->expectError();
+        $this->expectErrorMessageMatches('/^Invalid priority type/');
+
+        $this->subject
+            ->priority('invalid')
+            ->into('test')
+            ->columns('one', 'two')
+            ->values(1, 2)
+            ->execute();
+
+        $this->subject->__toString();
     }
 
     public function testToStringWithIgnore()

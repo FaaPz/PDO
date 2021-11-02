@@ -14,7 +14,7 @@ use FaaPz\PDO\QueryInterface;
 
 class Insert extends AbstractStatement implements InsertInterface
 {
-    /** @var string|null */
+    /** @var ?string */
     protected $priority = null;
 
     /** @var bool $ignore */
@@ -76,7 +76,7 @@ class Insert extends AbstractStatement implements InsertInterface
                     break;
 
                 default:
-                    trigger_error('Invalid priority type', E_USER_ERROR);
+                    trigger_error('Invalid priority type for insert statement', E_USER_ERROR);
             }
         }
 
