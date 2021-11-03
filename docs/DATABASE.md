@@ -1,6 +1,6 @@
 # [FaaPz\PDO\Database]() extends [PDO](https://www.php.net/manual/en/class.pdo.php)
 
-The Database class is an extension of PHP's PDO object that provides a number of factory style methods for the query
+The Database class is an extension of PHP's PDO object that provides additional factory style methods for the query
 building statements supported by this library.  Because the Database object extends PDO, all PDO methods like
 [::beginTransaction()](https://www.php.net/manual/en/pdo.begintransaction.php),
 [::rollBack()](https://www.php.net/manual/en/pdo.rollback.php) and
@@ -20,32 +20,133 @@ default options unless explicitly overridden:
     ]
 
 Parameter    | Description
------------- | ----------------------------
+------------ | -----------------------------------------
 `$dsn`       | Data source name
 `$username`  | Database username
 `$password`  | Database password
-`$options`   | Key => value array of connection options.
+`$options`   | Array of key => value connection options
+
+#### Example
+
+```php
+use \FaaPz\PDO\Database;
+
+$database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
+```
 
 ### Methods
 
-##### `call($procedure)`
+#### `call(?MethodInterface $procedure = null): CallInterface`
 
-Parameter     | Type              | Default  | Description
-------------- | ----------------- | -------- | -----------
-`$procedure`  | *MethodInterface* | null     | Procedure to call
+Creates a new [CALL](Statement/CALL.md) statement that will use the optional [METHOD](Clause/METHOD.md) parameter.  
 
-##### `__toString()`
-Returns the prepared SQL string for this statement
+Parameter     | Description
+------------- | -----------------------------------------
+`$procedure`  | Optional procedure to call
 
-##### `getValues()`
-Returns the values to be escaped for this statement
-
-### Examples
+#### Example
 
 ```php
-// CALL MyProcedure(?, ?);
-$deleteStatement = $pdo->call()
-                        ->method(new Method("MyProcedure", 1, 2));
+use FaaPz\PDO\Clause\Method;
+use FaaPz\PDO\Database;
 
-$deleteStatement->execute();
+$database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
+
+// CALL MyProcedure(?, ?)
+$statement = $database->call(new Method("MyProcedure", 1, 2));
+
+$statement->execute();
+```
+
+#### `insert(array $columns = []): InsertInterface`
+
+Creates a new [INSERT](Statement/INSERT.md) statement that will use the optional array of columns.
+
+Parameter     | Description
+------------- | -----------------------------------------
+`$columns`    | Optional columns to use
+
+#### Example
+
+```php
+use FaaPz\PDO\Clause\Method;
+use FaaPz\PDO\Database;
+
+$database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
+
+// INSERT INTO table (col1, col2) VALUES (?, ?), (?, ?)
+$statement = $database->insert(['col1', 'col2'])
+                 ->into('table')
+                 ->values(1, 2)
+                 ->values(3, 4);
+
+$statement->execute();
+```
+
+#### `select(array $columns = ['*']): SelectInterface`
+
+Creates a new [SELECT](Statement/SELECT.md) statement that will use the optional array of columns.
+
+Parameter     | Description
+------------- | -----------------------------------------
+`$columns`    | Optional columns to select
+
+#### Example
+
+```php
+use FaaPz\PDO\Clause\Method;
+use FaaPz\PDO\Database;
+
+$database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
+
+// SELECT COUNT(id) AS cnt FROM table
+$statement = $database->select(['cnt' => 'COUNT(id)'])
+                      ->from('table');
+
+$statement->execute();
+```
+
+#### `update(array $pairs = []): UpdateInterface`
+
+Creates a new [UPDATE](Statement/UPDATE.md) statement that will use the optional array of column / value pairs.
+
+Parameter     | Description
+------------- | -----------------------------------------
+`$pairs`      | Optional column / value pairs to update
+
+#### Example
+
+```php
+use FaaPz\PDO\Clause\Method;
+use FaaPz\PDO\Database;
+
+$database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
+
+// UPDATE table SET col1 = ?, col2 = ?
+$statement = $database->update(['col1' => 1, 'col2' => 2])
+                      ->table('table');
+
+$statement->execute();
+```
+
+#### `delete($table = null): DeleteInterface`
+
+Creates a new [DELETE](Statement/DELETE.md) statement that will use the optional table to delete from.
+
+Parameter     | Description
+------------- | -----------------------------------------
+`$table`      | Optional table to delete from
+
+#### Example
+
+```php
+use FaaPz\PDO\Clause\Method;
+use FaaPz\PDO\Database;
+
+$database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
+
+// DELETE FROM table
+$statement = $database->delete('table');
+
+$statement->execute();
 ```
