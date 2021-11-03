@@ -1,4 +1,6 @@
-# LIMIT clause
+# RAW clause
+
+> Used in [INSERT](../Statement/UPDATE.md) and [UPDATE](../Statement/UPDATE.md) statements.
 
 > Used by [CONDITIONAL](../Clause/CONDITIONAL.md) clauses.
 

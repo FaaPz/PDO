@@ -22,5 +22,7 @@ Returns the values to be escaped for this statement.
 ### Examples
 
 ```php
-$callStatement = $pdo->call(new Method("MyProcedure", "arg1", 2));
+use FaaPz\PDO\Clause\Method;
+
+$statement = $database->call(new Method("MyProcedure", "arg1", 2));
 ```

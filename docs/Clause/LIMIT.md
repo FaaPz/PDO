@@ -1,6 +1,6 @@
 # LIMIT clause
 
-> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../docs/Statement/UPDATE.md) and [DELETE](../Statement/DELETE.md) statements.
+> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../Statement/UPDATE.md) and [DELETE](../Statement/DELETE.md) statements.
 
 ##### `__construct($table, Conditional $on, $type = "")`
 
@@ -19,6 +19,8 @@ Returns the values to be escaped for this statement.
 
 ### Examples
 ```php
+use FaaPz\PDO\Clause\Limit;
+
 // ... LIMIT 10
 $statement->limit(new Limit(10));
 
