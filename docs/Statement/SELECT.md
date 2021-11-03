@@ -67,20 +67,31 @@ Returns PHP PDOStatement object.
 
 ### Clauses
 
-+ [Conditional](Clause/CONDITIONAL.md)
-+ [Grouping](Clause/GROUPING.md)
-+ [Join](Clause/JOIN.md)
-+ [Limit](Clause/LIMIT.md)
-+ [Method](Clause/METHOD.md)
++ [Conditional](../Clause/CONDITIONAL.md)
++ [Grouping](../Clause/GROUPING.md)
++ [Join](../Clause/JOIN.md)
++ [Limit](../Clause/LIMIT.md)
 
 ### Examples
 
 ```php
-// SELECT * FROM users WHERE id = ?
-$selectStatement = $pdo->select(array("*"))
-                           ->from("users")
-                           ->where(new Conditional("id", "=", 1234));
+// SELECT COUNT(id) AS cnt
+// FROM users
+// WHERE id > ?
+// GROUP BY username, email
+// HAVING cnt > ?
+// ORDER BY username DESC, email ASC
+// LIMIT 5 OFFSET 25
+$select = $database->select(array(
+                  "cnt" => "COUNT(id)"
+              ))
+              ->from("users")
+              ->where(new Conditional("id", ">", 1000))
+              ->groupBy("username", "email")
+              ->having(new Conditional("cnt", ">", 1))
+              ->orderBy("username", "desc")
+              ->orderBy("email", "asc")
+              ->limit(new Limit(5, 25));
 
-$stmt = $selectStatement->execute();
-$data = $stmt->fetch();
+$data = $select->execute()->fetch();
 ```

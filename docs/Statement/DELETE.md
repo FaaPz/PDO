@@ -54,15 +54,14 @@ Parameter | Type                     | Default  | Description
 + [Grouping](Clause/GROUPING.md)
 + [Join](Clause/JOIN.md)
 + [Limit](Clause/LIMIT.md)
-+ [Method](Clause/METHOD.md)
 
 ### Examples
 
 ```php
 // DELETE FROM users WHERE id = ?
-$deleteStatement = $pdo->delete()
-                           ->from("users")
-                           ->where(new Conditional("id", "=", 1234));
+$delete = $pdo->delete()
+              ->from("users")
+              ->where(new Conditional("id", "=", 1234));
 
-$affectedRows = $deleteStatement->execute()->rowCount();
+$affectedRows = $delete->execute()->rowCount();
 ```

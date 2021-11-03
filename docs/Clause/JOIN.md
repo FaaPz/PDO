@@ -1,6 +1,6 @@
 # JOIN clause
 
-> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../docs/Statement/UPDATE.md) and [DELETE](../Statement/DELETE.md) statements.
+> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../Statement/UPDATE.md) and [DELETE](../Statement/DELETE.md) statements.
 
 ##### `__construct($table, Conditional $on, $type = "")`
 
@@ -21,31 +21,35 @@ Returns the values to be escaped for this statement.
 ### Examples
 
 ```php
+use FaaPz\PDO\Clause\Conditional;
+use FaaPz\PDO\Clause\Join;
+use FaaPz\PDO\Clause\Raw;
+
 // ... JOIN orders ON customers.id = orders.customer_id
-$selectStatement->join(new Clause\Join("orders",
+$statement->join(new Join("orders",
     new Conditional("customers.id",  "=", new Raw("orders.customer_id"))
 );
 
 // ... INNER JOIN orders ON customers.id = orders.customer_id
-$selectStatement->join(new Clause\Join("orders",
+$statement->join(new Join("orders",
     new Conditional("customers.id",  "=", new Raw("orders.customer_id")),
     "INNER"
 );
 
 // ... LEFT OUTER JOIN orders ON customers.id = orders.customer_id
-$selectStatement->join(new Clause\Join("orders",
+$statement->join(new Join("orders",
     new Conditional("customers.id",  "=", new Raw("orders.customer_id")),
     "LEFT OUTER"
 );
 
 // ... RIGHT OUTER JOIN orders ON customers.id = orders.customer_id
-$selectStatement->join(new Clause\Join("orders",
+$statement->join(new Join("orders",
     new Conditional("customers.id",  "=", new Raw("orders.customer_id")),
     "RIGHT OUTER"
 );
 
 // ... FULL OUTER JOIN orders ON customers.id = orders.customer_id
-$selectStatement->join(new Clause\Join("orders",
+$statement->join(new Join("orders",
     new Conditional("customers.id",  "=", new Raw("orders.customer_id")),
     "FULL OUTER"
 );

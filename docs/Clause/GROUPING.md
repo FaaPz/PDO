@@ -1,7 +1,8 @@
 # GROUPING clause
 
-> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../docs/Statement/UPDATE.md) and [DELETE](../Statement/DELETE.md) statements.
-> Used by [GROUPING](../Clause/GROUPING.md) and [JOIN](../docs/Statement/JOIN.md) clauses.
+> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../Statement/UPDATE.md) and [DELETE](../Statement/DELETE.md) statements.
+
+> Used by [GROUPING](../Clause/GROUPING.md) and [JOIN](../Clause/JOIN.md) clauses.
 
 ##### `__construct($rule, $clauses)`
 
@@ -21,12 +22,16 @@ Returns the values to be escaped for this statement.
 ### Examples
 
 ```php
+use FaaPz\PDO\Clause\Conditional;
+use FaaPz\PDO\Clause\Grouping;
+
+// ... WHERE col_1 = val_1 AND (col_2 = val_2 OR col_3 = val_3)
 $statement->where(
-    new Clause\Grouping("AND", array(
-        new Clause\Conditional("col_1", "=", "val_1"),
-        new Clause\Grouping("OR", array(
-            new Clause\Conditional("col_2", "=", 'val_2'),
-            new Clause\Conditional("col_3", "=", 'val_2')
+    new Grouping("AND", array(
+        new Conditional("col_1", "=", "val_1"),
+        new Grouping("OR", array(
+            new Conditional("col_2", "=", 'val_2'),
+            new Conditional("col_3", "=", 'val_3')
         )
     ));
 ```

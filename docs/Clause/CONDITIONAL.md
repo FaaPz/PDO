@@ -1,7 +1,8 @@
 # Conditional clause
 
-> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../docs/Statement/UPDATE.md) and [DELETE](../Statement/DELETE.md) statements.
-> Used by [GROUPING](../Clause/GROUPING.md) and [JOIN](../docs/Statement/JOIN.md) clauses.
+> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../Statement/UPDATE.md) and [DELETE](../Statement/DELETE.md) statements.
+
+> Used by [GROUPING](../Clause/GROUPING.md) and [JOIN](../Clause/JOIN.md) clauses.
 
 ### Constructor
 
@@ -23,36 +24,47 @@ Returns the values to be escaped for this clause.
 ### Examples
 
 ```php
+use FaaPz\PDO\Clause\Conditional;
+use FaaPz\PDO\Clause\Grouping;
+
 // ... WHERE usr = ? OR f_name = ?
 $statement->where(
     new Clause\Grouping("OR", array(
         new Clause\Conditional("usr", "=", "FaaPz"),
         new Clause\Conditional("f_name", "=", 'Fabian')
-    ));
+    ))
+);
 
 // ... WHERE customer_id BETWEEN ? AND ?
-$statement->where(new Clause\Conditional("customer_id", "BETWEEN",
-    new Clause\Grouping("AND", array(110, 220));
+$statement->where(
+    new Clause\Conditional("customer_id", "BETWEEN", array(
+        110, 220
+    ))
+);
 
 // ... WHERE customer_id NOT BETWEEN ? AND ?
-$statement->where(new Clause\Conditional("customer_id", "NOT BETWEEN",
-    new Clause\Grouping("AND", array(110, 220));
+$statement->where(
+    new Clause\Conditional("customer_id", "NOT BETWEEN", array(
+        110, 220
+    ))
+);
 
 // ... WHERE customer_id IN ( ?, ?, ?, ? )
 $statement->where(
     new Clause\Conditional("customer_id", "IN", array(
         110, 120, 130, 140
-    ));
+    ))
+);
 
 // ... WHERE customer_id NOT IN ( ?, ?, ?, ? )
 $statement->where(
     new Clause\Conditional("customer_id", "NOT IN", array(
         110, 120, 130, 140
-    ));
+    ))
+);
 
 // ... WHERE f_name LIKE ?
 $statement->where(new Clause\Conditional("f_name", "LIKE", "Fab%"));
-
 
 // ... WHERE l_name NOT LIKE ?
 $statement->where(new Clause\Conditional("f_name", "NOT LIKE", "Fab%"));

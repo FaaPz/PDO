@@ -31,9 +31,9 @@ Returns the values to be escaped for this statement
 
 ##### `where($clause)`
 
-Parameter | Type                                 | Default  | Description
---------- | ------------------------------------ | -------- | -----------
-`$clause` | [Conditional](Clause/CONDITIONAL.md) | required | One or more Conditional clauses to attach to this query
+Parameter | Type                                    | Default  | Description
+--------- | --------------------------------------- | -------- | -----------
+`$clause` | [Conditional](../Clause/CONDITIONAL.md) | required | One or more Conditional clauses to attach to this query
 
 ##### `orderBy($column, $direction)`
 
@@ -44,37 +44,36 @@ Parameter | Type     | Default  | Description
 
 ##### `limit($clause)`
 
-Parameter | Type                     | Default  | Description
---------- | ------------------------ | -------- | -----------
-`$clause` | [Limit](Clause/LIMIT.md) | required | A single limit conditional to be applied to this statement.
+Parameter | Type                        | Default  | Description
+--------- | --------------------------- | -------- | -----------
+`$clause` | [Limit](../Clause/LIMIT.md) | required | A single limit conditional to be applied to this statement.
 
 ### Clauses
 
-+ [Conditional](Clause/CONDITIONAL.md)
-+ [Grouping](Clause/GROUPING.md)
-+ [Join](Clause/JOIN.md)
-+ [Limit](Clause/LIMIT.md)
-+ [Method](Clause/METHOD.md)
++ [Conditional](../Clause/CONDITIONAL.md)
++ [Grouping](../Clause/GROUPING.md)
++ [Join](../Clause/JOIN.md)
++ [Limit](../Clause/LIMIT.md)
 
 ### Examples
 
 ```php
 // UPDATE users SET usr = ? , pwd = ? WHERE id = ?
-$updateStatement = $pdo->update(array(
-                               "usr" => "your_new_username",
-                               "pwd" => "your_new_password"
-                           ))
-                           ->table("users")
-                           ->where(new Clause\Conditional("id", "=", 1234));
+$update = $database->update(array(
+                       "username" => "your_new_username",
+                       "password" => "your_new_password"
+                   ))
+                   ->table("users")
+                   ->where(new Clause\Conditional("id", "=", 1234));
 
 // UPDATE users SET usr = ? , pwd = ? WHERE id = ?
-$updateStatement = $pdo->update()
-                           ->set(array(
-                                "usr" => "your_new_username",
-                                "pwd" => "your_new_password"
-                            ))
-                           ->table("users")
-                           ->where(new Clause\Conditional("id", "=", 1234));
+$update = $database->update()
+                   ->set(array(
+                       "username" => "your_new_username",
+                       "password" => "your_new_password"
+                   ))
+                   ->table("users")
+                   ->where(new Clause\Conditional("id", "=", 1234));
 
 $affectedRows = $updateStatement->execute()->rowCount();
 ```
