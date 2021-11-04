@@ -1,4 +1,4 @@
-# [FaaPz\PDO\Database]() extends [PDO](https://www.php.net/manual/en/class.pdo.php)
+# [FaaPz\PDO\Database](../src/Statement/Call.php) extends [PDO](https://www.php.net/manual/en/class.pdo.php)
 
 The Database class is an extension of PHP's PDO object that provides additional factory style methods for the query
 building statements supported by this library.  Because the Database object extends PDO, all PDO methods like
@@ -6,9 +6,9 @@ building statements supported by this library.  Because the Database object exte
 [::rollBack()](https://www.php.net/manual/en/pdo.rollback.php) and
 [::commit()](https://www.php.net/manual/en/pdo.commit.php) are fully supported.
 
-### Constructor
+## Constructor
 
-##### `__construct(string $dsn, ?string $username = null, ?string $password = null, array $options = [])`
+### `__construct(string $dsn, ?string $username = null, ?string $password = null, array $options = [])`
 
 All the same constructor parameters you would use to create a PDO object.  The Database class will apply the following
 default options unless explicitly overridden:
@@ -26,7 +26,7 @@ Parameter    | Description
 `$password`  | Database password
 `$options`   | Array of key => value connection options
 
-#### Example
+### Example
 
 ```php
 use \FaaPz\PDO\Database;
@@ -34,11 +34,11 @@ use \FaaPz\PDO\Database;
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 ```
 
-### Methods
+## Methods
 
-#### `call(?MethodInterface $procedure = null): CallInterface`
+### `call(?MethodInterface $procedure = null): CallInterface`
 
-Creates a new [CALL](Statement/CALL.md) statement that will use the optional [METHOD](Clause/METHOD.md) parameter.  
+Creates a new [Call](Statement/Call.md) statement that will use the optional [METHOD](Clause/Method.md) parameter.  
 
 Parameter     | Description
 ------------- | -----------------------------------------
@@ -58,9 +58,9 @@ $statement = $database->call(new Method("MyProcedure", 1, 2));
 $statement->execute();
 ```
 
-#### `insert(array $columns = []): InsertInterface`
+### `insert(array $columns = []): InsertInterface`
 
-Creates a new [INSERT](Statement/INSERT.md) statement that will use the optional array of columns.
+Creates a new [INSERT](Statement/Insert.md) statement that will use the optional array of columns.
 
 Parameter     | Description
 ------------- | -----------------------------------------
@@ -83,7 +83,7 @@ $statement = $database->insert(['col1', 'col2'])
 $statement->execute();
 ```
 
-#### `select(array $columns = ['*']): SelectInterface`
+### `select(array $columns = ['*']): SelectInterface`
 
 Creates a new [SELECT](Statement/SELECT.md) statement that will use the optional array of columns.
 
@@ -106,7 +106,7 @@ $statement = $database->select(['cnt' => 'COUNT(id)'])
 $statement->execute();
 ```
 
-#### `update(array $pairs = []): UpdateInterface`
+### `update(array $pairs = []): UpdateInterface`
 
 Creates a new [UPDATE](Statement/UPDATE.md) statement that will use the optional array of column / value pairs.
 
@@ -129,9 +129,9 @@ $statement = $database->update(['col1' => 1, 'col2' => 2])
 $statement->execute();
 ```
 
-#### `delete($table = null): DeleteInterface`
+### `delete($table = null): DeleteInterface`
 
-Creates a new [DELETE](Statement/DELETE.md) statement that will use the optional table to delete from.
+Creates a new [DELETE](Statement/Delete.md) statement that will use the optional table to delete from.
 
 Parameter     | Description
 ------------- | -----------------------------------------

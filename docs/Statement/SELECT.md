@@ -1,11 +1,11 @@
-# SELECT statement
+# [FaaPz\PDO\Statement\Select](../../src/Statement/Select.php) extends [AdvancedStatement](../AdvancedStatement.md) implements [StatementInterface](../StatementInterface.md)
 
-### Constructor
+## Constructor
 
 ##### `__construct($dbh, $columns = ["*"])`
 
-Parameter  | Type     | Default  | Description
----------- | -------- | -------- | -----------
+Parameter    | Description
+------------ | -----------------------------------------
 `$dbh`     | *PDO*    | required | PDO object for database connection
 `$columns` | *array*  | ["*"]    | Array of columns or Clause\Method
 
@@ -15,26 +15,26 @@ Parameter  | Type     | Default  | Description
 
 ##### `from($table)`
 
-Parameter | Type     | Default  | Description
---------- | -------- | -------- | -----------
+Parameter    | Description
+------------ | -----------------------------------------
 `$table`  | *string* | required | Table name
 
 ##### `join($clause)`
 
-Parameter | Type                     | Default  | Description
---------- | ------------------------ | -------- | -----------
+Parameter    | Description
+------------ | -----------------------------------------
 `$clause` | *[Join](Clause/JOIN.md)* | required | One or more Join clauses to attach to this query
 
 ##### `groupBy($column)`
 
-Parameter | Type     | Default  | Description
---------- | -------- | -------- | -----------
+Parameter    | Description
+------------ | -----------------------------------------
 `$column` | *string* | required | One or more columns to group the result by
 
 ##### `having($clause)`
 
-Parameter | Type                                   | Default  | Description
---------- | -------------------------------------- | -------- | -----------
+Parameter    | Description
+------------ | -----------------------------------------
 `$clause` | *[Conditional](Clause/CONDITIONAL.md)* | required | One or more Conditial clauses to attach to this query
 
 ##### `__toString()`
@@ -45,32 +45,32 @@ Returns the values to be escaped for this statement.
 
 ##### `where($clause)`
 
-Parameter | Type                                   | Default  | Description
---------- | -------------------------------------- | -------- | -----------
+Parameter    | Description
+------------ | -----------------------------------------
 `$clause` | *[Conditional](Clause/CONDITIONAL.md)* | required | One or more Conditional clauses to attach to this query
 
 ##### `orderBy($column, $direction)`
 
-Parameter | Type     | Default  | Description
---------- | -------- | -------- | -----------
+Parameter    | Description
+------------ | -----------------------------------------
 `$column` | *string* | required | The column to order this query by.
 `$column` | *string* | null     | The order the above column should be sorted in.
 
 ##### `limit($clause)`
 
-Parameter | Type                       | Default  | Description
---------- | -------------------------- | -------- | -----------
-`$clause` | *[Limit](Clause/LIMIT.md)* | required | A single limit conditional to be applied to this statement.
+Parameter    | Description
+------------ | -----------------------------------------
+`$clause`    | A single limit conditional to be applied to this statement.
 
 ##### `execute()`
 Returns PHP PDOStatement object.
 
 ### Clauses
 
-+ [Conditional](../Clause/CONDITIONAL.md)
-+ [Grouping](../Clause/GROUPING.md)
-+ [Join](../Clause/JOIN.md)
-+ [Limit](../Clause/LIMIT.md)
++ [Conditional](../Clause/Conditional.md)
++ [Grouping](../Clause/Grouping.md)
++ [Join](../Clause/Join.md)
++ [Limit](../Clause/Limit.md)
 
 ### Examples
 
