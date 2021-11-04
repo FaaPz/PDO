@@ -1,6 +1,6 @@
 # [FaaPz\PDO\Clause\Conditional](../../src/Clause/Conditional.php) implements [QueryInterface](../QueryInterface.md)
 
-> Used in [Select](../Statement/SELECT.md), [Update](../Statement/UPDATE.md) and [Delete](../Statement/Delete.md) statements.
+> Used in [Select](../Statement/SELECT.md), [Update](../Statement/Update.md) and [Delete](../Statement/Delete.md) statements.
 
 > Used by [Grouping](../Clause/Grouping.md) and [JOIN](../Clause/Join.md) clauses.
 

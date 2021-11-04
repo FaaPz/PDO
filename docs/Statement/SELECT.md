@@ -2,75 +2,71 @@
 
 ## Constructor
 
-##### `__construct($dbh, $columns = ["*"])`
+#### `__construct(Database $dbh, array $columns = ['*'])`
 
 Parameter    | Description
 ------------ | -----------------------------------------
-`$dbh`     | *PDO*    | required | PDO object for database connection
-`$columns` | *array*  | ["*"]    | Array of columns or Clause\Method
+`$dbh`       | PDO object for database connection
+`$columns`   | Optional columns to select
 
-### Methods
+#### Example
 
-##### `distinct()`
+```php
+use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Select;
 
-##### `from($table)`
+$database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
-Parameter    | Description
------------- | -----------------------------------------
-`$table`  | *string* | required | Table name
+// SELECT id, username, password ...
+$select = new Select($database, array(
+              'id',
+              'username',
+              'password'
+          ));
+```
 
-##### `join($clause)`
+## Methods
 
-Parameter    | Description
------------- | -----------------------------------------
-`$clause` | *[Join](Clause/JOIN.md)* | required | One or more Join clauses to attach to this query
+### `distinct()`
 
-##### `groupBy($column)`
+#### Example
 
-Parameter    | Description
------------- | -----------------------------------------
-`$column` | *string* | required | One or more columns to group the result by
+```php
+use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Select;
 
-##### `having($clause)`
+$database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
-Parameter    | Description
------------- | -----------------------------------------
-`$clause` | *[Conditional](Clause/CONDITIONAL.md)* | required | One or more Conditial clauses to attach to this query
+// SELECT DISTINCT id ...
+$select = new Select($database, array(
+              'id'
+          ));
+$select->distinct();
+```
 
-##### `__toString()`
-Returns the prepared SQL string for this statement.
-
-##### `getValues()`
-Returns the values to be escaped for this statement.
-
-##### `where($clause)`
-
-Parameter    | Description
------------- | -----------------------------------------
-`$clause` | *[Conditional](Clause/CONDITIONAL.md)* | required | One or more Conditional clauses to attach to this query
-
-##### `orderBy($column, $direction)`
+### `columns(array $columns = ['*']): self`
 
 Parameter    | Description
 ------------ | -----------------------------------------
-`$column` | *string* | required | The column to order this query by.
-`$column` | *string* | null     | The order the above column should be sorted in.
+`$columns`   | Optional array of columns to select
 
-##### `limit($clause)`
+
+### `from($table)`
 
 Parameter    | Description
 ------------ | -----------------------------------------
-`$clause`    | A single limit conditional to be applied to this statement.
+`$table`     | Table name
 
-##### `execute()`
-Returns PHP PDOStatement object.
 
-### Clauses
+union(SelectInterface $query): self
 
-+ [Conditional](../Clause/Conditional.md)
-+ [Grouping](../Clause/Grouping.md)
-+ [Join](../Clause/Join.md)
-+ [Limit](../Clause/Limit.md)
+unionAll(SelectInterface $query): self
+
+groupBy(string ...$columns): self
+
+having(ConditionalInterface $clause): self
+
+
 
 ### Examples
 

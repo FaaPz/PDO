@@ -30,7 +30,7 @@ $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 // CALL MyProcedure(?, ?)
 $call = new Call($database);
-$call->method(new Method("MyProcedure", 1, 2));
+$call->method(new Method('MyProcedure', 1, 2));
 
 $call->execute();
 ```

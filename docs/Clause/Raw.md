@@ -1,6 +1,6 @@
 # [FaaPz\PDO\Clause\Raw](../../src/Clause/Raw.php) implements [QueryInterface](../QueryInterface.md)
 
-> Used in [Insert](../Statement/UPDATE.md) and [Update](../Statement/UPDATE.md) statements.
+> Used in [Insert](../Statement/Update.md) and [Update](../Statement/Update.md) statements.
 
 > Used by [Conditional](../Clause/Conditional.md) clauses.
 

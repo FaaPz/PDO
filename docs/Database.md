@@ -40,9 +40,9 @@ $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 Creates a new [Call](Statement/Call.md) statement that will use the optional [METHOD](Clause/Method.md) parameter.  
 
-Parameter     | Description
-------------- | -----------------------------------------
-`$procedure`  | Optional procedure to call
+Parameter    | Description
+------------ | -----------------------------------------
+`$procedure` | Optional procedure to call
 
 #### Example
 
@@ -62,9 +62,9 @@ $statement->execute();
 
 Creates a new [INSERT](Statement/Insert.md) statement that will use the optional array of columns.
 
-Parameter     | Description
-------------- | -----------------------------------------
-`$columns`    | Optional columns to use
+Parameter    | Description
+------------ | -----------------------------------------
+`$columns`   | Optional columns to use
 
 #### Example
 
@@ -85,11 +85,11 @@ $statement->execute();
 
 ### `select(array $columns = ['*']): SelectInterface`
 
-Creates a new [SELECT](Statement/SELECT.md) statement that will use the optional array of columns.
+Creates a new [Select](Statement/SELECT.md) statement that will use the optional array of columns.
 
-Parameter     | Description
-------------- | -----------------------------------------
-`$columns`    | Optional columns to select
+Parameter    | Description
+------------ | -----------------------------------------
+`$columns`   | Optional columns to select
 
 #### Example
 
@@ -108,11 +108,11 @@ $statement->execute();
 
 ### `update(array $pairs = []): UpdateInterface`
 
-Creates a new [UPDATE](Statement/UPDATE.md) statement that will use the optional array of column / value pairs.
+Creates a new [UPDATE](Statement/Update.md) statement that will use the optional array of column / value pairs.
 
-Parameter     | Description
-------------- | -----------------------------------------
-`$pairs`      | Optional column / value pairs to update
+Parameter    | Description
+------------ | -----------------------------------------
+`$pairs`     | Optional column / value pairs to update
 
 #### Example
 
@@ -133,9 +133,9 @@ $statement->execute();
 
 Creates a new [DELETE](Statement/Delete.md) statement that will use the optional table to delete from.
 
-Parameter     | Description
-------------- | -----------------------------------------
-`$table`      | Optional table to delete from
+Parameter    | Description
+------------ | -----------------------------------------
+`$table`     | Optional table to delete from
 
 #### Example
 

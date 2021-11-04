@@ -1,6 +1,6 @@
 # [FaaPz\PDO\Clause\Join](../../src/Clause/Join.php) implements [QueryInterface](../QueryInterface.md)
 
-> Used in [Select](../Statement/SELECT.md), [Update](../Statement/UPDATE.md) and [Delete](../Statement/Delete.md) statements.
+> Used in [Select](../Statement/SELECT.md), [Update](../Statement/Update.md) and [Delete](../Statement/Delete.md) statements.
 
 ## Constructor
 

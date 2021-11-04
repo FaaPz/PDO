@@ -12,21 +12,21 @@ Parameter    | Description
 #### Example
 
 ```php
-use FaaPz\PDO\Clause\Method;
 use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Insert;
 
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 // INSERT INTO users (id , username , password) VALUES (? , ? , ?)
 $insert = new Insert($database, array(
-                 "id" => 1234,
-                 "username" => "user",
-                 "password" => "passwd"
-             ));
+              'id' => 1234,
+              'username' => 'user',
+              'password' => 'passwd'
+          ))
+          ->into('users');
 
 $insertId = $insert->execute(false)->lastInsertId();
 ```
-
 
 ## Methods
 
@@ -39,15 +39,15 @@ Parameter    | Description
 #### Example
 
 ```php
-use FaaPz\PDO\Clause\Method;
 use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Insert;
 
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 $insert = new Insert($database);
              
 // INSERT INTO users ...
-$insert->into("users");
+$insert->into('users');
 ```
 
 
@@ -60,16 +60,16 @@ Parameter    | Description
 #### Example
 
 ```php
-use FaaPz\PDO\Clause\Method;
 use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Insert;
 
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 $insert = new Insert($database);
              
 // INSERT INTO users (id, username, password) ...
-$insert->into("users")
-       ->columns(array("id", "username", "password"));
+$insert->into('users')
+       ->columns(array('id', 'username', 'password'));
 ```
 
 ### `values(array $values)`
@@ -81,16 +81,16 @@ Parameter    | Description
 #### Example
 
 ```php
-use FaaPz\PDO\Clause\Method;
 use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Insert;
 
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 $insert = new Insert($database);
              
 // INSERT INTO users (id, username, password) VALUES (? , ? , ?), (? , ? , ?)
-$insert->into("users")
-       ->columns(array("id", "username", "password"))
-       ->values(array(1, "user1", "passwd1"))
-       ->values(array(2, "user2", "passwd2"));
+$insert->into('users')
+       ->columns(array('id', 'username', 'password'))
+       ->values(array(1, 'user1', 'passwd1'))
+       ->values(array(2, 'user2', 'passwd2'));
 ```

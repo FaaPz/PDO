@@ -1,6 +1,6 @@
 # [FaaPz\PDO\Clause\Grouping](../../src/Clause/Grouping.php) implements [QueryInterface](../QueryInterface.md)
 
-> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../Statement/UPDATE.md) and [DELETE](../Statement/Delete.md) statements.
+> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../Statement/Update.md) and [DELETE](../Statement/Delete.md) statements.
 
 > Used by [JOIN](../Clause/Join.md) clauses.
 

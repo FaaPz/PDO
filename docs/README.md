@@ -19,5 +19,5 @@
 + [Call](Statement/Call.md)
 + [Select](Statement/SELECT.md)
 + [Insert](Statement/Insert.md)
-+ [Update](Statement/UPDATE.md)
++ [Update](Statement/Update.md)
 + [Delete](Statement/Delete.md)

@@ -9,6 +9,20 @@ Parameter    | Description
 `$dbh`       | Database object for database connection
 `$table`     | Optional table name
 
+#### Example
+
+```php
+use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Delete;
+
+$database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
+
+// DELETE FROM users
+$delete = new Delete($database, 'users');
+
+$affectedRows = $delete->execute()->rowCount();
+```
+
 ## Methods
 
 ### `from($table): self`
@@ -29,7 +43,5 @@ $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 // DELETE FROM users
 $delete = new Delete($database);
-$delete->from("users");
-
-$affectedRows = $delete->execute()->rowCount();
+$delete->from('users');
 ```
