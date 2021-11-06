@@ -1,6 +1,25 @@
 ### Changelog
 
-##### v2.0.x
+##### v2.2.0
++ Added interfaces for all classes
++ Added Insert::priority() support
++ Added Select::unionAll() support
++ Updated constructors to depend on Database instead of PDO
++ Updated execute() to match the PDO::execute() signature
++ Updated limit / offset to be more compatible
++ Improved type hints for all classes
++ Major documentation updates
+
+##### v2.1.0
++ Adding Insert::onDuplicateUpdate support
++ Fixing TypeError with Update constructor
+
+##### v2.0.1
++ Fixed Conditional issues with QueryInterface values
++ Fixed Limit null offset argument
++ Removed support for the DatabaseException
+
+##### v2.0.0
 + Complete rewrite focusing on objects
 + PHP 7.2 minimum version requirement
 + Adding unit testing via PHPUnit 8
