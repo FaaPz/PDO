@@ -1,4 +1,4 @@
-# [FaaPz\PDO\Statement\Update](../../src/Statement/Update.php) extends [AdvancedStatement](../AdvancedStatement.md) implements [StatementInterface](../StatementInterface.md)
+# [FaaPz\PDO\Statement\Update](../../src/Statement/Update.php) extends [AdvancedStatement](../AdvancedStatement.md)
 
 ## Constructor
 
@@ -18,13 +18,13 @@ use FaaPz\PDO\Statement\Update;
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 // INSERT INTO users (id , username , password) VALUES (? , ? , ?)
-$update = new Update($database, array(
+$update = new Update($database, [
               'id',
               'username',
               'password'
-          ));
+          ]);
 
-$insertId = $insert->execute(false)->lastInsertId();
+$insertId = $insert->execute()->lastInsertId();
 ```
 
 ## Methods
@@ -44,8 +44,8 @@ use FaaPz\PDO\Statement\Update;
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 // UPDATE users ...
-$update = new Update($database);
-$update->table('users');
+$database->update()
+         ->table('users');
 ```
 
 ### `set(string $column, $value): self`
@@ -64,10 +64,10 @@ use FaaPz\PDO\Statement\Update;
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 // UPDATE users SET username = ?, password = ?
-$update = new Update($database);
-$update->table('users')
-       ->set('username', 'user')
-       ->set('password', 'passwd');
+$database->update()
+         ->table('users')
+         ->set('username', 'user')
+         ->set('password', 'passwd');
 ```
 
 ### `pairs(array $pairs): self`
@@ -85,10 +85,10 @@ use FaaPz\PDO\Statement\Update;
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 // UPDATE users SET username = ?, password = ?
-$update = new Update($database);
-$update->table('users')
-       ->pairs(array(
-           'username' => 'user',
-           'password' => 'passwd'
-       ));
+$database->update()
+         ->table('users')
+         ->pairs([
+             'username' => 'user',
+             'password' => 'passwd'
+         ]);
 ```

@@ -85,7 +85,7 @@ $statement->execute();
 
 ### `select(array $columns = ['*']): SelectInterface`
 
-Creates a new [Select](Statement/SELECT.md) statement that will use the optional array of columns.
+Creates a new [Select](Statement/Select.md) statement that will use the optional array of columns.
 
 Parameter    | Description
 ------------ | -----------------------------------------

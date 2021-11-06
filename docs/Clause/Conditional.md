@@ -1,8 +1,8 @@
 # [FaaPz\PDO\Clause\Conditional](../../src/Clause/Conditional.php) implements [QueryInterface](../QueryInterface.md)
 
-> Used in [Select](../Statement/SELECT.md), [Update](../Statement/Update.md) and [Delete](../Statement/Delete.md) statements.
+> Used in [Select](../Statement/Select.md), [Update](../Statement/Update.md) and [Delete](../Statement/Delete.md) statements.
 
-> Used by [Grouping](../Clause/Grouping.md) and [JOIN](../Clause/Join.md) clauses.
+> Used by [Grouping](../Clause/Grouping.md) and [Join](../Clause/Join.md) clauses.
 
 ## Constructor
 
@@ -24,30 +24,30 @@ use FaaPz\PDO\Clause\Conditional;
 
 // ... WHERE id BETWEEN ? AND ?
 $statement->where(
-    new Clause\Conditional("id", "BETWEEN", array(
+    new Clause\Conditional("id", "BETWEEN", [
         110, 220
-    ))
+    ])
 );
 
 // ... WHERE id NOT BETWEEN ? AND ?
 $statement->where(
-    new Clause\Conditional("id", "NOT BETWEEN", array(
+    new Clause\Conditional("id", "NOT BETWEEN", [
         110, 220
-    ))
+    ])
 );
 
 // ... WHERE id IN (?, ?, ?, ?)
 $statement->where(
-    new Clause\Conditional("id", "IN", array(
+    new Clause\Conditional("id", "IN", [
         110, 120, 130, 140
-    ))
+    ])
 );
 
 // ... WHERE id NOT IN (?, ?, ?, ?)
 $statement->where(
-    new Clause\Conditional("id", "NOT IN", array(
+    new Clause\Conditional("id", "NOT IN", [
         110, 120, 130, 140
-    ))
+    ])
 );
 
 // ... WHERE first_name LIKE ?

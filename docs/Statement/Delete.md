@@ -1,4 +1,4 @@
-# [FaaPz\PDO\Statement\Delete](../../src/Statement/Delete.php) extends [AdvancedStatement](../AdvancedStatement.md) implements [StatementInterface](../StatementInterface.md)
+# [FaaPz\PDO\Statement\Delete](../../src/Statement/Delete.php) extends [AdvancedStatement](../AdvancedStatement.md)
 
 ## Constructor
 
@@ -42,6 +42,6 @@ use FaaPz\PDO\Statement\Delete;
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 // DELETE FROM users
-$delete = new Delete($database);
-$delete->from('users');
+$database->delete()
+         ->from('users');
 ```

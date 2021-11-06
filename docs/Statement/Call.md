@@ -1,4 +1,4 @@
-# [FaaPz\PDO\Statement\Call](../../src/Statement/Call.php) implements [StatementInterface](../StatementInterface.md)
+# [FaaPz\PDO\Statement\Call](../../src/Statement/Call.php) extends [AbstractStatement](../AbstractStatement.md)
 
 ## Constructor
 
@@ -8,6 +8,20 @@ Parameter    | Description
 ------------ | -----------------------------------------
 `$dbh`       | Database object
 `$procedure` | Optional procedure to call
+
+#### Example
+
+```php
+use FaaPz\PDO\Database;
+use FaaPz\PDO\Statement\Call;
+
+$database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
+
+// CALL MyProcedure(?, ?)
+$call = new Call($database, new Method('MyProcedure', 1, 2));
+
+$call->execute();
+```
 
 ## Methods
 
@@ -29,8 +43,6 @@ use FaaPz\PDO\Database;
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 // CALL MyProcedure(?, ?)
-$call = new Call($database);
-$call->method(new Method('MyProcedure', 1, 2));
-
-$call->execute();
+$database->call()
+         ->method(new Method('MyProcedure', 1, 2));
 ```

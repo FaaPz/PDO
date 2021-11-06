@@ -1,4 +1,4 @@
-# [FaaPz\PDO\AdvancedStatement](../src/AdvancedStatement.php)
+# [FaaPz\PDO\AdvancedStatement](../src/AdvancedStatement.php) extends [AbstractStatement](../src/AbstractStatement.php)
 
 ## Methods
 
@@ -51,7 +51,7 @@ $statement->orderBy('col1')
 
 ### `limit(LimitInterface $limit): self`
 
-Adds a [Limit](../Clause/Limit.md) clause to this statement.
+Adds a [Limit](Clause/Limit.md) clause to this statement.
 
 Parameter    | Description
 ------------ | -----------------------------------------

@@ -1,8 +1,8 @@
 # [FaaPz\PDO\Clause\Grouping](../../src/Clause/Grouping.php) implements [QueryInterface](../QueryInterface.md)
 
-> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../Statement/Update.md) and [DELETE](../Statement/Delete.md) statements.
+> Used in [Select](../Statement/Select.md), [Udpdate](../Statement/Update.md) and [Delete](../Statement/Delete.md) statements.
 
-> Used by [JOIN](../Clause/Join.md) clauses.
+> Used by [Join](../Clause/Join.md) clauses.
 
 ## Constructor
 
@@ -21,11 +21,11 @@ use FaaPz\PDO\Clause\Grouping;
 
 // ... WHERE col1 = ? AND (col2 = ? OR col3 = ?)
 $statement->where(
-    new Grouping('AND', array(
+    new Grouping('AND', [
         new Conditional('col1', '=', 'val1'),
-        new Grouping('OR', array(
+        new Grouping('OR', [
             new Conditional('col2', '=', 'val2'),
             new Conditional('col3', '=', 'val3')
-        )
-    ));
+        ])
+    ]);
 ```

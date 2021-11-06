@@ -1,4 +1,4 @@
-# [FaaPz\PDO\Statement\Insert](../../src/Statement/Insert.php) implements [StatementInterface](../StatementInterface.md)
+# [FaaPz\PDO\Statement\Insert](../../src/Statement/Insert.php) extends [AbstractStatement](../AbstractStatement.md)
 
 ## Constructor
 
@@ -18,14 +18,14 @@ use FaaPz\PDO\Statement\Insert;
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 // INSERT INTO users (id , username , password) VALUES (? , ? , ?)
-$insert = new Insert($database, array(
+$insert = new Insert($database, [
               'id' => 1234,
               'username' => 'user',
               'password' => 'passwd'
-          ))
+          ])
           ->into('users');
 
-$insertId = $insert->execute(false)->lastInsertId();
+$insertId = $insert->execute()->lastInsertId();
 ```
 
 ## Methods
@@ -44,12 +44,10 @@ use FaaPz\PDO\Statement\Insert;
 
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
-$insert = new Insert($database);
-             
 // INSERT INTO users ...
-$insert->into('users');
+$database->insert()
+         ->into('users');
 ```
-
 
 ### `columns(array $columns)`
 
@@ -64,12 +62,11 @@ use FaaPz\PDO\Database;
 use FaaPz\PDO\Statement\Insert;
 
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
-
-$insert = new Insert($database);
-             
+    
 // INSERT INTO users (id, username, password) ...
-$insert->into('users')
-       ->columns(array('id', 'username', 'password'));
+$database->insert()
+         ->into('users')
+         ->columns(['id', 'username', 'password']);
 ```
 
 ### `values(array $values)`
@@ -85,12 +82,11 @@ use FaaPz\PDO\Database;
 use FaaPz\PDO\Statement\Insert;
 
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
-
-$insert = new Insert($database);
-             
+    
 // INSERT INTO users (id, username, password) VALUES (? , ? , ?), (? , ? , ?)
-$insert->into('users')
-       ->columns(array('id', 'username', 'password'))
-       ->values(array(1, 'user1', 'passwd1'))
-       ->values(array(2, 'user2', 'passwd2'));
+$database->insert()
+         ->into('users')
+         ->columns(['id', 'username', 'password'])
+         ->values([1, 'user1', 'passwd1'])
+         ->values([2, 'user2', 'passwd2']);
 ```
