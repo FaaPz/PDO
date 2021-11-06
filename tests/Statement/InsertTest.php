@@ -180,7 +180,7 @@ class InsertTest extends TestCase
         $this->assertStringStartsWith('INSERT IGNORE INTO test', $this->subject->__toString());
     }
 
-    public function testToStringWithQuery()
+    public function testToStringWithRaw()
     {
         $this->subject
             ->into('test')
@@ -188,6 +188,20 @@ class InsertTest extends TestCase
             ->values(new Raw('1'));
 
         $this->assertStringStartsWith('INSERT INTO test (one) VALUES (1)', $this->subject->__toString());
+    }
+
+    public function testToStringWithOnDuplicateUpdate()
+    {
+        $this->subject
+            ->into('test')
+            ->columns('one')
+            ->values(1)
+            ->onDuplicateUpdate(['one' => 2]);
+
+        $this->assertStringStartsWith(
+            'INSERT INTO test (one) VALUES (?) ON DUPLICATE KEY UPDATE one = ?',
+            $this->subject->__toString()
+        );
     }
 
     public function testGetValues()
@@ -227,7 +241,7 @@ class InsertTest extends TestCase
         $this->assertCount(0, $this->subject->getValues());
     }
 
-    public function testGetValuesWithDuplicate()
+    public function testGetValuesWithOnDuplicateUpdate()
     {
         $this->subject
             ->columns('one')
