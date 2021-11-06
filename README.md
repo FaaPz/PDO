@@ -26,39 +26,39 @@ $dsn = 'mysql:host=your_db_host;dbname=your_db_name;charset=utf8';
 $usr = 'your_db_username';
 $pwd = 'your_db_password';
 
-$pdo = new \FaaPz\PDO\Database($dsn, $usr, $pwd);
+$database = new FaaPz\PDO\Database($dsn, $usr, $pwd);
 
 // SELECT * FROM users WHERE id = ?
-$selectStatement = $pdo->select()
-                       ->from('users')
-                       ->where(new Clause\Conditional("id", "=", 1234));
+$select = $database->select()
+                   ->from('users')
+                   ->where(new FaaPz\PDO\Clause\Conditional('id', '=', 1234));
 
-$stmt = $selectStatement->execute();
+$stmt = $select->execute();
 $data = $stmt->fetch();
 
-// INSERT INTO users ( id , usr , pwd ) VALUES ( ? , ? , ? )
-$insertStatement = $pdo->insert(array(
-                           "id" =>1234,
-                           "usr" => "your_username",
-                           "pwd" => "your_password"
-                       ))
-                       ->into("users");
+// INSERT INTO users (id , username , password) VALUES (? , ? , ?)
+$insert = $database->insert([
+                       'id' =>1234,
+                       'username' => 'user',
+                       'password' => 'passwd'
+                   ])
+                   ->into('users');
 
-$insertId = $insertStatement->execute();
+$insertId = $insert->execute()->lastInsertId();
 
 // UPDATE users SET pwd = ? WHERE id = ?
-$updateStatement = $pdo->update(array("pwd" => "your_new_password"))
-                       ->table("users")
-                       ->where(new Clause\Conditional("id", "=", 1234));
+$update = $database->update(array("pwd" => "your_new_password"))
+                   ->table("users")
+                   ->where(new FaaPz\PDO\Clause\Conditional("id", "=", 1234));
 
-$affectedRows = $updateStatement->execute();
+$affectedRows = $update->execute()->rowCount();
 
 // DELETE FROM users WHERE id = ?
-$deleteStatement = $pdo->delete()
-                       ->from("users")
-                       ->where(new Clause\Conditional("id", "=", 1234));
+$delete = $database->delete()
+                   ->from("users")
+                   ->where(new FaaPz\PDO\Clause\Conditional("id", "=", 1234));
 
-$affectedRows = $deleteStatement->execute();
+$affectedRows = $deleteStatement->execute()->rowCount();
 ```
 
 > The `sqlsrv` extension will fail to connect when using error mode `PDO::ERRMODE_EXCEPTION` (default). To connect, you will need to explicitly pass `array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING)` (or `PDO::ERRMODE_SILENT`) into the constructor, or override the `getDefaultOptions()` method when using `sqlsrv`.
