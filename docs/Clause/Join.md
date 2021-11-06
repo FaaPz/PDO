@@ -1,24 +1,18 @@
-# JOIN clause
+# [FaaPz\PDO\Clause\Join](../../src/Clause/Join.php) implements [QueryInterface](../QueryInterface.md)
 
-> Used in [SELECT](../Statement/SELECT.md), [UPDATE](../Statement/UPDATE.md) and [DELETE](../Statement/DELETE.md) statements.
+> Used in [Select](../Statement/Select.md), [Update](../Statement/Update.md) and [Delete](../Statement/Delete.md) statements.
 
-##### `__construct($table, Conditional $on, $type = "")`
+## Constructor
 
-Parameter  | Type                                   | Default  | Description
----------- | -------------------------------------- | -------- | -----------
-`$table`   | *string*                               | required | The table to join against
-`$on`      | *[Conditional](Clause/CONDITIONAL.md)* | required | Conditional to join the above table on.
-`$type`    | *string*                               | ""       | The type of join to perform.
+### `__construct($table, Conditional $on, $type = "")`
 
-### Methods
+Parameter     | Description
+------------- | -----------------------------------------
+`$table`      | The table to join against
+`$on`         | Conditional to join the above table on
+`$type`       | Optional type of join to perform
 
-##### `__toString()`
-Returns the prepared SQL string for this statement.
-
-##### `getValues()`
-Returns the values to be escaped for this statement.
-
-### Examples
+#### Example
 
 ```php
 use FaaPz\PDO\Clause\Conditional;

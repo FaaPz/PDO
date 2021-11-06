@@ -1,18 +1,25 @@
-# Documentation
+#Table of Contents
 
-> **IMPORTANT!** Before reading through the following commands and methods, please be aware that it is possible to use raw PDO stuff, like `fetch()`, `fetchAll()`, `execute()` and the others whenever you feel you need to.
+## FaaPz\PDO
 
-### Statements
++ [Database](Database.md)
++ [AbstractStatement](AbstractStatement.md)
++ [AdvancedStatement](AdvancedStatement.md)
++ [QueryInterface](QueryInterface.md)
 
-+ [SELECT](Statement/SELECT.md)
-+ [INSERT](Statement/INSERT.md)
-+ [UPDATE](Statement/UPDATE.md)
-+ [DELETE](Statement/DELETE.md)
+## FaaPz\PDO\Clause
 
-### Clauses
++ [Conditional](Clause/Conditional.md)
++ [Grouping](Clause/Grouping.md)
++ [Join](Clause/Join.md)
++ [LIMIT](Clause/Limit.md)
++ [Method](Clause/Method.md)
++ [Raw](Clause/Raw.md)
 
-+ [CONDITIONAL](Clause/CONDITIONAL.md)
-+ [GROUPING](Clause/GROUPING.md)
-+ [JOIN](Clause/JOIN.md)
-+ [LIMIT](Clause/LIMIT.md)
-+ [METHOD](Clause/METHOD.md)
+## FaaPz\PDO\Statement
+
++ [Call](Statement/Call.md)
++ [Select](Statement/Select.md)
++ [Insert](Statement/Insert.md)
++ [Update](Statement/Update.md)
++ [Delete](Statement/Delete.md)
