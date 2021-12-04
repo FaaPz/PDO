@@ -29,7 +29,7 @@ Parameter    | Description
 ### Example
 
 ```php
-use \FaaPz\PDO\Database;
+use FaaPz\PDO\Database;
 
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 ```
