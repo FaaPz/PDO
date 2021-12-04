@@ -18,14 +18,12 @@ use FaaPz\PDO\Statement\Insert;
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 
 // INSERT INTO users (id , username , password) VALUES (? , ? , ?)
-$insert = new Insert($database, [
-              'id' => 1234,
-              'username' => 'user',
-              'password' => 'passwd'
-          ])
-          ->into('users');
+$insert = new Insert($database, ['id', 'username', 'password']);
+$insert->into('users')
+       ->values(1234, 'user', 'passwd');
 
-$insertId = $insert->execute()->lastInsertId();
+$insertId = $insert->execute()
+                   ->lastInsertId();
 ```
 
 ## Methods
