@@ -8,6 +8,8 @@
 namespace FaaPz\PDO;
 
 use PDO;
+use FaaPz\PDO\UserManager\UserManagerInterface;
+use FaaPz\PDO\UserManager\MariaDB\UserManagerMariaDB;
 
 class Database extends PDO
 {
@@ -86,5 +88,23 @@ class Database extends PDO
     public function delete($table = null): Statement\Delete
     {
         return new Statement\Delete($this, $table);
+    }
+
+    /**
+     * @return UserManager\UserManagerInterface
+     */
+    public function userManager($db): UserManagerInterface
+    {
+        $instance = null;
+        switch ($db) {
+            case 'mariadb':
+                $instance = new UserManagerMariaDB();
+                break;                   
+        }
+
+        if (!$instance) 
+            throw new \Exception('Database not suport');
+
+        return $instance;
     }
 }
