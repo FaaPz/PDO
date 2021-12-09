@@ -73,4 +73,4 @@ See [CHANGELOG](CHANGELOG.md)
 
 ### License
 
-See [LICENSE](LICENSE)
+See [LICENSE](LICENSE.md)
