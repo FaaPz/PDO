@@ -24,7 +24,9 @@ $update = new Update($database, [
               'password'
           ]);
 
-$insertId = $insert->execute()->lastInsertId();
+if (($result = $insert->execute()) !== false) {
+    $affectedRows = $result->rowCount();
+}
 ```
 
 ## Methods

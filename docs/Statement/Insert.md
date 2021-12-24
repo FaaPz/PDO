@@ -22,8 +22,9 @@ $insert = new Insert($database, ['id', 'username', 'password']);
 $insert->into('users')
        ->values(1234, 'user', 'passwd');
 
-$insertId = $insert->execute()
-                   ->lastInsertId();
+if ($insert->execute()) {
+    $insertId = $database->lastInsertId();
+}
 ```
 
 ## Methods
@@ -82,9 +83,12 @@ use FaaPz\PDO\Statement\Insert;
 $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
     
 // INSERT INTO users (id, username, password) VALUES (? , ? , ?), (? , ? , ?)
-$database->insert()
-         ->into('users')
-         ->columns(['id', 'username', 'password'])
+$insert = new Insert($database, ['id', 'username', 'password']);
+$insert->into('users')
          ->values([1, 'user1', 'passwd1'])
          ->values([2, 'user2', 'passwd2']);
+
+if (($result = $delete->execute()) !== false) {
+    $affectedRows = $result->rowCount();
+}
 ```

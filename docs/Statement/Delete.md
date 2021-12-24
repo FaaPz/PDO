@@ -20,7 +20,9 @@ $database = new Database('mysql:host=localhost;dbname=test_db;charset=UTF8');
 // DELETE FROM users
 $delete = new Delete($database, 'users');
 
-$affectedRows = $delete->execute()->rowCount();
+if (($result = $delete->execute()) !== false) {
+    $affectedRows = $result->rowCount();
+}
 ```
 
 ## Methods
