@@ -33,32 +33,44 @@ $select = $database->select()
                    ->from('users')
                    ->where(new FaaPz\PDO\Clause\Conditional('id', '=', 1234));
 
-$stmt = $select->execute();
-$data = $stmt->fetch();
+if ($insert->execute()) {
+    $data = $stmt->fetch();
+}
 
 // INSERT INTO users (id , username , password) VALUES (? , ? , ?)
-$insert = $database->insert([
-                       'id' =>1234,
-                       'username' => 'user',
-                       'password' => 'passwd'
-                   ])
-                   ->into('users');
+$insert = $database->insert(
+                       'id',
+                       'username',
+                       'password'
+                   )
+                   ->into('users')
+                   ->values(
+                       1234,
+                       'user',
+                       'passwd'
+                   );
 
-$insertId = $insert->execute()->lastInsertId();
+if ($insert->execute()) {
+    $insertId = $database->lastInsertId();
+}
 
 // UPDATE users SET pwd = ? WHERE id = ?
-$update = $database->update(array("pwd" => "your_new_password"))
+$update = $database->update(["pwd" => "your_new_password"])
                    ->table("users")
                    ->where(new FaaPz\PDO\Clause\Conditional("id", "=", 1234));
 
-$affectedRows = $update->execute()->rowCount();
+if (($result = $insert->execute()) !== false) {
+    $affectedRows = $result->rowCount();
+}
 
 // DELETE FROM users WHERE id = ?
 $delete = $database->delete()
                    ->from("users")
                    ->where(new FaaPz\PDO\Clause\Conditional("id", "=", 1234));
 
-$affectedRows = $deleteStatement->execute()->rowCount();
+if (($result = $delete->execute()) !== false) {
+    $affectedRows = $result->rowCount();
+}
 ```
 
 > The `sqlsrv` extension will fail to connect when using error mode `PDO::ERRMODE_EXCEPTION` (default). To connect, you will need to explicitly pass `array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING)` (or `PDO::ERRMODE_SILENT`) into the constructor, or override the `getDefaultOptions()` method when using `sqlsrv`.
