@@ -20,6 +20,8 @@ class InsertStatement extends StatementContainer
 
     /**
      * @param string $table
+     *
+     * @return self
      */
     public function into($table)
     {
@@ -28,6 +30,9 @@ class InsertStatement extends StatementContainer
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function columns(array $columns)
     {
         $this->setColumns($columns);
@@ -35,6 +40,9 @@ class InsertStatement extends StatementContainer
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function values(array $values)
     {
         $this->setValues($values);
@@ -71,15 +79,15 @@ class InsertStatement extends StatementContainer
     /**
      * @param bool $insertId
      *
-     * @return string
+     * @return string|bool|\PDOStatement
      */
     public function execute($insertId = true)
     {
         if (! $insertId) {
-            return parent::execute();
+            return $this->executeStmt();
         }
 
-        parent::execute();
+        $this->executeStmt();
 
         return $this->dbh->lastInsertId();
     }

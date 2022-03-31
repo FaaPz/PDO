@@ -1,0 +1,7 @@
+parameters:
+    level: max
+    paths:
+        - src
+    checkMissingIterableValueType: false
+    inferPrivatePropertyTypeFromConstructor: true
+    treatPhpDocTypesAsCertain: false

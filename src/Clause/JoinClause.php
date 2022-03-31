@@ -5,11 +5,13 @@ namespace Pb\PDO\Clause;
 class JoinClause extends ClauseContainer
 {
     /**
-     * @param string $table
-     * @param string $first
-     * @param null   $operator
-     * @param null   $second
-     * @param string $joinType
+     * @param string      $table
+     * @param string      $first
+     * @param string|null $operator
+     * @param string|null $second
+     * @param string      $joinType
+     *
+     * @return void
      */
     public function join($table, $first, $operator = null, $second = null, $joinType = 'INNER')
     {
@@ -17,10 +19,12 @@ class JoinClause extends ClauseContainer
     }
 
     /**
-     * @param string $table
-     * @param string $first
-     * @param null   $operator
-     * @param null   $second
+     * @param string      $table
+     * @param string      $first
+     * @param string|null $operator
+     * @param string|null $second
+     *
+     * @return void
      */
     public function leftJoin($table, $first, $operator = null, $second = null)
     {
@@ -28,10 +32,12 @@ class JoinClause extends ClauseContainer
     }
 
     /**
-     * @param string $table
-     * @param string $first
-     * @param null   $operator
-     * @param null   $second
+     * @param string      $table
+     * @param string      $first
+     * @param string|null $operator
+     * @param string|null $second
+     *
+     * @return void
      */
     public function rightJoin($table, $first, $operator = null, $second = null)
     {
@@ -39,10 +45,12 @@ class JoinClause extends ClauseContainer
     }
 
     /**
-     * @param string $table
-     * @param string $first
-     * @param null   $operator
-     * @param null   $second
+     * @param string      $table
+     * @param string      $first
+     * @param string|null $operator
+     * @param string|null $second
+     *
+     * @return void
      */
     public function fullJoin($table, $first, $operator = null, $second = null)
     {

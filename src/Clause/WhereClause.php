@@ -5,9 +5,11 @@ namespace Pb\PDO\Clause;
 class WhereClause extends ClauseContainer
 {
     /**
-     * @param string $column
-     * @param null   $operator
-     * @param string $chainType
+     * @param string      $column
+     * @param string|null $operator
+     * @param string      $chainType
+     *
+     * @return void
      */
     public function where($column, $operator = null, $chainType = 'AND')
     {
@@ -15,8 +17,10 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param string $column
-     * @param null   $operator
+     * @param string      $column
+     * @param string|null $operator
+     *
+     * @return void
      */
     public function orWhere($column, $operator = null)
     {
@@ -27,6 +31,8 @@ class WhereClause extends ClauseContainer
      * @param string $column
      * @param string $chainType
      * @param bool   $not
+     *
+     * @return void
      */
     public function whereBetween($column, $chainType = 'AND', $not = false)
     {
@@ -41,6 +47,8 @@ class WhereClause extends ClauseContainer
 
     /**
      * @param string $column
+     *
+     * @return void
      */
     public function orWhereBetween($column)
     {
@@ -50,6 +58,8 @@ class WhereClause extends ClauseContainer
     /**
      * @param string $column
      * @param string $chainType
+     *
+     * @return void
      */
     public function whereNotBetween($column, $chainType = 'AND')
     {
@@ -58,6 +68,8 @@ class WhereClause extends ClauseContainer
 
     /**
      * @param string $column
+     *
+     * @return void
      */
     public function orWhereNotBetween($column)
     {
@@ -69,6 +81,8 @@ class WhereClause extends ClauseContainer
      * @param string $placeholders
      * @param string $chainType
      * @param bool   $not
+     *
+     * @return void
      */
     public function whereIn($column, $placeholders, $chainType = 'AND', $not = false)
     {
@@ -84,6 +98,8 @@ class WhereClause extends ClauseContainer
     /**
      * @param string $column
      * @param string $placeholders
+     *
+     * @return void
      */
     public function orWhereIn($column, $placeholders)
     {
@@ -94,6 +110,8 @@ class WhereClause extends ClauseContainer
      * @param string $column
      * @param string $placeholders
      * @param string $chainType
+     *
+     * @return void
      */
     public function whereNotIn($column, $placeholders, $chainType = 'AND')
     {
@@ -103,6 +121,8 @@ class WhereClause extends ClauseContainer
     /**
      * @param string $column
      * @param string $placeholders
+     *
+     * @return void
      */
     public function orWhereNotIn($column, $placeholders)
     {
@@ -113,6 +133,8 @@ class WhereClause extends ClauseContainer
      * @param string $column
      * @param string $chainType
      * @param bool   $not
+     *
+     * @return void
      */
     public function whereLike($column, $chainType = 'AND', $not = false)
     {
@@ -127,6 +149,8 @@ class WhereClause extends ClauseContainer
 
     /**
      * @param string $column
+     *
+     * @return void
      */
     public function orWhereLike($column)
     {
@@ -136,6 +160,8 @@ class WhereClause extends ClauseContainer
     /**
      * @param string $column
      * @param string $chainType
+     *
+     * @return void
      */
     public function whereNotLike($column, $chainType = 'AND')
     {
@@ -144,6 +170,8 @@ class WhereClause extends ClauseContainer
 
     /**
      * @param string $column
+     *
+     * @return void
      */
     public function orWhereNotLike($column)
     {
@@ -154,6 +182,8 @@ class WhereClause extends ClauseContainer
      * @param string $column
      * @param string $chainType
      * @param bool   $not
+     *
+     * @return void
      */
     public function whereNull($column, $chainType = 'AND', $not = false)
     {
@@ -167,7 +197,9 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param $column
+     * @param string $column
+     *
+     * @return void
      */
     public function orWhereNull($column)
     {
@@ -177,6 +209,8 @@ class WhereClause extends ClauseContainer
     /**
      * @param string $column
      * @param string $chainType
+     *
+     * @return void
      */
     public function whereNotNull($column, $chainType = 'AND')
     {
@@ -185,6 +219,8 @@ class WhereClause extends ClauseContainer
 
     /**
      * @param string $column
+     *
+     * @return void
      */
     public function orWhereNotNull($column)
     {
@@ -192,9 +228,10 @@ class WhereClause extends ClauseContainer
     }
 
     /**
-     * @param array  $columns
-     * @param null   $operator
-     * @param string $chainType
+     * @param string|null $operator
+     * @param string      $chainType
+     *
+     * @return void
      */
     public function whereMany(array $columns, $operator = null, $chainType = 'AND')
     {

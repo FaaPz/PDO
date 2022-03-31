@@ -7,6 +7,8 @@ class OrderClause extends ClauseContainer
     /**
      * @param string $column
      * @param string $direction
+     *
+     * @return void
      */
     public function orderBy($column, $direction = 'ASC')
     {

@@ -5,9 +5,11 @@ namespace Pb\PDO\Clause;
 class HavingClause extends ClauseContainer
 {
     /**
-     * @param string $column
-     * @param null   $operator
-     * @param string $chainType
+     * @param string      $column
+     * @param string|null $operator
+     * @param string      $chainType
+     *
+     * @return void
      */
     public function having($column, $operator = null, $chainType = 'AND')
     {
@@ -15,8 +17,10 @@ class HavingClause extends ClauseContainer
     }
 
     /**
-     * @param string $column
-     * @param null   $operator
+     * @param string      $column
+     * @param string|null $operator
+     *
+     * @return void
      */
     public function orHaving($column, $operator = null)
     {
@@ -24,8 +28,10 @@ class HavingClause extends ClauseContainer
     }
 
     /**
-     * @param string $column
-     * @param null   $operator
+     * @param string      $column
+     * @param string|null $operator
+     *
+     * @return void
      */
     public function havingCount($column, $operator = null)
     {
@@ -35,8 +41,10 @@ class HavingClause extends ClauseContainer
     }
 
     /**
-     * @param string $column
-     * @param null   $operator
+     * @param string      $column
+     * @param string|null $operator
+     *
+     * @return void
      */
     public function havingMax($column, $operator = null)
     {
@@ -46,8 +54,10 @@ class HavingClause extends ClauseContainer
     }
 
     /**
-     * @param string $column
-     * @param null   $operator
+     * @param string      $column
+     * @param string|null $operator
+     *
+     * @return void
      */
     public function havingMin($column, $operator = null)
     {
@@ -57,8 +67,10 @@ class HavingClause extends ClauseContainer
     }
 
     /**
-     * @param string $column
-     * @param null   $operator
+     * @param string      $column
+     * @param string|null $operator
+     *
+     * @return void
      */
     public function havingAvg($column, $operator = null)
     {
@@ -68,8 +80,10 @@ class HavingClause extends ClauseContainer
     }
 
     /**
-     * @param string $column
-     * @param null   $operator
+     * @param string      $column
+     * @param string|null $operator
+     *
+     * @return void
      */
     public function havingSum($column, $operator = null)
     {

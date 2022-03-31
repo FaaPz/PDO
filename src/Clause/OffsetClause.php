@@ -4,10 +4,15 @@ namespace Pb\PDO\Clause;
 
 class OffsetClause extends ClauseContainer
 {
+    /**
+     * @var int|null
+     */
     private $offset = null;
 
     /**
      * @param int $number
+     *
+     * @return void
      */
     public function offset($number)
     {

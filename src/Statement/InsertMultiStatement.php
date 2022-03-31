@@ -6,6 +6,9 @@ use Pb\PDO\Database;
 
 class InsertMultiStatement extends StatementContainer
 {
+    /**
+     * @var array
+     */
     protected $updateOnDuplicate = [];
 
     public function __construct(Database $dbh, array $keys, array $values)
@@ -19,6 +22,8 @@ class InsertMultiStatement extends StatementContainer
 
     /**
      * @param string $table
+     *
+     * @return self
      */
     public function into($table)
     {
@@ -27,6 +32,9 @@ class InsertMultiStatement extends StatementContainer
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function columns(array $columns)
     {
         $this->setColumns($columns);
@@ -34,6 +42,9 @@ class InsertMultiStatement extends StatementContainer
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function values(array $values)
     {
         $this->setValues($values);
@@ -45,6 +56,9 @@ class InsertMultiStatement extends StatementContainer
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function addRow(array $values)
     {
         $this->appendValues($values);
@@ -54,6 +68,9 @@ class InsertMultiStatement extends StatementContainer
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function onDuplicateKeyUpdate(array $keys)
     {
         $this->updateOnDuplicate = $keys;
@@ -94,9 +111,7 @@ class InsertMultiStatement extends StatementContainer
      */
     public function execute()
     {
-        $stmt = parent::executeMulti();
-
-        return $stmt->rowCount();
+        return parent::executeMulti()->rowCount();
     }
 
     /**

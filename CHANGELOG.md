@@ -1,5 +1,12 @@
 ### Changelog
 
+##### v2.1.0
++ Updated internal tools php-cs-fixer and phpstan
+  - Cleared all phpstan errors up to level 8 (max)
++ Changed (corrected) some return types for functions
+  - These were all from phpstan errors
+  - Increased minor version number because of compatibility
+
 ##### v2.0.2
 + Updated `GroupClause` class with:
   - For backwards compatibility, `groupBy()` accepts both `array` and `string`

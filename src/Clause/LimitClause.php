@@ -4,11 +4,16 @@ namespace Pb\PDO\Clause;
 
 class LimitClause extends ClauseContainer
 {
+    /**
+     * @var int|string|null
+     */
     private $limit = null;
 
     /**
      * @param int $number
      * @param int $offset
+     *
+     * @return void
      */
     public function limit($number, $offset = 0)
     {

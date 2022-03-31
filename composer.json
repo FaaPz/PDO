@@ -33,9 +33,10 @@
         "ext-pdo": "*"
     },
     "scripts": {
-        "fix": "php-cs-fixer fix",
-        "test": "./vendor/bin/phpunit",
-        "lint": "php-cs-fixer fix --dry-run --diff"
+        "fix": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix",
+        "lint": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run --diff",
+        "phpstan": "tools/phpstan/vendor/bin/phpstan --memory-limit=1G analyse",
+        "phpstan-strict": "tools/phpstan/vendor/bin/phpstan --memory-limit=1G --level=6 analyse"
     },
     "autoload": {
         "psr-4": {

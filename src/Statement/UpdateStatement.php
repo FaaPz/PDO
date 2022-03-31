@@ -15,6 +15,8 @@ class UpdateStatement extends StatementContainer
 
     /**
      * @param string $table
+     *
+     * @return self
      */
     public function table($table)
     {
@@ -24,7 +26,7 @@ class UpdateStatement extends StatementContainer
     }
 
     /**
-     * @param array $pairs
+     * @return self
      */
     public function set(array $pairs)
     {
@@ -63,7 +65,7 @@ class UpdateStatement extends StatementContainer
      */
     public function execute()
     {
-        return parent::execute()->rowCount();
+        return $this->executeStmt()->rowCount();
     }
 
     /**

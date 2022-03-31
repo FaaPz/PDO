@@ -6,6 +6,8 @@ class GroupClause extends ClauseContainer
 {
     /**
      * @param mixed $columns
+     *
+     * @return void
      */
     public function groupBy($columns)
     {
@@ -16,6 +18,9 @@ class GroupClause extends ClauseContainer
         }
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         if (empty($this->container)) {

@@ -2,10 +2,10 @@
 
 namespace Pb\PDO\Statement;
 
-use Pb\PDO\Database;
 use Pb\PDO\Clause\LimitClause;
 use Pb\PDO\Clause\OrderClause;
 use Pb\PDO\Clause\WhereClause;
+use Pb\PDO\Database;
 
 abstract class StatementContainer
 {
@@ -68,6 +68,8 @@ abstract class StatementContainer
      * @param null   $operator
      * @param null   $value
      * @param string $chainType
+     *
+     * @return self
      */
     public function where($column, $operator = null, $value = null, $chainType = 'AND')
     {
@@ -82,6 +84,8 @@ abstract class StatementContainer
      * @param string $column
      * @param null   $operator
      * @param null   $value
+     *
+     * @return self
      */
     public function orWhere($column, $operator = null, $value = null)
     {
@@ -94,8 +98,9 @@ abstract class StatementContainer
 
     /**
      * @param string $column
-     * @param array  $values
      * @param string $chainType
+     *
+     * @return self
      */
     public function whereBetween($column, array $values, $chainType = 'AND')
     {
@@ -108,7 +113,8 @@ abstract class StatementContainer
 
     /**
      * @param string $column
-     * @param array  $values
+     *
+     * @return self
      */
     public function orWhereBetween($column, array $values)
     {
@@ -121,8 +127,9 @@ abstract class StatementContainer
 
     /**
      * @param string $column
-     * @param array  $values
      * @param string $chainType
+     *
+     * @return self
      */
     public function whereNotBetween($column, array $values, $chainType = 'AND')
     {
@@ -135,7 +142,8 @@ abstract class StatementContainer
 
     /**
      * @param string $column
-     * @param array  $values
+     *
+     * @return self
      */
     public function orWhereNotBetween($column, array $values)
     {
@@ -148,8 +156,9 @@ abstract class StatementContainer
 
     /**
      * @param string $column
-     * @param array  $values
      * @param string $chainType
+     *
+     * @return self
      */
     public function whereIn($column, array $values, $chainType = 'AND')
     {
@@ -164,7 +173,8 @@ abstract class StatementContainer
 
     /**
      * @param string $column
-     * @param array  $values
+     *
+     * @return self
      */
     public function orWhereIn($column, array $values)
     {
@@ -179,8 +189,9 @@ abstract class StatementContainer
 
     /**
      * @param string $column
-     * @param array  $values
      * @param string $chainType
+     *
+     * @return self
      */
     public function whereNotIn($column, array $values, $chainType = 'AND')
     {
@@ -195,7 +206,8 @@ abstract class StatementContainer
 
     /**
      * @param string $column
-     * @param array  $values
+     *
+     * @return self
      */
     public function orWhereNotIn($column, array $values)
     {
@@ -212,6 +224,8 @@ abstract class StatementContainer
      * @param string $column
      * @param null   $value
      * @param string $chainType
+     *
+     * @return self
      */
     public function whereLike($column, $value = null, $chainType = 'AND')
     {
@@ -225,6 +239,8 @@ abstract class StatementContainer
     /**
      * @param string $column
      * @param null   $value
+     *
+     * @return self
      */
     public function orWhereLike($column, $value = null)
     {
@@ -239,6 +255,8 @@ abstract class StatementContainer
      * @param string $column
      * @param null   $value
      * @param string $chainType
+     *
+     * @return self
      */
     public function whereNotLike($column, $value = null, $chainType = 'AND')
     {
@@ -252,6 +270,8 @@ abstract class StatementContainer
     /**
      * @param string $column
      * @param null   $value
+     *
+     * @return self
      */
     public function orWhereNotLike($column, $value = null)
     {
@@ -265,6 +285,8 @@ abstract class StatementContainer
     /**
      * @param string $column
      * @param string $chainType
+     *
+     * @return self
      */
     public function whereNull($column, $chainType = 'AND')
     {
@@ -275,6 +297,8 @@ abstract class StatementContainer
 
     /**
      * @param string $column
+     *
+     * @return self
      */
     public function orWhereNull($column)
     {
@@ -286,6 +310,8 @@ abstract class StatementContainer
     /**
      * @param string $column
      * @param string $chainType
+     *
+     * @return self
      */
     public function whereNotNull($column, $chainType = 'AND')
     {
@@ -296,6 +322,8 @@ abstract class StatementContainer
 
     /**
      * @param string $column
+     *
+     * @return self
      */
     public function orWhereNotNull($column)
     {
@@ -305,9 +333,11 @@ abstract class StatementContainer
     }
 
     /**
-     * @param string $columns
+     * @param array  $columns
      * @param null   $operator
      * @param string $chainType
+     *
+     * @return self
      */
     public function whereMany($columns, $operator = null, $chainType = 'AND')
     {
@@ -320,6 +350,8 @@ abstract class StatementContainer
     /**
      * @param string $column
      * @param string $direction
+     *
+     * @return self
      */
     public function orderBy($column, $direction = 'ASC')
     {
@@ -331,6 +363,8 @@ abstract class StatementContainer
     /**
      * @param int $number
      * @param int $offset
+     *
+     * @return self
      */
     public function limit($number, $offset = 0)
     {
@@ -369,9 +403,14 @@ abstract class StatementContainer
     }
 
     /**
+     * @return \PDOStatement|string|int|bool
+     */
+    abstract public function execute();
+
+    /**
      * @return \PDOStatement
      */
-    public function execute()
+    public function executeStmt()
     {
         $stmt = $this->getStatement();
         $this->bindValues($stmt, $this->values);
@@ -397,6 +436,8 @@ abstract class StatementContainer
      *
      * @param  \PDOStatement $statement
      * @param  array         $bindings
+     *
+     * @return void
      */
     protected function bindValues($statement, $bindings)
     {
@@ -414,6 +455,8 @@ abstract class StatementContainer
      *
      * @param  \PDOStatement $statement
      * @param  array         $bindings
+     *
+     * @return void
      */
     protected function bindValuesMulti($statement, $bindings)
     {
@@ -424,7 +467,7 @@ abstract class StatementContainer
             $values = array_merge($values, array_values($array));
         }
 
-        return $this->bindValues($statement, $values);
+        $this->bindValues($statement, $values);
     }
 
     /**
@@ -437,6 +480,8 @@ abstract class StatementContainer
 
     /**
      * @param string $table
+     *
+     * @return self
      */
     protected function setTable($table)
     {
@@ -445,6 +490,9 @@ abstract class StatementContainer
         return $this;
     }
 
+    /**
+     * @return self
+     */
     protected function setColumns(array $columns)
     {
         $this->columns = array_merge($this->columns, $columns);
@@ -452,6 +500,9 @@ abstract class StatementContainer
         return $this;
     }
 
+    /**
+     * @return self
+     */
     protected function setValues(array $values)
     {
         $this->values = array_merge($this->values, $values);
@@ -459,6 +510,9 @@ abstract class StatementContainer
         return $this;
     }
 
+    /**
+     * @return self
+     */
     protected function appendValues(array $values)
     {
         $this->values[] = $values;
@@ -495,6 +549,9 @@ abstract class StatementContainer
         return implode(' , ', $result);
     }
 
+    /**
+     * @return void
+     */
     protected function setPlaceholders(array $values)
     {
         foreach ($values as $value) {
@@ -506,6 +563,9 @@ abstract class StatementContainer
         }
     }
 
+    /**
+     * @return void
+     */
     protected function setMultiPlaceholders(array $values)
     {
         $placeholders = [];
@@ -532,7 +592,7 @@ abstract class StatementContainer
     /**
      * @return \PDOStatement
      */
-    private function getStatement()
+    protected function getStatement()
     {
         $sql = $this;
 

@@ -7,7 +7,6 @@ use Pb\PDO\Database;
 class DeleteStatement extends StatementContainer
 {
     /**
-     * @param Database $dbh
      * @param string   $table
      */
     public function __construct(Database $dbh, $table)
@@ -19,6 +18,8 @@ class DeleteStatement extends StatementContainer
 
     /**
      * @param string $table
+     *
+     * @return self
      */
     public function from($table)
     {
@@ -49,6 +50,6 @@ class DeleteStatement extends StatementContainer
      */
     public function execute()
     {
-        return parent::execute()->rowCount();
+        return $this->executeStmt()->rowCount();
     }
 }

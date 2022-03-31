@@ -1,13 +1,12 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()->in('src');
+$finder = PhpCsFixer\Finder::create()->in(__DIR__);
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules([
         '@Symfony' => true,
-        'braces' => false,
         'new_with_braces' => false,
-        'trailing_comma_in_multiline_array' => false,
+        'trailing_comma_in_multiline' => false,
         'not_operator_with_successor_space' => true,
         'phpdoc_align' => false,
         'phpdoc_summary' => false,
