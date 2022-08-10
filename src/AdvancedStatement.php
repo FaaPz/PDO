@@ -11,7 +11,7 @@ use FaaPz\PDO\Clause\ConditionalInterface;
 use FaaPz\PDO\Clause\JoinInterface;
 use FaaPz\PDO\Clause\LimitInterface;
 
-abstract class AdvancedStatement extends AbstractStatement implements StatementInterface
+abstract class AdvancedStatement extends AbstractStatement implements AdvancedStatementInterface
 {
     /** @var array<JoinInterface> $join */
     protected $join = [];
