@@ -7,10 +7,10 @@
 
 namespace FaaPz\PDO\Statement;
 
-use FaaPz\PDO\StatementInterface;
+use FaaPz\PDO\AdvancedStatementInterface;
 use FaaPz\PDO\Clause\ConditionalInterface;
 
-interface SelectInterface extends StatementInterface
+interface SelectInterface extends AdvancedStatementInterface
 {
     /**
      * @return self

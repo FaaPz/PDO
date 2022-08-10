@@ -7,10 +7,10 @@
 
 namespace FaaPz\PDO\Statement;
 
+use FaaPz\PDO\AdvancedStatementInterface;
 use FaaPz\PDO\Clause\RawInterface;
-use FaaPz\PDO\StatementInterface;
 
-interface UpdateInterface extends StatementInterface
+interface UpdateInterface extends AdvancedStatementInterface
 {
     /**
      * @param string $table
