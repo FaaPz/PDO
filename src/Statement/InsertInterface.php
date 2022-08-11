@@ -15,26 +15,26 @@ interface InsertInterface extends StatementInterface
     /**
      * @param string $level
      *
-     * @return self
+     * @return static
      */
     public function priority(string $level);
 
     /**
-     * @return self
+     * @return static
      */
     public function ignore();
 
     /**
      * @param string $table
      *
-     * @return self
+     * @return static
      */
     public function into(string $table);
 
     /**
      * @param string ...$columns
      *
-     * @return self
+     * @return static
      */
     public function columns(string ...$columns);
 
@@ -42,14 +42,14 @@ interface InsertInterface extends StatementInterface
      * @param float|int|string|RawInterface|SelectInterface $value
      * @param float|int|string|RawInterface                 ...$values
      *
-     * @return self
+     * @return static
      */
     public function values($value, ...$values);
 
     /**
      * @param array<string, float|int|string|RawInterface> $paris
      *
-     * @return self
+     * @return static
      */
     public function onDuplicateUpdate(array $paris = []);
 }

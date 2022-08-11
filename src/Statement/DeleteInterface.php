@@ -14,7 +14,7 @@ interface DeleteInterface extends StatementInterface
     /**
      * @param string|array<string, string> $table
      *
-     * @return self
+     * @return static
      */
     public function from($table);
 }
