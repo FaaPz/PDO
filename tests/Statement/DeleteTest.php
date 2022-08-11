@@ -101,8 +101,17 @@ class DeleteTest extends TestCase
             ->orderBy('id', 'ASC')
             ->orderBy('name', 'DESC');
 
-        // FIXME This seems broken...
-        $this->assertStringEndsWith('test ORDER BY id ASC, name DESC', $this->subject->__toString());
+        $this->assertStringEndsWith(' ORDER BY id ASC, name DESC', $this->subject->__toString());
+    }
+
+    public function testToStringWithOrderByWithoutDirection()
+    {
+        $this->subject
+            ->from('test')
+            ->orderBy('id')
+            ->orderBy('name');
+
+        $this->assertStringEndsWith(' ORDER BY id, name', $this->subject->__toString());
     }
 
     public function testToStringWithLimit()
