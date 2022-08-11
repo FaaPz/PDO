@@ -1,5 +1,9 @@
 ### Changelog
 
+##### v2.2.1
++ Added missing interface for AdvancedStatement
++ Fixed orderBy issue when direction is omitted
+
 ##### v2.2.0
 + Added interfaces for all classes
 + Added Insert::priority() support
@@ -11,8 +15,8 @@
 + Major documentation updates
 
 ##### v2.1.0
-+ Adding Insert::onDuplicateUpdate support
-+ Fixing TypeError with Update constructor
++ Added Insert::onDuplicateUpdate support
++ Fixed TypeError with Update constructor
 
 ##### v2.0.1
 + Fixed Conditional issues with QueryInterface values
