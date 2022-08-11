@@ -95,13 +95,19 @@ abstract class AdvancedStatement extends AbstractStatement implements AdvancedSt
     protected function renderOrderBy(): string
     {
         $sql = '';
-        if ($direction = reset($this->orderBy)) {
+        if (($direction = reset($this->orderBy)) !== false) {
             $column = key($this->orderBy);
-            $sql = " ORDER BY {$column} {$direction}";
+            $sql = " ORDER BY {$column}";
+            if (!empty($direction)) {
+                $sql .= " {$direction}";
+            }
 
-            while ($direction = next($this->orderBy)) {
+            while (($direction = next($this->orderBy)) !== false) {
                 $column = key($this->orderBy);
-                $sql .= ", {$column} {$direction}";
+                $sql .= ", {$column}";
+                if (!empty($direction)) {
+                    $sql .= " {$direction}";
+                }
             }
         }
 

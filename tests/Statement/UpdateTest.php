@@ -117,6 +117,17 @@ class UpdateTest extends TestCase
         $this->assertStringEndsWith(' ORDER BY id ASC, name DESC', $this->subject->__toString());
     }
 
+    public function testToStringWithOrderByWithoutDirection()
+    {
+        $this->subject
+            ->table('test')
+            ->set('col', 'value')
+            ->orderBy('id')
+            ->orderBy('name');
+
+        $this->assertStringEndsWith(' ORDER BY id, name', $this->subject->__toString());
+    }
+
     public function testToStringWithLimit()
     {
         $this->subject
