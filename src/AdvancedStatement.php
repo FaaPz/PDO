@@ -117,9 +117,9 @@ abstract class AdvancedStatement extends AbstractStatement implements AdvancedSt
     /**
      * @param LimitInterface $limit
      *
-     * @return self
+     * @return static
      */
-    public function limit(LimitInterface $limit): self
+    public function limit(LimitInterface $limit)
     {
         $this->limit = $limit;
 

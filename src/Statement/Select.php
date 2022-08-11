@@ -48,9 +48,9 @@ class Select extends AdvancedStatement implements SelectInterface
     }
 
     /**
-     * @return self
+     * @return static
      */
-    public function distinct(): self
+    public function distinct()
     {
         $this->distinct = true;
 
@@ -73,9 +73,9 @@ class Select extends AdvancedStatement implements SelectInterface
     /**
      * @param array<int|string, string|SelectInterface> $columns
      *
-     * @return self
+     * @return static
      */
-    public function columns(array $columns = ['*']): self
+    public function columns(array $columns = ['*'])
     {
         if (empty($columns)) {
             $this->columns = ['*'];
@@ -114,9 +114,9 @@ class Select extends AdvancedStatement implements SelectInterface
     /**
      * @param string|array<string, string|SelectInterface> $table
      *
-     * @return self
+     * @return static
      */
-    public function from($table): self
+    public function from($table)
     {
         $this->table = $table;
 
@@ -152,9 +152,9 @@ class Select extends AdvancedStatement implements SelectInterface
     /**
      * @param SelectInterface $query
      *
-     * @return self
+     * @return static
      */
-    public function union(SelectInterface $query): self
+    public function union(SelectInterface $query)
     {
         $this->union[$this->getUnionCount()] = $query;
 
@@ -164,9 +164,9 @@ class Select extends AdvancedStatement implements SelectInterface
     /**
      * @param SelectInterface $query
      *
-     * @return self
+     * @return static
      */
-    public function unionAll(SelectInterface $query): self
+    public function unionAll(SelectInterface $query)
     {
         $this->unionAll[$this->getUnionCount()] = $query;
 
@@ -206,9 +206,9 @@ class Select extends AdvancedStatement implements SelectInterface
     /**
      * @param string ...$columns
      *
-     * @return self
+     * @return static
      */
-    public function groupBy(string ...$columns): self
+    public function groupBy(string ...$columns)
     {
         $this->groupBy = array_merge($this->groupBy, $columns);
 
@@ -231,9 +231,9 @@ class Select extends AdvancedStatement implements SelectInterface
     /**
      * @param ConditionalInterface $clause
      *
-     * @return self
+     * @return static
      */
-    public function having(ConditionalInterface $clause): self
+    public function having(ConditionalInterface $clause)
     {
         $this->having = $clause;
 
