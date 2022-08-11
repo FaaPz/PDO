@@ -38,7 +38,7 @@ interface AdvancedStatementInterface extends StatementInterface
     /**
      * @param LimitInterface $limit
      *
-     * @return self
+     * @return static
      */
     public function limit(LimitInterface $limit);
 }

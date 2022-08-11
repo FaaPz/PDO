@@ -47,9 +47,9 @@ class Insert extends AbstractStatement implements InsertInterface
     /**
      * @param string $level
      *
-     * @return self
+     * @return static
      */
-    public function priority(string $level): self
+    public function priority(string $level)
     {
         $this->priority = strtoupper(trim($level));
 
@@ -84,9 +84,9 @@ class Insert extends AbstractStatement implements InsertInterface
     }
 
     /**
-     * @return self
+     * @return static
      */
-    public function ignore(): self
+    public function ignore()
     {
         $this->ignore = true;
 
@@ -110,9 +110,9 @@ class Insert extends AbstractStatement implements InsertInterface
     /**
      * @param string $table
      *
-     * @return self
+     * @return static
      */
-    public function into(string $table): self
+    public function into(string $table)
     {
         $this->table = $table;
 
@@ -134,9 +134,9 @@ class Insert extends AbstractStatement implements InsertInterface
     /**
      * @param string ...$columns
      *
-     * @return self
+     * @return static
      */
-    public function columns(string ...$columns): self
+    public function columns(string ...$columns)
     {
         $this->columns = $columns;
 
@@ -160,9 +160,9 @@ class Insert extends AbstractStatement implements InsertInterface
      * @param float|int|string|RawInterface|SelectInterface $value
      * @param float|int|string|RawInterface                 ...$values
      *
-     * @return self
+     * @return static
      */
-    public function values($value, ...$values): self
+    public function values($value, ...$values)
     {
         array_unshift($values, $value);
         $this->values[] = $values;
@@ -236,9 +236,9 @@ class Insert extends AbstractStatement implements InsertInterface
     /**
      * @param array<string, float|int|string|RawInterface> $paris
      *
-     * @return self
+     * @return static
      */
-    public function onDuplicateUpdate(array $paris = []): self
+    public function onDuplicateUpdate(array $paris = [])
     {
         $this->update = $paris;
 
