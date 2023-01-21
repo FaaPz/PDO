@@ -47,7 +47,8 @@ class Conditional implements ConditionalInterface
             if ($values[$i] instanceof QueryInterface) {
                 $value = $values[$i]->getValues();
                 array_splice($values, $i, 1, $value);
-                $i += count($value);
+                $i += count($value) - 1;
+                $count += count($value) - 1;
             }
         }
 
