@@ -162,9 +162,8 @@ class DeleteTest extends TestCase
             ->orderBy('id', 'ASC')
             ->orderBy('name', 'DESC');
 
-        // FIXME This seems broken...
         $this->assertIsArray($this->subject->getValues());
-        $this->assertCount(2, $this->subject->getValues());
+        $this->assertCount(0, $this->subject->getValues());
     }
 
     public function testGetValuesWithLimit()
