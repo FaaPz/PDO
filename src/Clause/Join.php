@@ -38,6 +38,17 @@ class Join implements JoinInterface
      */
     public function getValues(): array
     {
+        if (is_array($this->subject)) {
+            reset($this->subject);
+            $alias = key($this->subject);
+            if (!is_string($alias)) {
+                trigger_error('Invalid subject array, use string keys for alias', E_USER_ERROR);
+            }
+            $table = $this->subject[$alias];
+            if ($table instanceof SelectInterface) {
+                return array_merge($table->getValues(), $this->on->getValues());
+            }
+        }
         return $this->on->getValues();
     }
 
