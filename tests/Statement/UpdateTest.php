@@ -29,7 +29,7 @@ class UpdateTest extends TestCase
         $stmt = $this->createMock(PDOStatement::class);
         $stmt->method('execute')
             ->with($this->anything())
-            ->willReturn($stmt);
+            ->willReturn(true);
         $stmt->method('rowCount')
             ->willReturn(1);
 
