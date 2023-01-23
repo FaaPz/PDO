@@ -107,4 +107,21 @@ class JoinTest extends TestCase
         $this->assertIsArray($subject->getValues());
         $this->assertCount(1, $subject->getValues());
     }
+
+    public function testGetValuesWithSubselect()
+    {
+        $db = $this->createMock(Database::class);
+        $subject = new Join(
+            ['alias' => (new Select($db))->from('table')->where(new Conditional('column1', '=', 'value1'))],
+            new Conditional('column2', '=', 'value2')
+        );
+
+        $this->assertStringMatchesFormat(
+            'JOIN (SELECT * FROM table WHERE column1 = ?) AS alias ON column2 = ?',
+            $subject->__toString()
+        );
+        $this->assertIsArray($subject->getValues());
+        $this->assertCount(2, $subject->getValues());
+        $this->assertEquals(['value1', 'value2'], $subject->getValues());
+    }
 }
