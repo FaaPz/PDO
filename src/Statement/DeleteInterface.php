@@ -7,9 +7,9 @@
 
 namespace FaaPz\PDO\Statement;
 
-use FaaPz\PDO\StatementInterface;
+use FaaPz\PDO\AdvancedStatementInterface;
 
-interface DeleteInterface extends StatementInterface
+interface DeleteInterface extends AdvancedStatementInterface
 {
     /**
      * @param string|array<string, string> $table
