@@ -26,14 +26,14 @@ class InsertTest extends TestCase
         $stmt = $this->createMock(PDOStatement::class);
         $stmt->method('execute')
             ->with($this->anything())
-            ->willReturn($stmt);
+            ->willReturn(true);
 
         $pdo = $this->createMock(Database::class);
         $pdo->method('prepare')
             ->with($this->anything())
             ->willReturn($stmt);
         $pdo->method('lastInsertId')
-            ->willReturn(1);
+            ->willReturn('1');
 
         $this->subject = new Insert($pdo);
     }
