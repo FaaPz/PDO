@@ -22,7 +22,6 @@ jobs:
           extensions: ast, mbstring, pdo
           ini-values: "date.timezone=UTC"
           coverage: PCOV
-          pecl: true
 
       - name: Check PHP Version
         run: php -v

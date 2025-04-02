@@ -85,7 +85,7 @@ class Conditional implements ConditionalInterface
                     );
                 }
 
-                $sql .= "({$this->renderPlaceholder($this->value[0])} AND {$this->renderPlaceholder($this->value[1])})";
+                $sql .= "{$this->renderPlaceholder($this->value[0])} AND {$this->renderPlaceholder($this->value[1])}";
                 break;
 
             case 'IN':

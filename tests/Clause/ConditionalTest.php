@@ -42,7 +42,7 @@ class ConditionalTest extends TestCase
     {
         $subject = new Conditional('col', 'BETWEEN', [1, 2]);
 
-        $this->assertEquals('col BETWEEN (? AND ?)', $subject->__toString());
+        $this->assertEquals('col BETWEEN ? AND ?', $subject->__toString());
     }
 
     public function testToStringWithBetweenException()
