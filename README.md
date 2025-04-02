@@ -59,7 +59,7 @@ $update = $database->update(["pwd" => "your_new_password"])
                    ->table("users")
                    ->where(new FaaPz\PDO\Clause\Conditional("id", "=", 1234));
 
-if (($result = $insert->execute()) !== false) {
+if (($result = $update->execute()) !== false) {
     $affectedRows = $result->rowCount();
 }
 
