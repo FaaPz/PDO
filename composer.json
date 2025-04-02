@@ -48,6 +48,6 @@
             "phpcs -s --standard=phpcs.xml",
             "phan"
         ],
-        "test": "phpunit -v --coverage-html build/coverage tests/"
+        "test": "XDEBUG_MODE=coverage phpunit -v --coverage-html build/coverage tests/"
     }
 }
