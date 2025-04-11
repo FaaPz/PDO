@@ -1,5 +1,15 @@
 ### Changelog
 
+##### v2.2.3
++ Added AdvancedStatementInterface to the DeleteInterface 
++ Fixed a small readme error
++ Fixed a bug introduced by fixing emulate prepares
+
+##### v2.2.2
++ Fixed limit being treated as a string with emulate prepares
++ Fixed invalid parentheses when using a between conditional
++ Updated CI testing to include PHP 8.1, 8.2, 8.3 and 8.4
+
 ##### v2.2.1
 + Added missing interface for AdvancedStatement
 + Fixed orderBy issue when direction is omitted
