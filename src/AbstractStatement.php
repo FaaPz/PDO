@@ -35,11 +35,15 @@ abstract class AbstractStatement implements StatementInterface
         if ($stmt !== false) {
             foreach ($this->getValues() as $i => $value) {
                 $type = PDO::PARAM_STR;
-                if (is_int($value)) {
+                if ($value === null) {
+                    $type = PDO::PARAM_NULL;
+                } elseif (is_bool($value)) {
+                    $type = PDO::PARAM_BOOL;
+                } elseif (is_int($value)) {
                     $type = PDO::PARAM_INT;
                 }
 
-                $stmt->bindParam($i + 1, $value, $type);
+                $stmt->bindValue($i + 1, $value, $type);
             }
 
             $stmt->execute();
