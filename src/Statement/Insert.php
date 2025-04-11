@@ -212,10 +212,7 @@ class Insert extends AbstractStatement implements InsertInterface
                         $row .= ', ';
                     }
 
-                    if (
-                        $this->values[$y][$x] === null
-                        || (is_scalar($this->values[$y][$x]) && !is_bool($this->values[$y][$x]))
-                    ) {
+                    if ($this->values[$y][$x] === null || is_scalar($this->values[$y][$x])) {
                         $row .= '?';
                     } elseif ($this->values[$y][$x] instanceof RawInterface) {
                         $row .= $this->values[$y][$x];
