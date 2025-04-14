@@ -15,7 +15,7 @@ interface UpdateInterface extends AdvancedStatementInterface
     /**
      * @param string $table
      *
-     * @return self
+     * @return static
      */
     public function table(string $table);
 
@@ -23,14 +23,14 @@ interface UpdateInterface extends AdvancedStatementInterface
      * @param string                                        $column
      * @param float|int|string|RawInterface|SelectInterface $value
      *
-     * @return self
+     * @return static
      */
     public function set(string $column, $value);
 
     /**
      * @param array<string, float|int|string|RawInterface|SelectInterface> $pairs
      *
-     * @return self
+     * @return static
      */
     public function pairs(array $pairs);
 }

@@ -15,7 +15,7 @@ interface CallInterface extends StatementInterface
     /**
      * @param MethodInterface $procedure
      *
-     * @return self
+     * @return static
      */
     public function method(MethodInterface $procedure);
 }

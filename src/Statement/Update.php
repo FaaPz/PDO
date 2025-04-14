@@ -35,9 +35,9 @@ class Update extends AdvancedStatement implements UpdateInterface
     /**
      * @param string $table
      *
-     * @return self
+     * @return static
      */
-    public function table(string $table): self
+    public function table(string $table)
     {
         $this->table = $table;
 
@@ -60,9 +60,9 @@ class Update extends AdvancedStatement implements UpdateInterface
      * @param string                                        $column
      * @param float|int|string|RawInterface|SelectInterface $value
      *
-     * @return self
+     * @return static
      */
-    public function set(string $column, $value): self
+    public function set(string $column, $value)
     {
         $this->pairs[$column] = $value;
 
@@ -72,9 +72,9 @@ class Update extends AdvancedStatement implements UpdateInterface
     /**
      * @param array<string, float|int|string|RawInterface|SelectInterface> $pairs
      *
-     * @return self
+     * @return static
      */
-    public function pairs(array $pairs): self
+    public function pairs(array $pairs)
     {
         $this->pairs = array_merge($this->pairs, $pairs);
 
