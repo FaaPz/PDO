@@ -77,10 +77,6 @@ class Delete extends AdvancedStatement implements DeleteInterface
             $values = array_merge($values, $this->where->getValues());
         }
 
-        if (!empty($this->orderBy)) {
-            $values = array_merge($values, $this->orderBy);
-        }
-
         if ($this->limit != null) {
             $values = array_merge($values, $this->limit->getValues());
         }

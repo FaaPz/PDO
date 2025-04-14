@@ -242,7 +242,6 @@ class UpdateTest extends TestCase
             ->orderBy('id', 'ASC')
             ->orderBy('name', 'DESC');
 
-        // FIXME This seems broken...
         $this->assertIsArray($this->subject->getValues());
         $this->assertCount(1, $this->subject->getValues());
     }

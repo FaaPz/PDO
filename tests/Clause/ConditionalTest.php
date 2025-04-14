@@ -75,6 +75,7 @@ class ConditionalTest extends TestCase
 
         $this->assertIsArray($subject->getValues());
         $this->assertCount(1, $subject->getValues());
+        $this->assertEquals($subject->getValues(), ['val']);
     }
 
     public function testGetValuesWithQuery()
@@ -92,5 +93,15 @@ class ConditionalTest extends TestCase
 
         $this->assertIsArray($subject->getValues());
         $this->assertCount(2, $subject->getValues());
+        $this->assertEquals($subject->getValues(), [1, 2]);
+    }
+
+    public function testGetValuesWithMultipleValues()
+    {
+        $subject = new Conditional('col', 'BETWEEN', [new Method('test', 1, 2), new Method('test', 3, 4)]);
+
+        $this->assertIsArray($subject->getValues());
+        $this->assertCount(4, $subject->getValues());
+        $this->assertEquals($subject->getValues(), [1, 2, 3, 4]);
     }
 }
