@@ -33,9 +33,9 @@ class Call extends AbstractStatement implements CallInterface
     /**
      * @param MethodInterface $procedure
      *
-     * @return self
+     * @return static
      */
-    public function method(MethodInterface $procedure): self
+    public function method(MethodInterface $procedure)
     {
         $this->method = $procedure;
 
